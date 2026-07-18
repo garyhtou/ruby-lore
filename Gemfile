@@ -30,6 +30,9 @@ gem "bridgetown", "~> 2.2.2"
 # Uncomment to add file-based dynamic routing to your project:
 # gem "bridgetown-routes", "~> 2.2.2"
 
+# Generates sitemap.xml with per-URL lastmod dates derived from git history.
+gem "bridgetown-sitemap", "~> 3.0"
+
 # The Rack-compliant web server
 # (you can optionally limit this to the "development" group)
 

@@ -5,6 +5,9 @@
 
 title: Ruby Lore
 tagline: A friendly history of Ruby, chunky bacon and all.
-email: your-email@example.com
 description: >-
   A warm, archival history of the Ruby programming language: its people, stories, talks, vocabulary, and timeline.
+
+# The canonical source-code home for this site, used as the Organization
+# node's `sameAs` in the JSON-LD publisher graph (src/_components/json_ld.rb).
+repo_url: https://github.com/garyhtou/ruby-lore

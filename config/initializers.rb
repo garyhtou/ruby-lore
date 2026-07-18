@@ -81,6 +81,11 @@ Bridgetown.configure do |config|
   # NOTE: you can remove `init :ssr` if you load this initializer
   #
 
+  # Generates sitemap.xml (using the site's `url` from bridgetown.config.yml)
+  # with per-URL lastmod dates derived from git history. Note: in CI this
+  # requires full git history (fetch-depth: 0), not a shallow clone.
+  init :"bridgetown-sitemap"
+
   # We also recommend that if you're using Roda routes you include this plugin
   # so you can get a generated routes list in `.routes.json`. You can then run
   # `bin/bridgetown roda:routes` to print the routes. (This will require you to

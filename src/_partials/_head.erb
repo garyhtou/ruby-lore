@@ -1,12 +1,85 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <% resource_title = strip_html(strip_newlines(title)) %>
+<% is_card = !!(resource && resource.respond_to?(:collection) && resource.collection&.label == "cards") %>
 <title><% if resource_title != "Index" %><%= resource_title %> | <%= metadata.title %><% else %><%= metadata.title %>: <%= metadata.tagline %><% end %></title>
 
-<meta name="description" content="<%= metadata.description %>" />
+<%
+  # Per-page description: card pages have their own `summary` (preferred)
+  # or `hook` front matter, which is a far more specific, shareable
+  # sentence than the site-wide tagline/description. Every other page
+  # (home, timeline, glossary, ...) falls back to the site-wide
+  # metadata.description. Computed ONCE here and reused verbatim for
+  # <meta name="description">, og:description, and twitter:description
+  # so the three never drift out of sync. Mirrors
+  # JSONLd#description_for's summary-then-hook precedence
+  # (src/_components/json_ld.rb) for the same per-page pages.
+  page_description = nil
+  if is_card
+    data = resource.data
+    summary = data.summary.to_s.strip
+    hook = data.hook.to_s.strip
+    page_description = summary unless summary.empty?
+    page_description = hook if page_description.nil? && !hook.empty?
+  end
+  page_description = metadata.description.to_s.strip if page_description.nil? || page_description.empty?
+
+  # Per-page OG title: the page's own title (site name is conveyed
+  # separately via og:site_name), falling back to the site title + tagline
+  # combo the home page already uses in <title> above.
+  og_title = resource_title != "Index" ? resource_title : "#{metadata.title}: #{metadata.tagline}"
+
+  # Absolute, self-referential page URL for og:url. Same caveat as the
+  # canonical <link> below: Resource::Base#relative_url/#absolute_url both
+  # unconditionally strip a trailing .html (Bridgetown's `format_url`), so
+  # for pretty (trailing-slash) permalinks absolute_url is exactly right,
+  # but for an explicit-extension resource like 404.html it would silently
+  # resolve to ".../404" - not the page's real served path. Only trust it
+  # for pretty-URL resources; leave page_url nil otherwise so og:url is
+  # omitted rather than published wrong (same call the canonical tag makes).
+  page_url =
+    if resource && resource.relative_url.end_with?("/")
+      resource.absolute_url
+    elsif resource.nil?
+      site.config.url.to_s
+    end
+
+  # Single default share image for v1 (per-type images are a later,
+  # optional enhancement) - a 1200x630 PNG (see src/images/og-share.png;
+  # SVG OG images often don't render on social platforms, so this is a
+  # real raster, not the fox SVG mark).
+  share_image_url = "#{site.config.url.to_s.chomp("/")}/images/og-share.png"
+
+  og_type = is_card ? "article" : "website"
+%>
+
+<meta name="description" content="<%= page_description %>" />
+
+<meta property="og:site_name" content="<%= metadata.title %>" />
+<meta property="og:type" content="<%= og_type %>" />
+<meta property="og:title" content="<%= og_title %>" />
+<meta property="og:description" content="<%= page_description %>" />
+<% if page_url %>
+<meta property="og:url" content="<%= page_url %>" />
+<% end %>
+<meta property="og:image" content="<%= share_image_url %>" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="<%= og_title %>" />
+<meta name="twitter:description" content="<%= page_description %>" />
+<meta name="twitter:image" content="<%= share_image_url %>" />
 
 <meta name="theme-color" content="#F7F1E6" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#191110" media="(prefers-color-scheme: dark)" />
+
+<%# Favicon + touch icons, derived from the fox mark (src/images/fox.svg -
+    ). SVG first (crisp at any size, what modern browsers prefer),
+    a rasterised PNG fallback for browsers/contexts that don't support SVG
+    favicons, and a dedicated 180x180 apple-touch-icon (opaque parchment
+    background - iOS does not composite a transparent touch icon well). %>
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
 
 <%# Preload the critical, above-the-fold self-hosted fonts (Fraunces display +
     Literata body). crossorigin is required for font preloads even same-origin.
@@ -14,10 +87,25 @@
 <link rel="preload" as="font" type="font/woff2" href="/fonts/fraunces-latin-full-normal.woff2" crossorigin />
 <link rel="preload" as="font" type="font/woff2" href="/fonts/literata-latin-wght-normal.woff2" crossorigin />
 
-<%# Canonical <link> slot - fills this in with the real absolute
-    canonical URL (site.metadata.url + resource.relative_url or similar).
-    Left unimplemented here deliberately; this task only wires the spot. %>
+<%# Self-referential canonical URL, using Bridgetown::Resource::Base#absolute_url
+    (site.config.url + the resource's own permalink), so it's always the real
+    production host (chunkybacon.dev) even when built/served locally.
+    absolute_url strips a trailing .html extension, which is correct for our
+    pretty (trailing-slash) permalinks but would produce a WRONG,
+    non-self-referential canonical for explicit-extension pages like
+    404.html/500.html (served at /404.html, not /404). Only emit the tag for
+    pretty-URL resources; omit it entirely for anything else rather than
+    risk a broken canonical. %>
+<% if resource && resource.relative_url.end_with?("/") %>
+<link rel="canonical" href="<%= resource.absolute_url %>" />
+<% end %>
 
 <link rel="stylesheet" href="<%= asset_path :css %>" />
 <script src="<%= asset_path :js %>" defer></script>
 <%= live_reload_dev_js %>
+
+<%# Structured data (schema.org JSON-LD): site-wide WebSite + Organization
+    publisher graph on every page, plus per-card typed nodes on card
+    pages. See src/_components/json_ld.{rb,erb} for the graph shape and
+    src/_data/site_metadata.yml for repo_url. %>
+<%= render JSONLd.new(metadata: metadata, resource: resource, site_url: site.config.url) %>

@@ -1,0 +1,46 @@
+---
+sitemap: false
+---
+<%#
+  robots.txt: explicitly ALLOW the major AI crawlers (for training + live
+  retrieval/citation) and search engines, rather than relying on their
+  default (allow-all) behavior. Ruby Lore's goal is to be crawled and cited
+  by AI + search, so the allow-intent is made explicit and in-repo here.
+
+  NOTE: this file only expresses the site's *intent*. If the eventual host
+  sits behind an "AI firewall" (e.g. Cloudflare's bot-blocking, a CDN-level
+  crawler block), that edge configuration must ALSO be disarmed for these
+  Allow rules to actually take effect -- out of scope for this repo change.
+
+  site.config.url comes from bridgetown.config.yml (`url:`), so the
+  Sitemap: line is always the real production host, never localhost.
+%>
+<%
+  ai_crawlers = [
+    { name: "GPTBot", note: "OpenAI - training" },
+    { name: "OAI-SearchBot", note: "OpenAI - search/retrieval" },
+    { name: "ChatGPT-User", note: "OpenAI - live ChatGPT browsing" },
+    { name: "ClaudeBot", note: "Anthropic - training" },
+    { name: "Claude-SearchBot", note: "Anthropic - search/retrieval" },
+    { name: "Google-Extended", note: "Google - Gemini/AI features training" },
+    { name: "CCBot", note: "Common Crawl - widely used as AI training data" },
+    { name: "PerplexityBot", note: "Perplexity - search/answers" },
+    { name: "Applebot-Extended", note: "Apple - Apple Intelligence training" },
+    { name: "Meta-ExternalAgent", note: "Meta - training/indexing" }
+  ]
+%>
+# Ruby Lore (chunkybacon.dev) welcomes crawlers, AI and otherwise.
+# This site exists to be read, cited, and remembered -- so every crawler
+# below is explicitly allowed rather than left to default behavior.
+
+<% ai_crawlers.each do |crawler| %>
+# <%= crawler[:note] %>
+User-agent: <%= crawler[:name] %>
+Allow: /
+
+<% end %>
+# Everyone else (general search engines, other bots) is welcome too.
+User-agent: *
+Allow: /
+
+Sitemap: <%= site.config.url %>/sitemap.xml

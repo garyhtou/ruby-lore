@@ -1,0 +1,52 @@
+---
+---
+<%#
+  llms.txt: a generated, curated Markdown index of the site, following the
+  emerging llms.txt convention (https://llmstxt.org) -- an H1 site name, a
+  short summary, then curated link sections for LLMs/agents that fetch this
+  file to get an efficient map of the site.
+
+  The link lists below are generated from the real card collection
+  (collections.cards.resources, grouped by front matter `type`) so this
+  stays correct as cards are added/removed/renamed -- nothing here is
+  hand-hardcoded. site.config.url anchors every link to the real production
+  host (chunkybacon.dev), never localhost.
+%>
+<%
+  # type -> [section heading, intro line] in the order we want them to appear.
+  section_meta = {
+    "person" => ["People", "The people who shaped Ruby."],
+    "story" => ["Stories", "Moments and anecdotes from Ruby's history."],
+    "talk" => ["Talks", "Conference talks worth knowing about."],
+    "vocabulary" => ["Glossary", "Words and phrases you'll hear in the Ruby community."],
+    "release" => ["Timeline", "Milestones in Ruby's release history."]
+  }
+
+  cards_by_type = collections.cards.resources
+    .group_by { |card| card.data.type }
+    .transform_values { |cards| cards.sort_by { |card| card.data.title.to_s.downcase.sub(/\A[^a-z0-9]+/, "") } }
+%>
+# <%== site.metadata.title %>
+
+> <%== site.metadata.description.to_s.strip %>
+
+## Start Here
+- [Home](<%= site.config.url %>/): <%== site.metadata.tagline %>
+- [Start Here](<%= site.config.url %>/start-here/): A guided entry point into the site for first-time readers.
+- [Timeline](<%= site.config.url %>/timeline/): The full timeline view, chronicling Ruby's history release by release.
+- [People](<%= site.config.url %>/people/): The full roster of people covered on the site.
+- [Glossary](<%= site.config.url %>/glossary/): The full glossary of Ruby community words and phrases.
+
+<% section_meta.each do |type, (heading, intro)| %>
+<% cards = cards_by_type[type] || [] %>
+<% next if cards.empty? %>
+## <%== heading %>
+
+<%== intro %>
+
+<% cards.each do |card| %>
+<% hook = card.data.hook.to_s.strip %>
+- [<%== card.data.title %>](<%= site.config.url %><%= card.relative_url %>)<% unless hook.empty? %>: <%== hook %><% end %>
+<% end %>
+
+<% end %>

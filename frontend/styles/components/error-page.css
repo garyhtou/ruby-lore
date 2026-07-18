@@ -1,0 +1,77 @@
+/*
+  404: a small museum-plaque moment for a missing exhibit -
+  the fox mark, a wry storybook apology, and real links back into the site.
+  Scoped to body.error-page (src/404.html sets `page_class: error-page`).
+*/
+
+.error-page__plaque {
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding-block: var(--sp-7) var(--sp-6);
+  text-align: center;
+}
+
+.error-page__mark {
+  display: inline-flex;
+  width: clamp(3.5rem, 3rem + 2vw, 4.5rem);
+  height: clamp(3.5rem, 3rem + 2vw, 4.5rem);
+  margin-bottom: var(--sp-4);
+}
+
+.error-page__kicker {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brass-text);
+  margin: 0 0 var(--sp-2);
+}
+
+.error-page__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  line-height: var(--lh-tight);
+  color: var(--heading);
+  font-variation-settings: "opsz" 100, "SOFT" 55, "WONK" 1;
+  margin: 0 0 var(--sp-4);
+}
+
+.error-page__body {
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--text-soft);
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+.error-page__plaque .flourish {
+  margin-block: var(--sp-6);
+}
+
+.error-page__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2) var(--sp-5);
+}
+
+.error-page__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding-inline: 0.2rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--link);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.error-page__links a:hover,
+.error-page__links a:focus-visible {
+  color: var(--link-hover);
+  border-bottom-color: var(--link-underline);
+}

@@ -1,0 +1,9 @@
+<%# @json is a pre-serialized JSON string built with `JSON.generate` on a
+    plain Ruby Hash (never hand-interpolated/string-concatenated JSON) and
+    already hardened for safe <script> embedding - see json_ld.rb's
+    `safe_json` for both halves of that story. Output it with the raw
+    `<%==` tag (same convention card.erb uses for body_html) so Erubi's
+    auto-HTML-escaping doesn't run a *second* escaping pass on top of the
+    JSON-safe escaping already applied - stacking the two would corrupt
+    the JSON (e.g. double-escaping every `"` to `&quot;`). %>
+<script type="application/ld+json"><%== @json %></script>

@@ -205,6 +205,14 @@ main {
   font-size: 0.95em;
 }
 
+.site-footer__line {
+  margin: 0.35em 0 0;
+}
+
+.site-footer__license {
+  color: var(--text-faint);
+}
+
 /* ---- Breadcrumbs: a small mono "you are here" trail ---- */
 .breadcrumbs {
   list-style: none;

@@ -1,4 +1,17 @@
+<%# Footer: the placeholder mailto (metadata.email was a literal
+    your-email@example.com stub) is gone - no personal contact info belongs
+    in a public build. In its place: a link to the public GitHub repo (for
+    source/contributing) and a one-line license-TBD note, wired but
+    asserting nothing specific - consistent with the placeholder LICENSE
+    file at the repo root and the JSON-LD license placeholder
+    (src/_components/json_ld.rb). Full credits are a later task (5.2); this
+    is intentionally minimal. %>
 <footer class="site-footer">
   <%= render "flourish" %>
-  Contact me at <a href="mailto:<%= metadata.email %>"><%= metadata.email %></a>
+  <p class="site-footer__line">
+    <a href="<%= metadata.repo_url %>">Ruby Lore on GitHub</a>
+  </p>
+  <p class="site-footer__line site-footer__license">
+    License: to be determined.
+  </p>
 </footer>
