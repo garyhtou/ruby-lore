@@ -1,0 +1,8 @@
+url: "https://chunkybacon.dev"
+permalink: "/:path/"
+template_engine: erb
+ruby_in_front_matter: false
+collections: { cards: { output: true } }
+defaults:
+  - scope: { collection: cards }
+    values: { template_engine: liquid }

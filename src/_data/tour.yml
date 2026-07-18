@@ -1,0 +1,27 @@
+# The ordered "Start Here" canon sequence (v1 slug table).
+#
+# Read by the /start-here/ view to build the guided walking
+# tour of Ruby Lore. Flat, ordered list of card slugs -- walk them top to
+# bottom for a sensible first read of the site.
+#
+# This list intentionally includes every one of the 17 v1 cards, not just
+# the ones that would otherwise be orphaned (wat, fifteen-minute-blog,
+# the-christmas-release-tradition), so it doubles as the complete
+# "start here" tour rather than just an orphan-rescue list.
+- why-the-lucky-stiff
+- matz
+- named-before-it-existed
+- dhh
+- rails-from-basecamp
+- fifteen-minute-blog
+- tenderlove
+- wat
+- minaswan
+- optimize-for-programmer-happiness
+- chunky-bacon
+- the-pickaxe
+- convention-over-configuration
+- rails-is-omakase
+- the-christmas-release-tradition
+- ruby-1-0
+- ruby-3-0
