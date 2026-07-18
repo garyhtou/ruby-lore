@@ -1,0 +1,268 @@
+/*
+  The index views: page headers, the full timeline chronology, the glossary
+  definition list, the people grid, and the guided start-here tour. All echo the
+  plaque/rail/stamp vocabulary so the site reads as one collection.
+*/
+
+/* ---- Index page header (timeline / glossary / people / start-here) ---- */
+main > h1 {
+  font-size: var(--fs-h1);
+  margin-bottom: var(--sp-4);
+  padding-bottom: var(--sp-4);
+  position: relative;
+}
+
+main > h1::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 3.5rem;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--garnet), var(--brass-rule));
+}
+
+main > h1 + .lead {
+  max-width: var(--measure);
+  margin-bottom: var(--sp-7);
+}
+
+/* ---- Full timeline: a handsome dated chronology on a brass rail ---- */
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: var(--reading-max);
+  border-inline-start: 2px solid var(--border-strong);
+}
+
+.timeline__entry {
+  position: relative;
+  padding: 0 0 var(--sp-7) clamp(1.25rem, 1rem + 2vw, 2.25rem);
+}
+
+.timeline__entry:last-child {
+  padding-bottom: var(--sp-2);
+}
+
+/* Garnet gem node on the rail. */
+.timeline__entry::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 0.35rem;
+  width: 14px;
+  height: 14px;
+  rotate: 45deg;
+  background: var(--gem);
+  border: 3px solid var(--bg);
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px var(--border-strong);
+}
+
+.timeline__date {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  font-variation-settings: "wght" 520;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brass-text);
+  margin-bottom: var(--sp-2);
+}
+
+.timeline__link {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  line-height: var(--lh-snug);
+  color: var(--heading);
+  text-decoration: none;
+  font-variation-settings: "opsz" 56, "SOFT" 46, "WONK" 1;
+}
+
+.timeline__link:hover {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: var(--link-underline);
+}
+
+.timeline__hook {
+  margin-top: var(--sp-3);
+  color: var(--text-soft);
+  max-width: var(--measure);
+}
+
+/* ---- Glossary: a definition list ---- */
+.glossary {
+  margin: 0;
+  border-top: var(--hairline) solid var(--border);
+}
+
+.glossary__entry {
+  padding-block: var(--sp-5);
+  border-bottom: var(--hairline) solid var(--border);
+  display: grid;
+  gap: var(--sp-2);
+  grid-template-columns: 1fr;
+}
+
+.glossary__term {
+  margin: 0;
+}
+
+.glossary__term a {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  color: var(--heading);
+  text-decoration: none;
+  font-variation-settings: "opsz" 40, "SOFT" 44, "WONK" 1;
+}
+
+.glossary__term a:hover {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: var(--link-underline);
+}
+
+.glossary__definition {
+  margin: 0;
+  color: var(--text-soft);
+  max-width: var(--measure);
+}
+
+/* ---- People: a grid of name plaques ---- */
+.people {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-columns: 1fr;
+}
+
+.people__entry {
+  position: relative;
+  padding: clamp(1.15rem, 0.9rem + 1.5vw, 1.6rem) clamp(1.25rem, 1rem + 1.5vw, 1.75rem);
+  background: var(--surface);
+  border: var(--hairline) solid var(--border);
+  border-inline-start: 3px solid var(--brass-rule);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-raise);
+  transition: transform var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+}
+
+.people__entry:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-plaque);
+  border-inline-start-color: var(--garnet);
+}
+
+.people__entry > a {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  color: var(--heading);
+  text-decoration: none;
+  font-variation-settings: "opsz" 48, "SOFT" 48, "WONK" 1;
+}
+
+.people__entry > a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.people__entry:hover > a {
+  color: var(--link);
+}
+
+.people__hook {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-small);
+  color: var(--text-soft);
+  line-height: 1.55;
+}
+
+/* ---- Start-here tour: a numbered guided walk (order is real information) ---- */
+.tour {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: stop;
+  max-width: var(--reading-max);
+  border-inline-start: 2px solid var(--border-strong);
+}
+
+.tour__entry {
+  counter-increment: stop;
+  position: relative;
+  padding: 0.1rem 0 var(--sp-6) clamp(2.75rem, 2rem + 3vw, 3.75rem);
+}
+
+.tour__entry:last-child {
+  padding-bottom: var(--sp-2);
+}
+
+/* The stop number, in a brass coin on the rail. */
+.tour__entry::before {
+  content: counter(stop);
+  position: absolute;
+  left: 0;
+  top: 0;
+  translate: -50% 0;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  border: 2px solid var(--brass-rule);
+  color: var(--brass-text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  font-variation-settings: "wght" 600;
+}
+
+.tour__entry > a {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  color: var(--heading);
+  text-decoration: none;
+  font-variation-settings: "opsz" 48, "SOFT" 46, "WONK" 1;
+}
+
+.tour__entry > a:hover {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: var(--link-underline);
+}
+
+.tour__hook {
+  margin-top: var(--sp-2);
+  color: var(--text-soft);
+  max-width: var(--measure);
+}
+
+.tour__missing {
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+@media (min-width: 40rem) {
+  .people {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .glossary__entry {
+    grid-template-columns: minmax(11rem, 15rem) 1fr;
+    gap: var(--sp-5);
+    align-items: baseline;
+  }
+}
+
+@media (min-width: 60rem) {
+  .people {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

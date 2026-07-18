@@ -1,0 +1,243 @@
+/*
+  Home - the warm front door. A storybook-cover hero over a museum entrance,
+  then a compact dated timeline preview, a set of featured mini-plaques, and the
+  doorways into each section.
+*/
+
+.hero {
+  text-align: center;
+  max-width: var(--measure-wide);
+  margin-inline: auto;
+  padding-top: var(--sp-4);
+  padding-bottom: var(--sp-4);
+}
+
+.hero__title {
+  font-size: var(--fs-display);
+  line-height: 0.98;
+  color: var(--heading);
+  font-weight: 580;
+  font-variation-settings: "opsz" 144, "SOFT" 60, "WONK" 1;
+  margin-bottom: var(--sp-4);
+}
+
+.hero__tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--brass-text);
+  font-variation-settings: "opsz" 40, "SOFT" 70, "WONK" 0;
+  margin-bottom: var(--sp-5);
+}
+
+/* Gem-lozenge divider under the tagline: the ruby motif, CSS only. */
+.hero__tagline::after {
+  content: "";
+  display: block;
+  width: 0.55rem;
+  height: 0.55rem;
+  rotate: 45deg;
+  border-radius: 1px;
+  background: var(--gem);
+  margin: var(--sp-5) auto 0;
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--gem) 12%, transparent);
+}
+
+.hero__intro {
+  font-size: var(--fs-body);
+  color: var(--text-soft);
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+/* ---- Section headings shared by the home modules ---- */
+.timeline-preview,
+.featured-cards,
+.home-nav {
+  margin-top: var(--sp-section);
+}
+
+.timeline-preview > h2,
+.featured-cards > h2 {
+  font-size: var(--fs-h2);
+  text-align: center;
+  margin-bottom: var(--sp-6);
+}
+
+/* ---- Timeline preview: a short, rail-marked chronology ---- */
+.timeline-preview {
+  max-width: var(--reading-max);
+  margin-inline: auto;
+}
+
+.timeline-preview__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--sp-5);
+  border-inline-start: 2px solid var(--border-strong);
+}
+
+.timeline-preview__entry {
+  position: relative;
+  padding: var(--sp-2) 0 var(--sp-4) var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.timeline-preview__entry::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 0.85rem;
+  width: 10px;
+  height: 10px;
+  rotate: 45deg;
+  background: var(--gem);
+  border: 2px solid var(--bg);
+  border-radius: 2px;
+}
+
+.timeline-preview__entry time {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+}
+
+.timeline-preview__entry a {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  color: var(--heading);
+  text-decoration: none;
+  font-variation-settings: "opsz" 40, "SOFT" 40, "WONK" 0;
+  width: fit-content;
+}
+
+.timeline-preview__entry a:hover {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: var(--link-underline);
+}
+
+.timeline-preview > p {
+  padding-inline-start: var(--sp-5);
+}
+
+.timeline-preview > p a,
+.featured-cards + .home-nav a {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+}
+
+/* ---- Featured cards: mini-plaques echoing the exhibit card ---- */
+.featured-cards__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-columns: 1fr;
+}
+
+.featured-cards__entry {
+  position: relative;
+  padding: clamp(1.25rem, 1rem + 1.5vw, 1.75rem);
+  background: var(--surface);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-raise);
+  overflow: hidden;
+  transition: transform var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out);
+}
+
+.featured-cards__entry::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--garnet), var(--brass-rule));
+}
+
+.featured-cards__entry:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-plaque);
+}
+
+.featured-cards__entry > a {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  color: var(--heading);
+  text-decoration: none;
+  font-variation-settings: "opsz" 48, "SOFT" 48, "WONK" 1;
+}
+
+/* Whole-card click target while keeping the link the accessible name. */
+.featured-cards__entry > a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.featured-cards__entry:hover > a {
+  color: var(--link);
+}
+
+.featured-cards__entry p {
+  margin-top: var(--sp-3);
+  font-size: var(--fs-small);
+  color: var(--text-soft);
+  line-height: 1.55;
+}
+
+/* ---- Doorways into each section ---- */
+.home-nav {
+  text-align: center;
+}
+
+.home-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-3);
+}
+
+.home-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 0.6rem 1.2rem;
+  border: var(--hairline) solid var(--border-strong);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--heading);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: background var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
+}
+
+.home-nav a:hover {
+  background: var(--surface-2);
+  border-color: var(--brass-rule);
+  color: var(--link);
+}
+
+@media (min-width: 40rem) {
+  .featured-cards__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 60rem) {
+  .featured-cards__list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

@@ -15,5 +15,10 @@
     "postcss-load-config": "^6.0.1",
     "postcss-preset-env": "^10.4.0",
     "read-cache": "^1.0.0"
+  },
+  "dependencies": {
+    "@fontsource-variable/fraunces": "^5.2.9",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
+    "@fontsource-variable/literata": "^5.2.8"
   }
 }

@@ -1,0 +1,168 @@
+/*
+  Design tokens. Colours, type families + a fluid modular type scale, spacing,
+  radii, shadows, line-heights. Colour tokens are split into a raw palette (the
+  fixed brand hexes) and semantic roles (--surface, --text, --link, ...). Only
+  the semantic roles flip between light and dark, so components never reference a
+  raw hex directly.
+
+  Every text colour below is chosen to clear WCAG AA (>=4.5:1 body, >=3:1 large)
+  against the surface it sits on, in both modes.
+*/
+
+:root {
+  /* ---- Raw brand palette (stable across modes) ---- */
+  --garnet: #9b1b30; /* the namesake gem: deep archival red */
+  --garnet-deep: #7a1526;
+  --parchment: #f7f1e6; /* museum paper + storybook page */
+  --ink: #241f1c; /* soft charcoal, warmer than black */
+  --fox: #d2662a; /* the storybook heartbeat */
+  --brass: #b08d57; /* antique gold: citations, plaques */
+
+  /* ---- Type families ---- */
+  --font-display: "Fraunces", "Hoefler Text", "Iowan Old Style", Georgia, serif;
+  --font-body: "Literata", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo",
+    "Consolas", monospace;
+
+  /* ---- Fluid type scale (mobile 360px -> desktop ~1240px) ---- */
+  --fs-caption: clamp(0.78rem, 0.75rem + 0.15vw, 0.86rem);
+  --fs-small: clamp(0.9rem, 0.87rem + 0.16vw, 0.98rem);
+  --fs-body: clamp(1.06rem, 1.01rem + 0.22vw, 1.19rem);
+  --fs-lead: clamp(1.22rem, 1.11rem + 0.5vw, 1.5rem);
+  --fs-h3: clamp(1.28rem, 1.16rem + 0.55vw, 1.6rem);
+  --fs-h2: clamp(1.6rem, 1.34rem + 1.15vw, 2.35rem);
+  --fs-h1: clamp(2rem, 1.55rem + 2vw, 3.1rem);
+  --fs-display: clamp(2.7rem, 1.7rem + 4.6vw, 5.2rem);
+
+  /* ---- Line heights ---- */
+  --lh-tight: 1.08;
+  --lh-snug: 1.22;
+  --lh-lead: 1.5;
+  --lh-body: 1.72; /* comfortable for long reads */
+
+  /* ---- Measure (line length) ---- */
+  --measure: 66ch;
+  --measure-wide: 74ch;
+
+  /* ---- Spacing scale ---- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+  --sp-section: clamp(2.75rem, 1.5rem + 5vw, 5.5rem);
+
+  /* ---- Radii ---- */
+  --r-sm: 3px;
+  --r-md: 6px;
+  --r-lg: 12px;
+  --r-pill: 999px;
+
+  /* ---- Layout ---- */
+  --content-max: 68rem;
+  --reading-max: 44rem;
+  --hairline: 1px;
+  --tap: 44px; /* minimum touch target */
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 180ms;
+
+  /* ---- Semantic roles: LIGHT (default) ---- */
+  --bg: var(--parchment);
+  --bg-veil: #f1e8d6; /* recessed wells, code blocks */
+  --surface: #fbf6ec; /* raised paper: main, plaques */
+  --surface-2: #f4ecdb;
+  --text: var(--ink);
+  --text-soft: #5a4f45; /* muted prose, captions  (7:1) */
+  --text-faint: #6b6055; /* least-emphasis meta   (5.4:1) */
+  --heading: var(--garnet); /* garnet headings (7.2:1) */
+  --heading-strong: var(--garnet-deep);
+  --link: #a2481a; /* fox-toned, AA as text (5.4:1) */
+  --link-hover: var(--garnet-deep);
+  --link-underline: color-mix(in srgb, var(--fox) 55%, transparent);
+  --accent: var(--fox);
+  --brass-rule: var(--brass); /* decorative brass lines */
+  --brass-text: #7a5e34; /* brass-toned text, AA (5.4:1) */
+  --border: #e3d7c1;
+  --border-strong: #cdbc9d;
+  --gem: var(--garnet); /* the ornamental ruby lozenge */
+  --mark-bg: #f6e2a8; /* <mark> highlight */
+  --shadow-plaque: 0 1px 1px rgba(36, 31, 28, 0.05),
+    0 10px 30px -16px rgba(36, 31, 28, 0.22);
+  --shadow-raise: 0 1px 2px rgba(36, 31, 28, 0.06),
+    0 4px 14px -8px rgba(36, 31, 28, 0.16);
+  --focus-ring: var(--fox);
+
+  color-scheme: light;
+}
+
+/* Explicit light override so a future toggle fully resolves. Mirrors :root. */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* ---- Semantic roles: DARK ("dim gallery", oxblood ground) ---- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #191110; /* near-black, oxblood-warm */
+    --bg-veil: #120c0b;
+    --surface: #231715; /* lamplit paper at night */
+    --surface-2: #2c1d1a;
+    --text: #ece3d2; /* warm parchment ink (14.7:1) */
+    --text-soft: #c4b7a2; /* (9.5:1) */
+    --text-faint: #a2957f; /* (6.4:1) */
+    --heading: #e6b3a3; /* garnet glowing rosy in lamplight */
+    --heading-strong: #eec3b5;
+    --link: #e8894e; /* fox-orange glow (7.3:1) */
+    --link-hover: #f2a877;
+    --link-underline: color-mix(in srgb, #e8894e 50%, transparent);
+    --accent: #e8894e;
+    --brass-rule: #c9a66b;
+    --brass-text: #cfae72; /* (8.5:1) */
+    --border: #3a2926;
+    --border-strong: #513a35;
+    --gem: #d66a7c;
+    --mark-bg: #5a4a22;
+    --shadow-plaque: 0 1px 1px rgba(0, 0, 0, 0.4),
+      0 12px 34px -16px rgba(0, 0, 0, 0.6);
+    --shadow-raise: 0 1px 2px rgba(0, 0, 0, 0.35),
+      0 6px 18px -10px rgba(0, 0, 0, 0.5);
+    --focus-ring: #e8894e;
+
+    color-scheme: dark;
+  }
+}
+
+/* Forced dark via toggle (wins regardless of OS preference). */
+:root[data-theme="dark"] {
+  --bg: #191110;
+  --bg-veil: #120c0b;
+  --surface: #231715;
+  --surface-2: #2c1d1a;
+  --text: #ece3d2;
+  --text-soft: #c4b7a2;
+  --text-faint: #a2957f;
+  --heading: #e6b3a3;
+  --heading-strong: #eec3b5;
+  --link: #e8894e;
+  --link-hover: #f2a877;
+  --link-underline: color-mix(in srgb, #e8894e 50%, transparent);
+  --accent: #e8894e;
+  --brass-rule: #c9a66b;
+  --brass-text: #cfae72;
+  --border: #3a2926;
+  --border-strong: #513a35;
+  --gem: #d66a7c;
+  --mark-bg: #5a4a22;
+  --shadow-plaque: 0 1px 1px rgba(0, 0, 0, 0.4),
+    0 12px 34px -16px rgba(0, 0, 0, 0.6);
+  --shadow-raise: 0 1px 2px rgba(0, 0, 0, 0.35),
+    0 6px 18px -10px rgba(0, 0, 0, 0.5);
+  --focus-ring: #e8894e;
+
+  color-scheme: dark;
+}

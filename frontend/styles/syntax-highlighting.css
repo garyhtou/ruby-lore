@@ -1,77 +1,136 @@
-/* 
-  Syntax Highlighting for Code Snippets
+/*
+  Syntax highlighting for Ruby (and other) code samples, retinted to the Ruby
+  Lore palette and set in JetBrains Mono. Rouge/Pygments token classes (.highlight .k, .s, ...).
 
-  https://www.bridgetownrb.com/docs/liquid/tags#stylesheets-for-syntax-highlighting
-
-  Other styles available eg. https://github.com/jwarby/jekyll-pygments-themes
-  To use another style, delete all styles in this file and replace them with
-  the new styles. Or create your own!
-
+  Colours are driven by a small set of --hl-* variables so the theme flips with
+  light/dark exactly like the rest of the site. A warm, restrained set: garnet
+  keywords, olive strings, fox numbers, one teal accent for names.
 */
 
-pre.highlight {
-  padding: 16px;
-  background-color: #F6F8FA;
+:root {
+  --hl-bg: #f1e8d6;
+  --hl-border: #e0d3b8;
+  --hl-text: #33291f;
+  --hl-comment: #8a7b62;
+  --hl-keyword: #9b1b30; /* garnet */
+  --hl-string: #5e7a3c; /* olive */
+  --hl-number: #a2481a; /* fox-deep */
+  --hl-name: #2f6e6a; /* teal accent */
+  --hl-variable: #8a6d3f; /* brass-deep */
+  --hl-symbol: #93552a;
+  --hl-error-bg: #f3dede;
 }
 
-.highlight .hll { background-color: #ffffcc }
-.highlight .c { color: #999988; font-style: italic } /* Comment */
-.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
-.highlight .k { color: #000000; font-weight: bold } /* Keyword */
-.highlight .o { color: #000000; font-weight: bold } /* Operator */
-.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
-.highlight .cp { color: #999999; font-weight: bold; font-style: italic } /* Comment.Preproc */
-.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
-.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
-.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
-.highlight .ge { color: #000000; font-style: italic } /* Generic.Emph */
-.highlight .gr { color: #aa0000 } /* Generic.Error */
-.highlight .gh { color: #999999 } /* Generic.Heading */
-.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
-.highlight .go { color: #888888 } /* Generic.Output */
-.highlight .gp { color: #555555 } /* Generic.Prompt */
-.highlight .gs { font-weight: bold } /* Generic.Strong */
-.highlight .gu { color: #aaaaaa } /* Generic.Subheading */
-.highlight .gt { color: #aa0000 } /* Generic.Traceback */
-.highlight .kc { color: #000000; font-weight: bold } /* Keyword.Constant */
-.highlight .kd { color: #000000; font-weight: bold } /* Keyword.Declaration */
-.highlight .kn { color: #000000; font-weight: bold } /* Keyword.Namespace */
-.highlight .kp { color: #000000; font-weight: bold } /* Keyword.Pseudo */
-.highlight .kr { color: #000000; font-weight: bold } /* Keyword.Reserved */
-.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
-.highlight .m { color: #009999 } /* Literal.Number */
-.highlight .s { color: #d01040 } /* Literal.String */
-.highlight .na { color: #008080 } /* Name.Attribute */
-.highlight .nb { color: #0086B3 } /* Name.Builtin */
-.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
-.highlight .no { color: #008080 } /* Name.Constant */
-.highlight .nd { color: #3c5d5d; font-weight: bold } /* Name.Decorator */
-.highlight .ni { color: #800080 } /* Name.Entity */
-.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
-.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
-.highlight .nl { color: #990000; font-weight: bold } /* Name.Label */
-.highlight .nn { color: #555555 } /* Name.Namespace */
-.highlight .nt { color: #000080 } /* Name.Tag */
-.highlight .nv { color: #008080 } /* Name.Variable */
-.highlight .ow { color: #000000; font-weight: bold } /* Operator.Word */
-.highlight .w { color: #bbbbbb } /* Text.Whitespace */
-.highlight .mf { color: #009999 } /* Literal.Number.Float */
-.highlight .mh { color: #009999 } /* Literal.Number.Hex */
-.highlight .mi { color: #009999 } /* Literal.Number.Integer */
-.highlight .mo { color: #009999 } /* Literal.Number.Oct */
-.highlight .sb { color: #d01040 } /* Literal.String.Backtick */
-.highlight .sc { color: #d01040 } /* Literal.String.Char */
-.highlight .sd { color: #d01040 } /* Literal.String.Doc */
-.highlight .s2 { color: #d01040 } /* Literal.String.Double */
-.highlight .se { color: #d01040 } /* Literal.String.Escape */
-.highlight .sh { color: #d01040 } /* Literal.String.Heredoc */
-.highlight .si { color: #d01040 } /* Literal.String.Interpol */
-.highlight .sx { color: #d01040 } /* Literal.String.Other */
-.highlight .sr { color: #009926 } /* Literal.String.Regex */
-.highlight .s1 { color: #d01040 } /* Literal.String.Single */
-.highlight .ss { color: #990073 } /* Literal.String.Symbol */
-.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
-.highlight .vc { color: #008080 } /* Name.Variable.Class */
-.highlight .vg { color: #008080 } /* Name.Variable.Global */
-.highlight .vi { color: #008080 } /* Name.Variable.Instance */
-.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --hl-bg: #1e1513;
+    --hl-border: #3a2926;
+    --hl-text: #e7ddcb;
+    --hl-comment: #9a8b74;
+    --hl-keyword: #e88aa0;
+    --hl-string: #abc77e;
+    --hl-number: #e8894e;
+    --hl-name: #7fc7be;
+    --hl-variable: #cfae72;
+    --hl-symbol: #e0a06f;
+    --hl-error-bg: #4a2424;
+  }
+}
+
+:root[data-theme="dark"] {
+  --hl-bg: #1e1513;
+  --hl-border: #3a2926;
+  --hl-text: #e7ddcb;
+  --hl-comment: #9a8b74;
+  --hl-keyword: #e88aa0;
+  --hl-string: #abc77e;
+  --hl-number: #e8894e;
+  --hl-name: #7fc7be;
+  --hl-variable: #cfae72;
+  --hl-symbol: #e0a06f;
+  --hl-error-bg: #4a2424;
+}
+
+pre.highlight,
+.highlight pre {
+  padding: clamp(0.9rem, 0.7rem + 1vw, 1.25rem);
+  background-color: var(--hl-bg);
+  border: 1px solid var(--hl-border);
+  border-radius: 6px;
+  color: var(--hl-text);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  line-height: 1.6;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  tab-size: 2;
+}
+
+.highlight .hll { background-color: color-mix(in srgb, var(--hl-number) 18%, transparent); }
+.highlight .c,
+.highlight .cm,
+.highlight .c1,
+.highlight .cs,
+.highlight .cd { color: var(--hl-comment); font-style: italic; }
+.highlight .cp { color: var(--hl-comment); font-weight: 600; font-style: italic; }
+.highlight .err { color: var(--hl-keyword); background-color: var(--hl-error-bg); }
+
+.highlight .k,
+.highlight .kc,
+.highlight .kd,
+.highlight .kn,
+.highlight .kp,
+.highlight .kr { color: var(--hl-keyword); font-weight: 600; }
+.highlight .kt { color: var(--hl-name); font-weight: 600; }
+
+.highlight .o,
+.highlight .ow { color: var(--hl-text); font-weight: 600; }
+
+.highlight .s,
+.highlight .sb,
+.highlight .sc,
+.highlight .sd,
+.highlight .s2,
+.highlight .se,
+.highlight .sh,
+.highlight .si,
+.highlight .sx,
+.highlight .s1 { color: var(--hl-string); }
+.highlight .sr { color: var(--hl-string); font-style: italic; }
+.highlight .ss { color: var(--hl-symbol); }
+
+.highlight .m,
+.highlight .mf,
+.highlight .mh,
+.highlight .mi,
+.highlight .mo,
+.highlight .il { color: var(--hl-number); }
+
+.highlight .nb,
+.highlight .bp { color: var(--hl-name); }
+.highlight .nc,
+.highlight .nn { color: var(--hl-name); font-weight: 600; }
+.highlight .nf,
+.highlight .nl { color: var(--hl-name); }
+.highlight .no { color: var(--hl-number); }
+.highlight .na { color: var(--hl-variable); }
+.highlight .nd { color: var(--hl-symbol); font-weight: 600; }
+.highlight .ne { color: var(--hl-keyword); font-weight: 600; }
+.highlight .ni { color: var(--hl-symbol); }
+.highlight .nt { color: var(--hl-keyword); }
+.highlight .nv,
+.highlight .vc,
+.highlight .vg,
+.highlight .vi { color: var(--hl-variable); }
+
+.highlight .gd { color: var(--hl-keyword); }
+.highlight .gi { color: var(--hl-string); }
+.highlight .ge { font-style: italic; }
+.highlight .gs { font-weight: 600; }
+.highlight .gh,
+.highlight .gu,
+.highlight .go,
+.highlight .gp { color: var(--hl-comment); }
+.highlight .gr,
+.highlight .gt { color: var(--hl-keyword); }
+.highlight .w { color: transparent; }

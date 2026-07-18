@@ -5,6 +5,15 @@
 
 <meta name="description" content="<%= metadata.description %>" />
 
+<meta name="theme-color" content="#F7F1E6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#191110" media="(prefers-color-scheme: dark)" />
+
+<%# Preload the critical, above-the-fold self-hosted fonts (Fraunces display +
+    Literata body). crossorigin is required for font preloads even same-origin.
+    Paths match the /fonts/ @font-face urls exactly so the preload is reused. %>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/fraunces-latin-full-normal.woff2" crossorigin />
+<link rel="preload" as="font" type="font/woff2" href="/fonts/literata-latin-wght-normal.woff2" crossorigin />
+
 <%# Canonical <link> slot - fills this in with the real absolute
     canonical URL (site.metadata.url + resource.relative_url or similar).
     Left unimplemented here deliberately; this task only wires the spot. %>

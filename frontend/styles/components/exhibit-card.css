@@ -1,0 +1,234 @@
+/*
+  The exhibit card - the site's signature. A museum wall plaque: a raised paper
+  plate with a garnet-to-brass rule across the top, a Fraunces title, a mono
+  accession-style date stamp, and a brass provenance/citation line. Reused as the
+  header of every card page (card.erb) and the model the whole site echoes.
+*/
+
+.card {
+  max-width: var(--reading-max);
+  margin-inline: auto;
+}
+
+/* Wider cards (e.g. those with code) can still breathe; body caps its own
+   measure below, but the plaque + lead align to the reading column. */
+
+.exhibit-card {
+  margin-bottom: var(--sp-6);
+}
+
+.exhibit-card__plaque {
+  position: relative;
+  padding: clamp(1.5rem, 1rem + 3.5vw, 2.75rem);
+  padding-top: clamp(1.75rem, 1.2rem + 3.5vw, 3rem);
+  background: var(--surface);
+  border: var(--hairline) solid var(--border-strong);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-plaque);
+  overflow: hidden;
+}
+
+/* The plaque's engraved top rule: garnet fading into brass. */
+.exhibit-card__plaque::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--garnet) 0%,
+    var(--brass-rule) 55%,
+    color-mix(in srgb, var(--brass-rule) 40%, transparent) 100%
+  );
+}
+
+.exhibit-card__title {
+  font-size: var(--fs-h1);
+  line-height: var(--lh-tight);
+  color: var(--heading);
+  margin-bottom: var(--sp-4);
+  font-variation-settings: "opsz" 110, "SOFT" 55, "WONK" 1;
+}
+
+/* Accession-style date stamp: mono, tracked, faint. Multiple entries get a
+   brass middot between them. */
+.exhibit-card__date {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  font-variation-settings: "wght" 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  margin-bottom: var(--sp-4);
+}
+
+.exhibit-card__date-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.exhibit-card__date-entry + .exhibit-card__date-entry::before {
+  content: "";
+  width: 0.32em;
+  height: 0.32em;
+  rotate: 45deg;
+  background: var(--brass-rule);
+  border-radius: 1px;
+}
+
+/* Provenance / citation line, labelled like a catalogue entry. */
+.exhibit-card__citation {
+  position: relative;
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: var(--hairline) solid var(--border);
+  font-size: var(--fs-small);
+  color: var(--brass-text);
+  font-style: italic;
+}
+
+.exhibit-card__citation::before {
+  content: "Source";
+  display: block;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: var(--fs-caption);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass-text); /* AA text token (5.37:1 light); raw --brass-rule is a rule/border colour only */
+  margin-bottom: 0.25rem;
+}
+
+.exhibit-card__citation a {
+  color: var(--brass-text);
+  text-decoration-color: color-mix(in srgb, var(--brass) 55%, transparent);
+}
+
+.exhibit-card__citation a:hover {
+  color: var(--link-hover);
+}
+
+/* ---- Card page: the narrated body ---- */
+
+/* The storybook narrator's opening line. */
+.lead {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--text-soft);
+  font-variation-settings: "opsz" 40, "SOFT" 60, "WONK" 0;
+  margin-bottom: var(--sp-5);
+  text-wrap: pretty;
+}
+
+.card__body {
+  max-width: var(--measure);
+}
+
+.card__body > * + * {
+  margin-top: var(--sp-5);
+}
+
+.card__body h2,
+.card__body h3 {
+  margin-top: var(--sp-7);
+}
+
+.card__body ul,
+.card__body ol {
+  padding-inline-start: 1.4em;
+}
+
+.card__body li + li {
+  margin-top: var(--sp-2);
+}
+
+/* "Related:" cross-link footer line reads as a set of tags. */
+.card__body p:last-of-type em:first-child {
+  color: var(--text-faint);
+}
+
+/* ---- Sources: an archival drawer (native <details>, no JS) ---- */
+.card__sources {
+  margin-top: var(--sp-7);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg-veil);
+  padding: 0 clamp(1rem, 0.7rem + 1.5vw, 1.5rem);
+}
+
+.card__sources > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-block: var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  font-variation-settings: "wght" 560;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass-text);
+  min-height: var(--tap);
+}
+
+.card__sources > summary::-webkit-details-marker {
+  display: none;
+}
+
+.card__sources > summary::before {
+  content: "";
+  width: 0.55em;
+  height: 0.55em;
+  border-right: 2px solid var(--brass-rule);
+  border-bottom: 2px solid var(--brass-rule);
+  rotate: -45deg;
+  transition: rotate var(--dur) var(--ease-out);
+}
+
+.card__sources[open] > summary::before {
+  rotate: 45deg;
+}
+
+.card__sources[open] > summary {
+  border-bottom: var(--hairline) solid var(--border);
+}
+
+/* The generated "## Sources" h2 is redundant with the summary; keep it in the
+   DOM (accessibility + view-source) but tuck it visually. */
+.card__sources > h2 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.card__sources ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-bottom: var(--sp-4);
+}
+
+.card__sources li {
+  padding-block: var(--sp-3);
+  border-top: var(--hairline) solid var(--border);
+  font-size: var(--fs-small);
+  color: var(--text-soft);
+  word-break: break-word;
+}
+
+.card__sources li:first-child {
+  border-top: none;
+}

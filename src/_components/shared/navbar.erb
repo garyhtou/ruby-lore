@@ -1,8 +1,11 @@
-<header>
-  <img src="<%= relative_url '/images/logo.svg' %>" alt="Logo" />
+<header class="site-header">
+  <a class="site-brand" href="<%= relative_url '/' %>">
+    <span class="site-brand__mark" aria-hidden="true"></span>
+    <span class="site-brand__name"><%= @metadata.title %></span>
+  </a>
 </header>
 
-<nav aria-label="Primary">
+<nav class="site-nav" aria-label="Primary">
   <ul>
     <li><a href="<%= relative_url '/' %>">Home</a></li>
     <li><a href="<%= relative_url '/start-here/' %>">Start Here</a></li>

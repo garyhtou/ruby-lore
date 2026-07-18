@@ -1,0 +1,192 @@
+/*
+  The site frame: masthead (brand + primary nav signage), the <main> content
+  well, footer, and breadcrumbs. Every full-width band shares one gutter that
+  honours notched-phone safe-area insets.
+*/
+
+:root {
+  --gutter: clamp(1rem, 4vw, 2.75rem);
+}
+
+body > .site-header,
+.site-nav,
+main,
+body > .site-footer {
+  padding-inline: max(var(--gutter), env(safe-area-inset-left)) max(
+      var(--gutter),
+      env(safe-area-inset-right)
+    );
+}
+
+/* ---- Masthead: a museum-entrance title band ---- */
+.site-header {
+  padding-top: max(var(--sp-5), env(safe-area-inset-top));
+  padding-bottom: var(--sp-3);
+  text-align: center;
+}
+
+.site-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: var(--tap);
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.05rem);
+  font-weight: 600;
+  font-variation-settings: "opsz" 60, "SOFT" 50, "WONK" 1;
+  color: var(--heading);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.site-brand:hover {
+  color: var(--heading-strong);
+}
+
+.site-brand:hover .site-brand__mark {
+  rotate: 135deg;
+}
+
+/* Placeholder slot for the fox mark: a garnet ruby lozenge today. */
+.site-brand__mark {
+  width: 0.62em;
+  height: 0.62em;
+  rotate: 45deg;
+  border-radius: 2px;
+  background: var(--gem);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 12%, transparent);
+  transition: rotate 320ms var(--ease-out);
+}
+
+/* ---- Primary nav: a signage strip under a brass rule ---- */
+.site-nav {
+  margin-bottom: var(--sp-6);
+  border-block: var(--hairline) solid var(--border);
+  border-image: linear-gradient(
+      90deg,
+      transparent,
+      var(--brass-rule) 20%,
+      var(--brass-rule) 80%,
+      transparent
+    )
+    1;
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+}
+
+.site-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: var(--content-max);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(0.25rem, 2vw, 1.5rem);
+}
+
+.site-nav a {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 0.35rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  font-variation-settings: "wght" 520;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  text-decoration: none;
+  position: relative;
+}
+
+.site-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0.7rem;
+  right: 0.7rem;
+  bottom: 0.55rem;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  color: var(--heading);
+}
+
+.site-nav a:hover::after,
+.site-nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* ---- Main content well ---- */
+main {
+  display: block;
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-bottom: var(--sp-8);
+  min-height: 50vh;
+}
+
+/* ---- Footer ---- */
+.site-footer {
+  max-width: var(--content-max);
+  margin: var(--sp-8) auto 0;
+  padding-top: var(--sp-6);
+  padding-bottom: max(var(--sp-7), env(safe-area-inset-bottom));
+  border-top: var(--hairline) solid var(--border);
+  color: var(--text-faint);
+  font-size: var(--fs-small);
+  text-align: center;
+}
+
+.site-footer a {
+  color: var(--link);
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+}
+
+/* ---- Breadcrumbs: a small mono "you are here" trail ---- */
+.breadcrumbs {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.5rem;
+  padding: 0;
+  margin-bottom: var(--sp-5);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.02em;
+  color: var(--text-faint);
+}
+
+.breadcrumbs__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem 0.5rem;
+}
+
+.breadcrumbs__item + .breadcrumbs__item::before {
+  content: "/";
+  color: var(--brass-text); /* AA text token; no opacity so the separator keeps full 5.37:1 (light) */
+}
+
+.breadcrumbs__item a {
+  color: var(--text-soft);
+  text-decoration: none;
+}
+
+.breadcrumbs__item a:hover {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: var(--link-underline);
+}
+
+.breadcrumbs__item[aria-current="page"] {
+  color: var(--text);
+}
