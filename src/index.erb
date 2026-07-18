@@ -1,0 +1,73 @@
+---
+layout: default
+---
+
+<%
+  cards_by_slug = collections.cards.resources_by_slug
+
+  # A few dated cards for the home-page timeline preview, oldest first.
+  # (The full chronology lives at /timeline/.)
+  timeline_preview = collections.cards.resources
+    .select { |card| card.data.dates.is_a?(Array) && card.data.dates.any? }
+    .sort_by { |card| card.data.dates.map(&:date).min }
+
+  # Editorial pick of featured cards for the home page: the cornerstone
+  # why-the-lucky-stiff card plus a handful of other canon cards, in the
+  # order they first appear in the tour.yml walking tour. Title/href are
+  # always pulled from the resolved card, never retyped.
+  featured_slugs = %w[why-the-lucky-stiff matz dhh tenderlove minaswan chunky-bacon]
+  featured_cards = featured_slugs.filter_map { |slug| cards_by_slug[slug] }
+%>
+
+<section class="hero">
+  <h1 class="hero__title"><%= site.metadata.title %></h1>
+  <p class="hero__tagline"><%= site.metadata.tagline %></p>
+  <p class="hero__intro">
+    A collection of the people, stories, talks, and words that make up Ruby's
+    history &mdash; the kind of thing a longtime Rubyist would tell you over
+    coffee. New here? <a href="<%= relative_url '/start-here/' %>">Start here</a>
+    for a guided walk through it all.
+  </p>
+</section>
+
+<section class="timeline-preview" aria-labelledby="timeline-preview-heading">
+  <h2 id="timeline-preview-heading">The short version, in time</h2>
+  <ol class="timeline-preview__list">
+    <% timeline_preview.each do |card| %>
+      <%
+        earliest = card.data.dates.min_by(&:date)
+      %>
+      <li class="timeline-preview__entry">
+        <time datetime="<%= earliest.date.iso8601 %>"><%= earliest.date.strftime("%B %-d, %Y") %></time>
+        <a href="<%= card.relative_url %>"><%= card.data.title %></a>
+      </li>
+    <% end %>
+  </ol>
+  <p><a href="<%= relative_url '/timeline/' %>">See the full timeline &rarr;</a></p>
+</section>
+
+<section class="featured-cards" aria-labelledby="featured-cards-heading">
+  <h2 id="featured-cards-heading">A few places to start</h2>
+  <ul class="featured-cards__list">
+    <% featured_cards.each do |card| %>
+      <%
+        hook = card.data.hook.to_s.strip
+      %>
+      <li class="featured-cards__entry">
+        <a href="<%= card.relative_url %>"><%= card.data.title %></a>
+        <% unless hook.empty? %>
+          <p><%= hook %></p>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</section>
+
+<nav class="home-nav" aria-label="Browse Ruby Lore">
+  <ul>
+    <li><a href="<%= relative_url '/start-here/' %>">Start Here</a></li>
+    <li><a href="<%= relative_url '/timeline/' %>">Timeline</a></li>
+    <li><a href="<%= relative_url '/people/' %>">People</a></li>
+    <li><a href="<%= relative_url '/glossary/' %>">Glossary</a></li>
+  </ul>
+</nav>

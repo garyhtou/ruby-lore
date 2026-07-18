@@ -5,6 +5,10 @@
 
 <meta name="description" content="<%= metadata.description %>" />
 
+<%# Canonical <link> slot - fills this in with the real absolute
+    canonical URL (site.metadata.url + resource.relative_url or similar).
+    Left unimplemented here deliberately; this task only wires the spot. %>
+
 <link rel="stylesheet" href="<%= asset_path :css %>" />
 <script src="<%= asset_path :js %>" defer></script>
 <%= live_reload_dev_js %>

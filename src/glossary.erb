@@ -1,0 +1,31 @@
+---
+layout: default
+title: Glossary
+---
+
+<%
+  # Alphabetical by title. A handful of glossary terms are quoted phrases
+  # (e.g. "Optimize for programmer happiness") -- strip the wrapping
+  # punctuation for the sort key only (not for display) so the list reads
+  # as a true A-to-Z instead of grouping punctuation-first by ASCII order.
+  vocabulary_cards = collections.cards.resources
+    .select { |card| card.data.type == "vocabulary" }
+    .sort_by { |card| card.data.title.to_s.downcase.sub(/\A[^a-z0-9]+/, "") }
+%>
+
+<h1><%= data.title %></h1>
+<p class="lead">The words and phrases you'll hear thrown around the Ruby community, A to Z.</p>
+
+<dl class="glossary">
+  <% vocabulary_cards.each do |card| %>
+    <%
+      hook = card.data.hook.to_s.strip
+    %>
+    <div class="glossary__entry">
+      <dt class="glossary__term"><a href="<%= card.relative_url %>"><%= card.data.title %></a></dt>
+      <% unless hook.empty? %>
+        <dd class="glossary__definition"><%= hook %></dd>
+      <% end %>
+    </div>
+  <% end %>
+</dl>

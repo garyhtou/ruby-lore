@@ -2,7 +2,7 @@ url: "https://chunkybacon.dev"
 permalink: "/:path/"
 template_engine: erb
 ruby_in_front_matter: false
-collections: { cards: { output: true } }
+collections: { cards: { output: true, permalink: "/:path/" } }
 defaults:
   - scope: { collection: cards }
-    values: { template_engine: liquid }
+    values: { template_engine: liquid, layout: card }

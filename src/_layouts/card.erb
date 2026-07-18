@@ -1,0 +1,50 @@
+---
+layout: default
+---
+
+<%
+  # The rendered card body (Markdown -> HTML, with [[slug]] wiki-links
+  # already resolved to real <a href> by plugins/wiki_links.rb). `.to_s`
+  # just guarantees a plain String to work with below; we output it
+  # unescaped further down via the raw-output ERB tag, regardless of its
+  # safety flag.
+  body_html = yield.to_s
+
+  # Progressive disclosure: every card body ends in a Markdown "## Sources"
+  # section (enforced by script/validate.rb), which Kramdown always
+  # renders as `<h2 id="sources">Sources</h2>` followed by the citation
+  # list, with nothing after it (verified across all 17 cards). Tuck that
+  # section into a <details> so citations are present-but-collapsed by
+  # default, while every source link still lives in the static DOM - a
+  # <details> element renders its content in the accessibility tree and to
+  # view-source regardless of the [open] state.
+  sources_match = body_html.match(/(<h2 id="sources">.*)\z/m)
+  if sources_match
+    body_html = sources_match.pre_match +
+      %(<details class="card__sources">\n<summary>Sources</summary>\n) +
+      sources_match[1] +
+      "\n</details>\n"
+  end
+
+  primary_source = data.sources.is_a?(Array) ? data.sources.first : nil
+  hook = data.hook.to_s.strip
+%>
+
+<article class="card" data-card-type="<%= data.type %>">
+  <%= render "breadcrumbs" %>
+
+  <%= render ExhibitCard.new(
+        title: data.title,
+        dates: data.dates,
+        citation_text: primary_source && primary_source.title,
+        citation_href: primary_source && primary_source.url
+      ) %>
+
+  <% unless hook.empty? %>
+    <p class="lead"><%= hook %></p>
+  <% end %>
+
+  <div class="card__body">
+    <%== body_html %>
+  </div>
+</article>

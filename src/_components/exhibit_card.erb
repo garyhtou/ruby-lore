@@ -1,0 +1,23 @@
+<div class="exhibit-card">
+  <div class="exhibit-card__plaque">
+    <h1 class="exhibit-card__title"><%= @title %></h1>
+
+    <% if @dates && @dates.any? %>
+      <p class="exhibit-card__date">
+        <% @dates.each do |entry| %>
+          <time class="exhibit-card__date-entry" datetime="<%= entry.date %>"><%= entry.label %></time>
+        <% end %>
+      </p>
+    <% end %>
+
+    <% if @citation_text %>
+      <p class="exhibit-card__citation">
+        <% if @citation_href %>
+          <a href="<%= @citation_href %>"><%= @citation_text %></a>
+        <% else %>
+          <%= @citation_text %>
+        <% end %>
+      </p>
+    <% end %>
+  </div>
+</div>

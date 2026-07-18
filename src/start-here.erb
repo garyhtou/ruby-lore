@@ -1,0 +1,34 @@
+---
+layout: default
+title: Start Here
+---
+
+<%
+  # The guided walking tour: render every slug in src/_data/tour.yml, in
+  # its exact order (do not re-sort). `resources_by_slug` keys the cards
+  # collection by each card's `data.slug` (its filename), matching the
+  # slugs tour.yml lists.
+  cards_by_slug = collections.cards.resources_by_slug
+%>
+
+<h1><%= data.title %></h1>
+<p class="lead">New here? This is the guided walk through Ruby Lore, in a sensible order, start to finish.</p>
+
+<ol class="tour">
+  <% site.data.tour.each do |slug| %>
+    <% card = cards_by_slug[slug] %>
+    <li class="tour__entry">
+      <% if card %>
+        <%
+          hook = card.data.hook.to_s.strip
+        %>
+        <a href="<%= card.relative_url %>"><%= card.data.title %></a>
+        <% unless hook.empty? %>
+          <p class="tour__hook"><%= hook %></p>
+        <% end %>
+      <% else %>
+        <p class="tour__missing">(Missing card for tour slug "<%= slug %>" &mdash; check src/_data/tour.yml against src/_cards/.)</p>
+      <% end %>
+    </li>
+  <% end %>
+</ol>

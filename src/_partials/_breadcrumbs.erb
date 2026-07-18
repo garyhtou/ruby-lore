@@ -1,0 +1,24 @@
+<%
+  # Segment label + index URL for a card's `type`, per the type -> segment
+  # map in lib/slugs.rb (person -> people, story -> stories, talk -> talks,
+  # vocabulary -> glossary, release -> timeline). The index views themselves
+  # (/people/, /stories/, etc.) are - these links are correct now
+  # and will simply start resolving once those views exist.
+  segment_labels = {
+    "person" => ["People", "/people/"],
+    "story" => ["Stories", "/stories/"],
+    "talk" => ["Talks", "/talks/"],
+    "vocabulary" => ["Glossary", "/glossary/"],
+    "release" => ["Timeline", "/timeline/"],
+  }
+  segment_label, segment_href = segment_labels[data.type]
+%>
+<nav aria-label="Breadcrumb">
+  <ol class="breadcrumbs">
+    <li class="breadcrumbs__item"><a href="<%= relative_url '/' %>">Home</a></li>
+    <% if segment_label %>
+      <li class="breadcrumbs__item"><a href="<%= relative_url segment_href %>"><%= segment_label %></a></li>
+    <% end %>
+    <li class="breadcrumbs__item" aria-current="page"><%= data.title %></li>
+  </ol>
+</nav>
