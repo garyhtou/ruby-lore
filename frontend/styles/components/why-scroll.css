@@ -1,0 +1,56 @@
+/*
+  the cornerstone _why scroll-telling
+  (frontend/javascript/why/index.js).
+
+  Hard rule (same as the timeline, 2b.2): nothing in this file may hide, dim, or
+  scramble any body text by default. The article's base state - authored prose,
+  fully visible and legible - is the no-JS AND prefers-reduced-motion state, set
+  by base.css / exhibit-card.css and never touched here. The JS module applies
+  every "hush / reassemble / lift" starting point itself, via gsap inline styles,
+  and ONLY inside the motionOK branch of gsap.matchMedia().
+
+  So this file styles ONLY runtime-created elements (the decorative Whyday glow
+  and its wrapper), plus perf hints scoped to the JS-added `.why--animated` flag.
+  None of these selectors exist in the static/no-JS/reduced-motion render, so
+  there is nothing here to "undo" for those states.
+*/
+
+/* Whyday scene wrapper: a stacking context so the glow can sit behind the text
+   without ever reaching in front of it. Created only when motion is allowed. */
+.why-glow-scene {
+  position: relative;
+  isolation: isolate;
+}
+
+/* The soft warmth returning for Whyday: a blurred fox-orange / brass wash behind
+   the heading. Decorative only (aria-hidden), painted behind the prose (z-index
+   -1 within the wrapper's stacking context), so it warms the page around the
+   text without touching contrast. Its opacity is eased in by the JS; here it is
+   just the resting look. */
+.why-glow {
+  position: absolute;
+  z-index: -1;
+  inset: -8% -6% auto -6%;
+  height: 62%;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      58% 82% at 50% 26%,
+      color-mix(in srgb, var(--fox) 46%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      70% 60% at 62% 12%,
+      color-mix(in srgb, var(--brass) 34%, transparent),
+      transparent 72%
+    );
+  filter: blur(34px);
+}
+
+/* Perf hints for the nodes actively tweened, scoped to the JS-added flag so they
+   never apply to the static (no-JS / reduced-motion) render. */
+.why--animated .why-glow-scene > *,
+.why--animated #the-disappearance,
+.why--animated #the-community-caught-him {
+  will-change: transform, opacity;
+}

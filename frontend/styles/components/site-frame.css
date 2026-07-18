@@ -43,19 +43,55 @@ body > .site-footer {
   color: var(--heading-strong);
 }
 
-.site-brand:hover .site-brand__mark {
-  rotate: 135deg;
+/* ---- The fox mark ----
+   The brand glyph: an original storybook fox. Fur/ear/muzzle/ink colours are
+   tokens on .fox-mark so every fox (masthead, footer sign-off, shout bubble)
+   shares one palette and adapts to light/dark from a single place. */
+.fox-mark {
+  --fox-fur: var(--fox);
+  --fox-ear: var(--garnet);
+  --fox-muzzle: #faf4ea;
+  --fox-ink: var(--ink);
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-/* Placeholder slot for the fox mark: a garnet ruby lozenge today. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .fox-mark {
+    --fox-fur: var(--accent); /* fox-orange glow on the dim gallery ground */
+    --fox-ear: #c05a45;
+    --fox-muzzle: #f3e7d4;
+    --fox-ink: #1a1210;
+  }
+}
+
+:root[data-theme="dark"] .fox-mark {
+  --fox-fur: var(--accent);
+  --fox-ear: #c05a45;
+  --fox-muzzle: #f3e7d4;
+  --fox-ink: #1a1210;
+}
+
+/* The masthead mark: fills the clickable slot the 2b.1 "CHUNKY BACON!" easter
+   egg listens on. Decorative (the wordmark text is the link's accessible name),
+   so it's aria-hidden. On hover it gives a small inquisitive tilt - never a
+   full flip, which would turn the fox upside down. */
 .site-brand__mark {
-  width: 0.62em;
-  height: 0.62em;
-  rotate: 45deg;
-  border-radius: 2px;
-  background: var(--gem);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 12%, transparent);
+  display: inline-flex;
+  width: 1.5em;
+  height: 1.5em;
+  /* nudge the mark's optical centre onto the wordmark baseline */
+  margin-block: -0.15em;
+}
+
+.site-brand__mark .fox-mark {
+  transform-origin: 50% 62%;
   transition: rotate 320ms var(--ease-out);
+}
+
+.site-brand:hover .fox-mark {
+  rotate: -9deg;
 }
 
 /* ---- Primary nav: a signage strip under a brass rule ---- */
@@ -120,6 +156,25 @@ body > .site-footer {
 .site-nav a:hover::after,
 .site-nav a:focus-visible::after {
   transform: scaleX(1);
+}
+
+/* ---- Marginalia: the sprig-and-ruby flourish divider ---- */
+.flourish {
+  display: flex;
+  justify-content: center;
+  margin-block: var(--sp-section);
+}
+
+.flourish__art {
+  width: clamp(10rem, 40vw, 13rem);
+  height: auto;
+  overflow: visible;
+}
+
+/* A flourish sitting right after a section keeps the section's own top margin;
+   collapse the doubled gap so it reads as one break, not two. */
+.flourish + * {
+  margin-top: 0;
 }
 
 /* ---- Main content well ---- */

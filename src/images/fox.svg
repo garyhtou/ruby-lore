@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Ruby Lore fox">
+  <title>Ruby Lore fox</title>
+  <!-- Original storybook fox mark for Ruby Lore (chunkybacon.dev). A friendly
+       nod to _why's Poignant Guide foxes, drawn from scratch - no traced art.
+       Fixed brand colours here (this file feeds the favicon/icons in );
+       the masthead renders a theme-adaptive inline copy. -->
+  <path fill="#d2662a" stroke="#d2662a" stroke-width="3" stroke-linejoin="round"
+    d="M11 8 L26 21 L32 19 L38 21 L53 8 L52 26 L48 38 L40 49 L32 55 L24 49 L16 38 L12 26 Z"/>
+  <path fill="#9b1b30" stroke="#9b1b30" stroke-width="1.4" stroke-linejoin="round" d="M15 13 L24 21 L18 24 Z"/>
+  <path fill="#9b1b30" stroke="#9b1b30" stroke-width="1.4" stroke-linejoin="round" d="M49 13 L40 21 L46 24 Z"/>
+  <path fill="#faf4ea" d="M24 33 Q32 30 40 33 Q45 42 38 50 Q32 56 26 50 Q19 42 24 33 Z"/>
+  <ellipse fill="#241f1c" cx="22.5" cy="29" rx="2.5" ry="3.4" transform="rotate(20 22.5 29)"/>
+  <ellipse fill="#241f1c" cx="41.5" cy="29" rx="2.5" ry="3.4" transform="rotate(-20 41.5 29)"/>
+  <path fill="#241f1c" d="M29 45 Q32 43 35 45 Q35 49 32 51 Q29 49 29 45 Z"/>
+</svg>

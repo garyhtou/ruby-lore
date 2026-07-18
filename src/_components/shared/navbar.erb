@@ -1,6 +1,23 @@
 <header class="site-header">
   <a class="site-brand" href="<%= relative_url '/' %>">
-    <span class="site-brand__mark" aria-hidden="true"></span>
+    <span class="site-brand__mark" aria-hidden="true">
+      <%# Fox mark: original storybook glyph, a nod to the Poignant
+          Guide foxes without tracing any of _why's art. Purely decorative -
+          the accessible name of this link is the "Ruby Lore" wordmark text
+          beside it - so the SVG is aria-hidden. It fills the same clickable
+          slot the 2b.1 fox-shout easter egg listens on. Colours come from CSS
+          custom properties so it adapts to light/dark. %>
+      <svg class="fox-mark" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <path fill="var(--fox-fur)" stroke="var(--fox-fur)" stroke-width="3" stroke-linejoin="round"
+          d="M11 8 L26 21 L32 19 L38 21 L53 8 L52 26 L48 38 L40 49 L32 55 L24 49 L16 38 L12 26 Z"/>
+        <path fill="var(--fox-ear)" stroke="var(--fox-ear)" stroke-width="1.4" stroke-linejoin="round" d="M15 13 L24 21 L18 24 Z"/>
+        <path fill="var(--fox-ear)" stroke="var(--fox-ear)" stroke-width="1.4" stroke-linejoin="round" d="M49 13 L40 21 L46 24 Z"/>
+        <path fill="var(--fox-muzzle)" d="M24 33 Q32 30 40 33 Q45 42 38 50 Q32 56 26 50 Q19 42 24 33 Z"/>
+        <ellipse fill="var(--fox-ink)" cx="22.5" cy="29" rx="2.5" ry="3.4" transform="rotate(20 22.5 29)"/>
+        <ellipse fill="var(--fox-ink)" cx="41.5" cy="29" rx="2.5" ry="3.4" transform="rotate(-20 41.5 29)"/>
+        <path fill="var(--fox-ink)" d="M29 45 Q32 43 35 45 Q35 49 32 51 Q29 49 29 45 Z"/>
+      </svg>
+    </span>
     <span class="site-brand__name"><%= @metadata.title %></span>
   </a>
 </header>

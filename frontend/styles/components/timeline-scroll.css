@@ -1,0 +1,46 @@
+/*
+  the scroll-driven scrubbable timeline (frontend/javascript/timeline/index.js).
+
+  Hard rule: nothing in this file may hide `.timeline__entry` by default.
+  The base rules in components/listings.css already render every entry
+  fully visible - that's the no-JS AND prefers-reduced-motion state. The
+  JS module applies the "animate in from hidden" starting point itself, via
+  gsap.set() inline styles, and only when prefers-reduced-motion allows it.
+  This file only styles the decorative rail-fill element the script creates
+  at runtime (never present without JS) and a couple of perf hints scoped to
+  the JS-added `.timeline--animated` flag.
+*/
+
+.timeline {
+  /* Anchor for the absolutely-positioned rail-fill below. */
+  position: relative;
+}
+
+/* The garnet spine-fill GSAP scrubs from 0 to full height as the list
+   scrolls through view. Only exists in the DOM when JS ran and motion is
+   allowed (see frontend/javascript/timeline/index.js) - there is no CSS
+   equivalent to hide here for reduced-motion/no-JS, because the element
+   itself is never created in those cases. */
+.timeline__rail-fill {
+  position: absolute;
+  inset-inline-start: -2px;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: linear-gradient(
+    180deg,
+    var(--fox),
+    var(--garnet) 60%,
+    var(--garnet-deep)
+  );
+  box-shadow: 0 0 10px 0 color-mix(in srgb, var(--garnet) 40%, transparent);
+  pointer-events: none;
+}
+
+/* Perf hint for the entries this module is actively tweening. Scoped to
+   the JS-added flag so it never applies to the static (no-JS/reduced-
+   motion) render. */
+.timeline--animated .timeline__entry {
+  will-change: transform, opacity;
+}

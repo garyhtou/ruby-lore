@@ -1,0 +1,114 @@
+/*
+  Easter-egg presentation layer. Purely decorative, JS-triggered
+  DOM that GSAP animates in frontend/javascript/easter-eggs/*. None of this
+  CSS ever needs to render anything for the site to be readable - every rule
+  here targets elements that only exist once script runs, and the rules
+  themselves are always inert with JS off. See frontend/styles/base.css's
+  reduced-motion block for the site-wide `transition-duration: 0.01ms`
+  override; the JS modules additionally skip the *choreography* (bounce,
+  falling confetti) under `prefers-reduced-motion`, so this file just needs
+  to look right whether or not that choreography ran.
+*/
+
+/* ---- The fox "CHUNKY BACON!" shout bubble (site-brand__mark trigger) ---- */
+.chunky-bacon-bubble {
+  position: fixed;
+  z-index: 80;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  max-width: min(20rem, 80vw);
+  padding: 0.55em 0.9em;
+  border-radius: var(--r-md);
+  background: var(--heading-strong);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  box-shadow: var(--shadow-plaque);
+  opacity: 0;
+}
+
+.chunky-bacon-bubble::after {
+  content: "";
+  position: absolute;
+  left: 1.1em;
+  bottom: -0.4em;
+  width: 0.8em;
+  height: 0.8em;
+  background: var(--heading-strong);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+/* The fox that "says" the shout: a decorative stamp of the site's fox mark.
+   The bubble's ground colour (--heading-strong) flips between a dark garnet
+   (light theme) and a light rosy (dark theme), so instead of the masthead's
+   fixed palette the bubble fox is drawn in the bubble's own text colour with
+   its muzzle/eyes/nose knocked out to the ground - guaranteed contrast in both
+   themes. This (0,3,0) selector, imported after site-frame.css, intentionally
+   overrides the .fox-mark light/dark token rules for the bubble only. */
+.chunky-bacon-bubble__fox {
+  flex: none;
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 0;
+}
+
+.chunky-bacon-bubble .chunky-bacon-bubble__fox .fox-mark {
+  --fox-fur: currentColor;
+  --fox-ear: currentColor;
+  --fox-muzzle: var(--heading-strong);
+  --fox-ink: var(--heading-strong);
+}
+
+/* ---- The Konami code flourish ---- */
+.konami-banner {
+  position: fixed;
+  top: var(--sp-6);
+  left: 50%;
+  z-index: 90;
+  pointer-events: none;
+  transform: translate(-50%, -1rem);
+  padding: 0.85em 1.4em;
+  border-radius: var(--r-md);
+  border: var(--hairline) solid var(--border-strong);
+  background: var(--surface);
+  color: var(--heading);
+  font-family: var(--font-display);
+  font-size: var(--fs-lead);
+  font-weight: 600;
+  text-align: center;
+  text-wrap: balance;
+  box-shadow: var(--shadow-plaque);
+  opacity: 0;
+}
+
+.konami-banner small {
+  display: block;
+  margin-top: 0.3em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  font-weight: 520;
+  color: var(--text-soft);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.konami-confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 89;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.konami-confetti__piece {
+  position: absolute;
+  top: -2rem;
+  font-size: 1.4rem;
+  line-height: 1;
+  will-change: transform;
+}
