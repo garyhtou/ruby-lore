@@ -45,3 +45,8 @@ gem "falcon"
 
 # Or for faster parsing of HTML-only resources via Inspectors, use Nokolexbor:
 # gem "nokolexbor", "~> 0.6"
+
+group :test do
+  # Checks the built output/ for broken internal links, images, etc. Used in CI.
+  gem "html-proofer", "~> 5.2"
+end

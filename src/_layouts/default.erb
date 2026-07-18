@@ -4,9 +4,18 @@
     <%= render "head", metadata: site.metadata, title: data.title, resource: resource %>
   </head>
   <body class="<%= data.layout %> <%= data.page_class %>">
+    <%# Skip link: the first focusable element on every page, so a
+        keyboard/screen-reader user can jump straight past the masthead +
+        primary nav to the content well without tabbing through both every
+        time. Visually hidden until it receives focus (see .skip-link in
+        base.css); `href="#main-content"` targets <main> below, which carries
+        a matching `id` + `tabindex="-1"` so focus actually lands there (not
+        just a scroll jump) in every browser. %>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
     <%= render Shared::Navbar.new(metadata: site.metadata, resource: resource) %>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <%= yield %>
     </main>
 

@@ -1,0 +1,89 @@
+name: CI
+
+# Build + validate on every PR and every push to main. This workflow only
+# builds and checks the site - there is no deploy step here (out of scope
+# for this workflow) and it has no reason to write anything back to the
+# repo or call any external service with credentials.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Least-privilege token: this job builds the site and runs read-only
+# validation scripts against the build output. No secrets are used and
+# nothing is deployed or written back to the repo, so a read-only
+# `contents: read` token is correct and sufficient. Do not broaden this.
+permissions:
+  contents: read
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          # bridgetown-sitemap derives each page's lastmod from git history,
+          # so the checkout needs full history, not the default shallow
+          # clone (fetch-depth: 1).
+          fetch-depth: 0
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1.319.0
+        with:
+          # No ruby-version input: ruby/setup-ruby auto-detects and reads
+          # the pinned version from .ruby-version (4.0.6) at the repo root.
+          bundler-cache: true # runs `bundle install` and caches gems
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: ".nvmrc" # pins Node 22.23.1
+          cache: "npm"
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Validate card content (schema, links, sources)
+        run: bundle exec ruby script/validate.rb
+
+      - name: Build frontend assets (esbuild)
+        run: npm run esbuild
+
+      - name: Check JS bundle-size budget
+        run: ruby script/check_bundle_size.rb
+        # No `bundle exec` needed: this script only uses Ruby stdlib (Zlib,
+        # JSON), no gems. It's a hard numeric ceiling on gzipped bytes of a
+        # deterministic build artifact (not a timing measurement), so unlike
+        # a Lighthouse run it's safe to block CI on without flakiness risk.
+
+      - name: Build site
+        run: bundle exec bridgetown build
+
+      - name: Check for JS-only content (zero-JS-content guard)
+        run: bundle exec ruby script/check_no_js_content.rb
+        # bundle exec matters here: this script renders card bodies through
+        # Kramdown, a bundled gem. A bare `ruby script/...` only
+        # sees Ruby's own load path, not the bundle's, so it can only find
+        # kramdown by accident (e.g. it happening to be on an ambient
+        # system load path) - which is exactly what masked this locally
+        # and let it reach CI broken. All three Ruby gate scripts below run
+        # under bundle exec uniformly so a future gem dependency in any of
+        # them can't silently break CI the same way again.
+
+      - name: Check JSON-LD validity
+        run: bundle exec ruby script/check_json_ld.rb
+
+      - name: Check internal links and images (html-proofer)
+        run: |
+          bundle exec htmlproofer output \
+            --disable-external \
+            --no-enforce-https
+        # --disable-external: external link checking is flaky/slow/rate-limited
+        #   and out of scope here - internal links + images only.
+        # --no-enforce-https: this check flags external links that aren't
+        #   https even though we've disabled following external links at
+        #   all, which is inconsistent - we're not validating external
+        #   links here, so don't police their scheme either.
+        # No --ignore-urls: every internal link, including /stories/ and
+        #   /talks/ (added in this commit), is checked for real.

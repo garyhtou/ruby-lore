@@ -18,9 +18,17 @@
   --fox: #d2662a; /* the storybook heartbeat */
   --brass: #b08d57; /* antique gold: citations, plaques */
 
-  /* ---- Type families ---- */
-  --font-display: "Fraunces", "Hoefler Text", "Iowan Old Style", Georgia, serif;
-  --font-body: "Literata", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  /* ---- Type families ----
+     The "* Fallback" families right after each webfont are metric-adjusted
+     stand-ins (frontend/styles/fonts.css) that occupy the same
+     width/line-height envelope as the real webfont, so font-display: swap's
+     eventual swap-in causes no reflow/CLS - see fonts.css's header comment
+     for how the sizes were derived. They only ever resolve to a local()
+     system font, so they cost nothing to add to the stack. */
+  --font-display: "Fraunces", "Fraunces Fallback", "Hoefler Text",
+    "Iowan Old Style", Georgia, serif;
+  --font-body: "Literata", "Literata Fallback", "Iowan Old Style", Georgia,
+    "Times New Roman", serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo",
     "Consolas", monospace;
 

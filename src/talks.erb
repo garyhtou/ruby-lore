@@ -1,0 +1,27 @@
+---
+layout: default
+title: Talks
+---
+
+<%
+  talk_cards = collections.cards.resources
+    .select { |card| card.data.type == "talk" }
+    .sort_by { |card| card.data.title.to_s.downcase }
+%>
+
+<h1><%= data.title %></h1>
+<p class="lead">Talks and demos worth knowing about from Ruby's history.</p>
+
+<ul class="card-listing">
+  <% talk_cards.each do |card| %>
+    <%
+      hook = card.data.hook.to_s.strip
+    %>
+    <li class="card-listing__entry">
+      <a href="<%= card.relative_url %>"><%= card.data.title %></a>
+      <% unless hook.empty? %>
+        <p class="card-listing__hook"><%= hook %></p>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

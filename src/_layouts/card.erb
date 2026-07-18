@@ -28,6 +28,16 @@ layout: default
 
   primary_source = data.sources.is_a?(Array) ? data.sources.first : nil
   hook = data.hook.to_s.strip
+
+  # "Edit this page on GitHub" deep-link. resource.relative_path
+  # is the card's source path relative to src/ (e.g. "_cards/people/matz.md"
+  # - confirmed by inspecting a built page during development), so
+  # prefixing with "src/" reconstructs the real repo path GitHub's web
+  # editor expects: .../edit/main/src/_cards/<segment>/<slug>.md. Built
+  # from site.metadata.repo_url (the same public-repo URL already used in
+  # the footer and JSON-LD, src/_data/site_metadata.yml) rather than a
+  # hardcoded host, so it stays correct if the repo ever moves.
+  edit_url = "#{site.metadata.repo_url}/edit/main/src/#{resource.relative_path}"
 %>
 
 <article class="card" data-card-type="<%= data.type %>">
@@ -47,4 +57,8 @@ layout: default
   <div class="card__body">
     <%== body_html %>
   </div>
+
+  <p class="card__edit">
+    <a href="<%= edit_url %>">See a mistake? Edit this page on GitHub</a>
+  </p>
 </article>

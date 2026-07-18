@@ -184,6 +184,46 @@ blockquote {
   border-radius: var(--r-sm);
 }
 
+/* ---- Skip link ----
+   The very first focusable element on every page (see default.erb). Off-
+   screen by default via a clip, not display:none/visibility:hidden - it
+   must stay in the accessibility tree and tab order. On :focus-visible it
+   drops into view above everything else, on-brand (parchment plaque, garnet
+   text, the same focus ring token as the rest of the site) rather than a
+   bare unstyled browser default. */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0.75rem 1.25rem;
+  background: var(--surface);
+  color: var(--heading);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  text-decoration: none;
+  border: var(--hairline) solid var(--border-strong);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-raise);
+}
+
+.skip-link:focus-visible {
+  clip: auto;
+  clip-path: none;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  top: var(--sp-3);
+  left: var(--sp-3);
+}
+
 /* The ruby-lozenge ornament: a small garnet diamond used as a divider bullet.
    Purely decorative (aria-hidden usage), CSS only - no illustration. */
 .gem-mark {

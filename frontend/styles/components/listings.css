@@ -132,8 +132,16 @@ main > h1 + .lead {
   max-width: var(--measure);
 }
 
-/* ---- People: a grid of name plaques ---- */
-.people {
+/* ---- People / Stories / Talks: a grid of plaques ----
+   `.card-listing` is the generic version of the same plaque grid used by
+   `.people` -- `people.erb` keeps its own class name for
+   historical/semantic reasons (a grid of people is still a grid of
+   plaques), while `stories.erb` and `talks.erb` use the
+   generic name since "story-listing"/"talk-listing" would just duplicate
+   this ruleset per type. Both class names share every rule below so they
+   render identically. */
+.people,
+.card-listing {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -142,7 +150,8 @@ main > h1 + .lead {
   grid-template-columns: 1fr;
 }
 
-.people__entry {
+.people__entry,
+.card-listing__entry {
   position: relative;
   padding: clamp(1.15rem, 0.9rem + 1.5vw, 1.6rem) clamp(1.25rem, 1rem + 1.5vw, 1.75rem);
   background: var(--surface);
@@ -154,13 +163,15 @@ main > h1 + .lead {
     box-shadow var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
 }
 
-.people__entry:hover {
+.people__entry:hover,
+.card-listing__entry:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-plaque);
   border-inline-start-color: var(--garnet);
 }
 
-.people__entry > a {
+.people__entry > a,
+.card-listing__entry > a {
   font-family: var(--font-display);
   font-size: var(--fs-h3);
   color: var(--heading);
@@ -168,17 +179,20 @@ main > h1 + .lead {
   font-variation-settings: "opsz" 48, "SOFT" 48, "WONK" 1;
 }
 
-.people__entry > a::after {
+.people__entry > a::after,
+.card-listing__entry > a::after {
   content: "";
   position: absolute;
   inset: 0;
 }
 
-.people__entry:hover > a {
+.people__entry:hover > a,
+.card-listing__entry:hover > a {
   color: var(--link);
 }
 
-.people__hook {
+.people__hook,
+.card-listing__hook {
   margin-top: var(--sp-2);
   font-size: var(--fs-small);
   color: var(--text-soft);
@@ -251,7 +265,8 @@ main > h1 + .lead {
 }
 
 @media (min-width: 40rem) {
-  .people {
+  .people,
+  .card-listing {
     grid-template-columns: repeat(2, 1fr);
   }
   .glossary__entry {
@@ -262,7 +277,8 @@ main > h1 + .lead {
 }
 
 @media (min-width: 60rem) {
-  .people {
+  .people,
+  .card-listing {
     grid-template-columns: repeat(3, 1fr);
   }
 }

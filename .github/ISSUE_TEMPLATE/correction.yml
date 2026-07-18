@@ -1,0 +1,70 @@
+name: "Correction or addition"
+description: "Spot something wrong on a card, or know a story we're missing? Tell us."
+title: "[Correction]: "
+labels:
+  - correction
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to help keep Ruby Lore accurate. This
+        site is a community effort, and corrections from people who were
+        there (or who just noticed a mistake) are exactly how it stays
+        trustworthy.
+
+        You don't need to know Git or open a pull request to help. Filling
+        out this form is enough, a maintainer will do the rest.
+
+  - type: input
+    id: page
+    attributes:
+      label: "Which page or card?"
+      description: "Paste the URL (e.g. https://chunkybacon.dev/people/matz/) or the card's slug if you know it (e.g. matz)."
+      placeholder: "https://chunkybacon.dev/..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: "What's wrong, or what's missing?"
+      description: "Describe the issue: an inaccurate date, a misattributed quote, a story that deserves its own card, a broken link, anything."
+      placeholder: "The card says X, but..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: correction
+    attributes:
+      label: "What should it say instead?"
+      description: "If you know the fix, share it here. If you just know something's off but aren't sure of the right answer, that's okay too, say so."
+    validations:
+      required: false
+
+  - type: textarea
+    id: source
+    attributes:
+      label: "Source"
+      description: >-
+        A link or citation backing up the correction (an interview, a blog
+        post, a talk, a changelog, a firsthand account, etc). Ruby Lore
+        tries to source every factual claim, so this is the single most
+        useful thing you can add.
+      placeholder: "https://..."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: acknowledgement
+    attributes:
+      label: "Before you submit"
+      options:
+        - label: "This is a factual correction or addition, not an opinion about how someone should be portrayed."
+          required: true
+        - label: "I've kept this kind, especially toward living people. Ruby Lore describes people and their work factually and fairly, without taking sides on disagreements."
+          required: true
+        - label: >-
+            If this involves a chosen-anonymous person (like _why the lucky
+            stiff), my suggestion does not reveal or link to their legal
+            name, and any source I've linked is name-respectful.
+          required: true

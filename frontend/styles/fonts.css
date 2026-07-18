@@ -9,6 +9,51 @@
   visible immediately; per-face size-adjust tuning is deferred to the perf task.
 */
 
+/*
+  Perf/CWV: metric-adjusted fallback faces for Fraunces + Literata
+  (the two preloaded, above-the-fold faces - src/_partials/_head.erb), to
+  make font-display: swap's eventual swap shift-free (no CLS). Without this,
+  the browser lays out text in Georgia/the generic serif fallback first, then
+  reflows to Fraunces/Literata's own (different) glyph widths and line
+  metrics once the real woff2 arrives - on a hero heading or a long article
+  body that can move a lot of pixels.
+
+  Each fallback face below targets `local("Georgia")` (present on effectively
+  every desktop/mobile platform we care about) resized with `size-adjust` so
+  its average character width matches the real webfont's, then
+  `ascent-override`/`descent-override`/`line-gap-override` so its line-box
+  height matches too. Values were computed from each font's own hhea/OS-2
+  metrics (via `fontkit`, reading src/fonts/*.woff2 and the system Georgia.ttf
+  directly - not guessed), using the same size-adjust + override technique
+  Nuxt's "fontaine" plugin and Next.js's `next/font` use:
+
+    sizeAdjust = (target avgCharWidth / target unitsPerEm)
+               / (fallback avgCharWidth / fallback unitsPerEm)
+    ascent/descent/lineGap-override = (target metric / target unitsPerEm)
+                                     / sizeAdjust
+
+  These faces only ever resolve to a local system font (no src url()), so
+  they add zero network bytes - they're pure layout insurance. Re-derive the
+  numbers if fraunces-latin-full-normal.woff2 or literata-latin-wght-normal.woff2
+  are ever swapped for a different font file.
+*/
+@font-face {
+  font-family: "Fraunces Fallback";
+  src: local("Georgia");
+  size-adjust: 115.44%;
+  ascent-override: 84.72%;
+  descent-override: 22.09%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Literata Fallback";
+  src: local("Georgia");
+  size-adjust: 108.22%;
+  ascent-override: 108.76%;
+  descent-override: 28.46%;
+  line-gap-override: 0%;
+}
+
 /* Fraunces - display / headings. "full" carries every axis:
    opsz 9-144, wght 100-900, SOFT 0-100 (softness), WONK 0-1 (storybook quirk). */
 @font-face {

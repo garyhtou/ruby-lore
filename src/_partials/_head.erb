@@ -1,5 +1,6 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="author" content="Gary Tou" />
 <% resource_title = strip_html(strip_newlines(title)) %>
 <% is_card = !!(resource && resource.respond_to?(:collection) && resource.collection&.label == "cards") %>
 <title><% if resource_title != "Index" %><%= resource_title %> | <%= metadata.title %><% else %><%= metadata.title %>: <%= metadata.tagline %><% end %></title>
@@ -101,7 +102,19 @@
 <% end %>
 
 <link rel="stylesheet" href="<%= asset_path :css %>" />
-<script src="<%= asset_path :js %>" defer></script>
+<%# Perf/CWV: only the tiny core loader ships as part of the
+    initial page load. `data-experience-src` carries the built URL of the
+    lazily-loaded "experience" bundle (GSAP + easter eggs + timeline scroll +
+    _why scroll-telling - frontend/javascript/experience.js) - the loader
+    (frontend/javascript/core/load-experience.js) reads it off this same
+    <script> tag via `document.currentScript` and injects a real <script> for
+    it once the browser is idle or the visitor interacts, so first paint
+    never waits on/downloads GSAP. %>
+<script
+  src="<%= asset_path :js %>"
+  data-experience-src="<%= asset_path "javascript/experience.js" %>"
+  defer
+></script>
 <%= live_reload_dev_js %>
 
 <%# Structured data (schema.org JSON-LD): site-wide WebSite + Organization

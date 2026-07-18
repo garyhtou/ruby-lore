@@ -1,0 +1,17 @@
+# Code owners for Ruby Lore (chunkybacon.dev).
+#
+# One maintainer reviews everything for the launch cohort, there's no
+# separate editorial team yet. Card content is called out explicitly
+# because it's the highest-trust surface in the repo (factual claims
+# about real, sometimes living, people): every change under src/_cards/
+# requires review before merge, no matter how small.
+#
+# See CONTRIBUTING.md for how to propose a correction or open a PR.
+
+* @garyhtou
+
+# Card content: the actual factual claims the site makes. Always reviewed.
+/src/_cards/** @garyhtou
+
+# Contribution scaffolding itself (issue forms, PR template, this file).
+/.github/** @garyhtou

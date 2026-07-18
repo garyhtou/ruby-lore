@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "Ruby Lore contributor guide"
+    url: "https://github.com/garyhtou/ruby-lore/blob/main/CONTRIBUTING.md"
+    about: "How to propose a correction or open a pull request."

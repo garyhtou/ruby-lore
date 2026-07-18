@@ -1,9 +1,9 @@
 <%
   # Segment label + index URL for a card's `type`, per the type -> segment
   # map in lib/slugs.rb (person -> people, story -> stories, talk -> talks,
-  # vocabulary -> glossary, release -> timeline). The index views themselves
-  # (/people/, /stories/, etc.) are - these links are correct now
-  # and will simply start resolving once those views exist.
+  # vocabulary -> glossary, release -> timeline). All five index views now
+  # exist (people/glossary/timeline: ; stories/talks: ),
+  # so every segment link here resolves to a real page.
   segment_labels = {
     "person" => ["People", "/people/"],
     "story" => ["Stories", "/stories/"],

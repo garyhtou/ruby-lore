@@ -1,0 +1,27 @@
+name: "General suggestion or question"
+description: "Anything else: a new card idea, a design nitpick, a question about how the site works."
+title: "[Suggestion]: "
+labels:
+  - suggestion
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Not a factual correction? Use this instead. Ideas for new people,
+        stories, talks, or glossary terms are always welcome, as are
+        general feedback and questions.
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: "What's on your mind?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: "Source (if relevant)"
+      description: "If this is a new-card idea, a link or two to get us started helps a lot."
+    validations:
+      required: false

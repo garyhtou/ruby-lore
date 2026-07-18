@@ -232,3 +232,21 @@
 .card__sources li:first-child {
   border-top: none;
 }
+
+/* ---- "Edit this page on GitHub": a quiet footer-of-card link,
+   not a call-to-action - reuses the sources drawer's caption treatment. */
+.card__edit {
+  margin-top: var(--sp-6);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--text-faint);
+}
+
+.card__edit a {
+  color: var(--text-faint);
+  text-decoration-color: var(--link-underline);
+}
+
+.card__edit a:hover {
+  color: var(--link-hover);
+}

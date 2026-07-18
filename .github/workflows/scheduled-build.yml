@@ -1,0 +1,84 @@
+name: Scheduled rot check
+
+# This workflow exists purely to surface dependency/build rot before it
+# bites a real contributor. There is no deploy step here (this is
+# ops, not deployment - see Deployment: out of scope) and no code is
+# written back to the repo. It runs the same build + validate + guard
+# chain as ci.yml on a monthly schedule, so a stale gem, a
+# broken esbuild pin, or a newly-invalid card shows up as a red run on
+# the Actions dashboard well before the next real PR would catch it.
+#
+# Caveat: GitHub disables scheduled workflows automatically on repos
+# with no activity in the last 60 days. If this run stops firing on a
+# quiet repo, re-enable it from the Actions tab (or push any commit,
+# which resets the clock) - see
+# https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
+on:
+  schedule:
+    # 09:00 UTC on the 1st of every month.
+    - cron: "0 9 1 * *"
+  # Lets a maintainer (or the un-rot runbook, docs/runbook-unrot.md) kick
+  # this off on demand instead of waiting for the next scheduled tick.
+  workflow_dispatch:
+
+# Least-privilege token: same reasoning as ci.yml - this job only builds
+# the site and runs read-only validation against the build output. No
+# secrets, no deploy, nothing written back to the repo.
+permissions:
+  contents: read
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          # bridgetown-sitemap derives each page's lastmod from git history,
+          # so the checkout needs full history, not the default shallow
+          # clone (fetch-depth: 1). Same reasoning as ci.yml.
+          fetch-depth: 0
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1.319.0
+        with:
+          # No ruby-version input: ruby/setup-ruby auto-detects and reads
+          # the pinned version from .ruby-version (4.0.6) at the repo root.
+          bundler-cache: true # runs `bundle install` and caches gems
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: ".nvmrc" # pins Node 22.23.1
+          cache: "npm"
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Validate card content (schema, links, sources)
+        run: bundle exec ruby script/validate.rb
+
+      - name: Build frontend assets (esbuild)
+        run: npm run esbuild
+
+      - name: Check JS bundle-size budget
+        run: ruby script/check_bundle_size.rb
+        # No `bundle exec` needed: stdlib-only script, see ci.yml.
+
+      - name: Build site
+        run: bundle exec bridgetown build
+
+      - name: Check for JS-only content (zero-JS-content guard)
+        run: bundle exec ruby script/check_no_js_content.rb
+
+      - name: Check JSON-LD validity
+        run: bundle exec ruby script/check_json_ld.rb
+
+      - name: Check internal links and images (html-proofer)
+        run: |
+          bundle exec htmlproofer output \
+            --disable-external \
+            --no-enforce-https
+        # Same flags/reasoning as ci.yml: internal links + images only,
+        # external checking is out of scope and would make a scheduled
+        # rot check flaky on other people's uptime, not ours.
