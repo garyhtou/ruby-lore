@@ -1,6 +1,11 @@
 # Spec & Plan: Custom per-page Open Graph images
 
-Status: **Draft for review (v2, incorporates multi-reviewer feedback)** · Owner: Gary Tou · Target branch: `claude/custom-og-images-spec-fnb6vu`
+Status: **Reviewed, approved by all reviewers; awaiting owner sign-off** · Owner: Gary Tou · Target branch: `claude/custom-og-images-spec-fnb6vu`
+
+> Reviewed across five lenses, SEO/AI-SEO, Bridgetown architecture,
+> design/branding, performance/infra/CI, and correctness/safety, with two
+> revision rounds; all five returned SATISFIED on v2. Open decisions for the
+> owner are collected in §13.
 
 > This is a spec and implementation plan only. No feature code ships until this
 > document is approved.
@@ -417,10 +422,15 @@ budget).
   ~313 KB `og-share.png`** (e.g. hard-fail > 400 KB, warn > 300 KB) so the
   shipped default doesn't trip it. Cold render of ~20 pages is expected to be a
   few seconds.
-- **Local dev now requires Node.** `bundle exec bridgetown build` now shells out
-  to `node`, so a bare build without a prior `npm ci` fails; the builder must
-  fail with an actionable message, and `docs/runbook-unrot.md`'s local-repro
-  chain must note the `npm ci` prerequisite. Keep satori/resvg in
+- **Every workflow that builds must run `npm ci` first.** `bundle exec
+  bridgetown build` now shells out to `node script/og/render.mjs`, which needs
+  `node_modules` (satori/resvg). All three workflows already run `npm ci` before
+  the build (`ci.yml`, `pages.yml`, `scheduled-build.yml`, verified), so no new
+  step is needed there; but any future build path must preserve that ordering.
+- **Local dev now requires Node.** A bare local build without a prior `npm ci`
+  fails; the builder must fail with an actionable message, and
+  `docs/runbook-unrot.md`'s local-repro chain must note the `npm ci`
+  prerequisite. Keep satori/resvg in
   `devDependencies` and never set `NODE_ENV=production`/`--omit=dev` (CI uses
   `BRIDGETOWN_ENV`, not `NODE_ENV`, so devDeps install).
 
@@ -449,9 +459,10 @@ exist before html-proofer" argument buys nothing for OG and is dropped.
 - **html-proofer** stays as-is for internal links/images (unchanged).
 - **Golden snapshot** of representative images, include **`matz`** and
   **`why-the-lucky-stiff`** (R31), plus a plain-Ruby unit assertion that the
-  `why-the-lucky-stiff` manifest entry contains exactly `{title, hook, kicker}`
-  and **no `sources`/`aka`/body**, and that its alt equals the exact curated
-  value. Snapshots are validated on **linux-x64 only** (§8). Assert the PNG has
+  `why-the-lucky-stiff` manifest entry carries only the §5.1-step-2 model
+  fields (`title` + `supporting_text` + `kicker`, plus `kind`/`slug`/
+  `content_hash`/`out_path`) and **no `sources`/`aka`/`identity_urls`/body
+  keys**, and that its alt equals the exact curated value. Snapshots are validated on **linux-x64 only** (§8). Assert the PNG has
   no timestamp/metadata chunk so a future resvg change is caught.
 - **Manual preview matrix** before merge (real preview URLs): X, Slack, Discord,
   iMessage, LinkedIn Post Inspector, Facebook Sharing Debugger, **WhatsApp**,
