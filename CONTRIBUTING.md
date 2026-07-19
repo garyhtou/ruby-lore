@@ -63,6 +63,16 @@ bundle exec standardrb --fix
 
 CI runs `bundle exec standardrb` and fails on any remaining offense.
 
+If you're changing the Ruby code itself (`lib/`, `script/`), run the unit
+tests too:
+
+```
+bundle exec rake test:ruby
+```
+
+They cover the slug resolver and the content-guard scripts, and CI runs
+them on every pull request.
+
 ## The editorial spirit
 
 Ruby Lore's whole reason for existing is that it's accurate, sourced,
