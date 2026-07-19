@@ -1,0 +1,83 @@
+name: Deploy to GitHub Pages
+
+# Publishes the production build to GitHub Pages. It runs after the CI
+# workflow succeeds on main (so only a validated build ever ships), or on
+# manual dispatch. This is deliberately a SEPARATE workflow from ci.yml so
+# that ci.yml can stay least-privilege (`contents: read`); the elevated
+# `pages: write` / `id-token: write` permissions a Pages deploy needs live
+# only here.
+#
+# One-time repo setup (Settings -> Pages -> Build and deployment ->
+# Source: "GitHub Actions") is required before the first deploy can publish.
+# See docs/deploy.md.
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read # checkout the repo
+  pages: write # publish to GitHub Pages
+  id-token: write # OIDC token for actions/deploy-pages
+
+# Serialize deploys; never cancel a publish that's already in flight.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    # Only deploy when CI actually passed (or when triggered by hand).
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      # Ship the production build (no dev live-reload). Matches ci.yml so the
+      # deployed artifact is byte-for-byte what CI validated. See
+      # docs/runbook-unrot.md.
+      BRIDGETOWN_ENV: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          # bridgetown-sitemap derives each page's lastmod from git history,
+          # so a full clone is required (not the default shallow one).
+          fetch-depth: 0
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1.319.0
+        with:
+          bundler-cache: true # reads .ruby-version (4.0.6); installs + caches gems
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: ".nvmrc" # pins Node 22.23.1
+          cache: "npm"
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build frontend assets (esbuild)
+        run: npm run esbuild
+
+      - name: Build site (production)
+        run: bundle exec bridgetown build
+
+      - name: Configure Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          # output/ contains the built site plus the CNAME file (src/CNAME),
+          # which tells Pages the custom domain (chunkybacon.dev).
+          path: output
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
