@@ -39,8 +39,10 @@ body > .site-footer {
   letter-spacing: 0.01em;
 }
 
-.site-brand:hover {
-  color: var(--heading-strong);
+@media (hover: hover) {
+  .site-brand:hover {
+    color: var(--heading-strong);
+  }
 }
 
 /* ---- The fox mark ----
@@ -90,8 +92,10 @@ body > .site-footer {
   transition: rotate 320ms var(--ease-out);
 }
 
-.site-brand:hover .fox-mark {
-  rotate: -9deg;
+@media (hover: hover) {
+  .site-brand:hover .fox-mark {
+    rotate: -9deg;
+  }
 }
 
 /* ---- Primary nav: a signage strip under a brass rule ---- */
@@ -148,12 +152,20 @@ body > .site-footer {
   transition: transform var(--dur) var(--ease-out);
 }
 
-.site-nav a:hover,
+@media (hover: hover) {
+  .site-nav a:hover {
+    color: var(--heading);
+  }
+
+  .site-nav a:hover::after {
+    transform: scaleX(1);
+  }
+}
+
 .site-nav a:focus-visible {
   color: var(--heading);
 }
 
-.site-nav a:hover::after,
 .site-nav a:focus-visible::after {
   transform: scaleX(1);
 }
@@ -244,10 +256,12 @@ main {
   text-decoration: none;
 }
 
-.breadcrumbs__item a:hover {
-  color: var(--link);
-  text-decoration: underline;
-  text-decoration-color: var(--link-underline);
+@media (hover: hover) {
+  .breadcrumbs__item a:hover {
+    color: var(--link);
+    text-decoration: underline;
+    text-decoration-color: var(--link-underline);
+  }
 }
 
 .breadcrumbs__item[aria-current="page"] {

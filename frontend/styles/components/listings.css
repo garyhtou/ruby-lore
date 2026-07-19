@@ -82,10 +82,12 @@ main > h1 + .lead {
   font-variation-settings: "opsz" 56, "SOFT" 46, "WONK" 1;
 }
 
-.timeline__link:hover {
-  color: var(--link);
-  text-decoration: underline;
-  text-decoration-color: var(--link-underline);
+@media (hover: hover) {
+  .timeline__link:hover {
+    color: var(--link);
+    text-decoration: underline;
+    text-decoration-color: var(--link-underline);
+  }
 }
 
 .timeline__hook {
@@ -120,10 +122,12 @@ main > h1 + .lead {
   font-variation-settings: "opsz" 40, "SOFT" 44, "WONK" 1;
 }
 
-.glossary__term a:hover {
-  color: var(--link);
-  text-decoration: underline;
-  text-decoration-color: var(--link-underline);
+@media (hover: hover) {
+  .glossary__term a:hover {
+    color: var(--link);
+    text-decoration: underline;
+    text-decoration-color: var(--link-underline);
+  }
 }
 
 .glossary__definition {
@@ -163,11 +167,13 @@ main > h1 + .lead {
     box-shadow var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
 }
 
-.people__entry:hover,
-.card-listing__entry:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-plaque);
-  border-inline-start-color: var(--garnet);
+@media (hover: hover) {
+  .people__entry:hover,
+  .card-listing__entry:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-plaque);
+    border-inline-start-color: var(--garnet);
+  }
 }
 
 .people__entry > a,
@@ -186,9 +192,11 @@ main > h1 + .lead {
   inset: 0;
 }
 
-.people__entry:hover > a,
-.card-listing__entry:hover > a {
-  color: var(--link);
+@media (hover: hover) {
+  .people__entry:hover > a,
+  .card-listing__entry:hover > a {
+    color: var(--link);
+  }
 }
 
 .people__hook,
@@ -247,10 +255,12 @@ main > h1 + .lead {
   font-variation-settings: "opsz" 48, "SOFT" 46, "WONK" 1;
 }
 
-.tour__entry > a:hover {
-  color: var(--link);
-  text-decoration: underline;
-  text-decoration-color: var(--link-underline);
+@media (hover: hover) {
+  .tour__entry > a:hover {
+    color: var(--link);
+    text-decoration: underline;
+    text-decoration-color: var(--link-underline);
+  }
 }
 
 .tour__hook {

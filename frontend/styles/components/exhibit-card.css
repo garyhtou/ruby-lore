@@ -5,7 +5,7 @@
   header of every card page (card.erb) and the model the whole site echoes.
 */
 
-.card {
+article.card {
   max-width: var(--reading-max);
   margin-inline: auto;
 }
@@ -109,8 +109,10 @@
   text-decoration-color: color-mix(in srgb, var(--brass) 55%, transparent);
 }
 
-.exhibit-card__citation a:hover {
-  color: var(--link-hover);
+@media (hover: hover) {
+  .exhibit-card__citation a:hover {
+    color: var(--link-hover);
+  }
 }
 
 /* ---- Card page: the narrated body ---- */
@@ -247,6 +249,8 @@
   text-decoration-color: var(--link-underline);
 }
 
-.card__edit a:hover {
-  color: var(--link-hover);
+@media (hover: hover) {
+  .card__edit a:hover {
+    color: var(--link-hover);
+  }
 }

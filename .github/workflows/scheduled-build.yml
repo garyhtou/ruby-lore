@@ -30,6 +30,11 @@ permissions:
 jobs:
   build-and-validate:
     runs-on: ubuntu-latest
+    env:
+      # Production build, same reasoning as ci.yml: the shipped artifact
+      # must not contain `live_reload_dev_js`'s dev-mode EventSource. See
+      # docs/runbook-unrot.md.
+      BRIDGETOWN_ENV: production
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0

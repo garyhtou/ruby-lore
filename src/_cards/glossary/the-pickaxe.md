@@ -3,7 +3,7 @@ type: "vocabulary"
 title: "The Pickaxe"
 hook: "The nickname for the first big English Ruby book (there is a pickaxe on the cover)."
 dates:
-  - { date: 2000-01-01, label: "Published, around 2000 (some accounts say 2001)" }
+  - { date: 2000-01-01, label: "Published, around 2000 (some accounts say 2001)", precision: "year" }
 sources:
   - { title: "Programming Ruby (Pragmatic Programmers)", url: "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/" }
 ---

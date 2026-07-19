@@ -115,10 +115,12 @@
   width: fit-content;
 }
 
-.timeline-preview__entry a:hover {
-  color: var(--link);
-  text-decoration: underline;
-  text-decoration-color: var(--link-underline);
+@media (hover: hover) {
+  .timeline-preview__entry a:hover {
+    color: var(--link);
+    text-decoration: underline;
+    text-decoration-color: var(--link-underline);
+  }
 }
 
 .timeline-preview > p {
@@ -161,9 +163,11 @@
   background: linear-gradient(90deg, var(--garnet), var(--brass-rule));
 }
 
-.featured-cards__entry:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-plaque);
+@media (hover: hover) {
+  .featured-cards__entry:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-plaque);
+  }
 }
 
 .featured-cards__entry > a {
@@ -181,8 +185,10 @@
   inset: 0;
 }
 
-.featured-cards__entry:hover > a {
-  color: var(--link);
+@media (hover: hover) {
+  .featured-cards__entry:hover > a {
+    color: var(--link);
+  }
 }
 
 .featured-cards__entry p {
@@ -224,10 +230,12 @@
     border-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
 }
 
-.home-nav a:hover {
-  background: var(--surface-2);
-  border-color: var(--brass-rule);
-  color: var(--link);
+@media (hover: hover) {
+  .home-nav a:hover {
+    background: var(--surface-2);
+    border-color: var(--brass-rule);
+    color: var(--link);
+  }
 }
 
 @media (min-width: 40rem) {

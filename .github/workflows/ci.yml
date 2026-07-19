@@ -19,6 +19,16 @@ permissions:
 jobs:
   build-and-validate:
     runs-on: ubuntu-latest
+    env:
+      # The canonical/CI build is production, not Bridgetown's default
+      # (development). A development build ships `live_reload_dev_js`'s
+      # EventSource in the HTML, which in production would just be real
+      # users' browsers repeatedly retrying a nonexistent livereload
+      # endpoint - wasted connections + console noise for no benefit. This
+      # makes `bridgetown build` below (and every gate script that reads
+      # `output/` after it) operate on the same production artifact that
+      # would actually get deployed. See docs/runbook-unrot.md.
+      BRIDGETOWN_ENV: production
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0

@@ -3,7 +3,7 @@ type: "story"
 title: "Rails was pulled out of Basecamp"
 hook: "Rails was never built as a product. It was extracted from a real app, then a screencast made it explode."
 dates:
-  - { date: 2004-01-01, label: "Extracted from Basecamp, 2004" }
+  - { date: 2004-01-01, label: "Extracted from Basecamp, 2004", precision: "year" }
 sources:
   - { title: "Ruby on Rails", url: "https://rubyonrails.org/" }
 ---

@@ -15,6 +15,15 @@ three steps.
 
 - The site is a [Bridgetown](https://www.bridgetownrb.com/) static
   site. Ruby builds it, esbuild bundles the frontend JS.
+- **The canonical/production build is `BRIDGETOWN_ENV=production bundle
+  exec bridgetown build`** - that's what both `ci.yml` and
+  `scheduled-build.yml` run (set job-wide via `env:`), and it's what
+  should be deployed. A bare `bundle exec bridgetown build` (no
+  `BRIDGETOWN_ENV`) defaults to Bridgetown's **development** environment,
+  which is fine for local preview but ships `live_reload_dev_js`'s
+  dev-mode EventSource in the HTML - real users' browsers would then
+  repeatedly retry a nonexistent livereload endpoint. Don't deploy a dev
+  build.
 - Pinned versions live in `.ruby-version` (Ruby) and `.nvmrc` (Node),
   and are echoed in both `.github/workflows/ci.yml` and
   `.github/workflows/scheduled-build.yml`.
@@ -60,8 +69,12 @@ npm run esbuild
 # 3. Bundle-size budget (stdlib only, no bundle exec needed)
 ruby script/check_bundle_size.rb
 
-# 4. The actual site build
-bundle exec bridgetown build
+# 4. The actual site build - BRIDGETOWN_ENV=production matches CI/what's
+#    deployed (see Section 0); a bare `bundle exec bridgetown build`
+#    builds dev mode instead (fine for local preview, not for the gate
+#    chain below, since it ships live-reload cruft the guards don't check
+#    for).
+BRIDGETOWN_ENV=production bundle exec bridgetown build
 
 # 5. Zero-JS-content guard (needs bundle exec: renders Markdown through
 #    Kramdown, a bundled gem - see the comment in ci.yml for why this
@@ -234,7 +247,7 @@ chain from Step 2 top to bottom one more time, uninterrupted:
 bundle exec ruby script/validate.rb
 npm run esbuild
 ruby script/check_bundle_size.rb
-bundle exec bridgetown build
+BRIDGETOWN_ENV=production bundle exec bridgetown build
 bundle exec ruby script/check_no_js_content.rb
 bundle exec ruby script/check_json_ld.rb
 bundle exec htmlproofer output --disable-external --no-enforce-https

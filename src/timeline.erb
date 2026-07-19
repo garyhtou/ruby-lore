@@ -23,9 +23,16 @@ title: Timeline
     <%
       earliest = card.data.dates.min_by(&:date)
       hook = card.data.hook.to_s.strip
+      # Cards whose real date is only known to the year (e.g. "the Pickaxe,
+      # around 2000") carry `precision: "year"` on the date entry. Rendering
+      # those through strftime's full "%B %-d, %Y" would assert a specific
+      # day we don't actually know - so show just the year instead. The
+      # machine-readable <time datetime> stays a full ISO date regardless,
+      # for sorting/schema purposes.
+      display_date = earliest.precision == "year" ? earliest.date.strftime("%Y") : earliest.date.strftime("%B %-d, %Y")
     %>
     <li class="timeline__entry">
-      <time class="timeline__date" datetime="<%= earliest.date.iso8601 %>"><%= earliest.date.strftime("%B %-d, %Y") %></time>
+      <time class="timeline__date" datetime="<%= earliest.date.iso8601 %>"><%= display_date %></time>
       <a class="timeline__link" href="<%= card.relative_url %>"><%= card.data.title %></a>
       <% unless hook.empty? %>
         <p class="timeline__hook"><%= hook %></p>

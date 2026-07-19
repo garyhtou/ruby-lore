@@ -70,7 +70,13 @@
   border-bottom: 1px solid transparent;
 }
 
-.error-page__links a:hover,
+@media (hover: hover) {
+  .error-page__links a:hover {
+    color: var(--link-hover);
+    border-bottom-color: var(--link-underline);
+  }
+}
+
 .error-page__links a:focus-visible {
   color: var(--link-hover);
   border-bottom-color: var(--link-underline);

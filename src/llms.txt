@@ -1,4 +1,5 @@
 ---
+sitemap: false
 ---
 <%#
   llms.txt: a generated, curated Markdown index of the site, following the

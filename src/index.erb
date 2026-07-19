@@ -36,9 +36,13 @@ layout: default
     <% timeline_preview.each do |card| %>
       <%
         earliest = card.data.dates.min_by(&:date)
+        # See src/timeline.erb for why year-only-precision dates (e.g. "the
+        # Pickaxe, around 2000") render just the year instead of a false-
+        # precise full date. The <time datetime> stays a full ISO date.
+        display_date = earliest.precision == "year" ? earliest.date.strftime("%Y") : earliest.date.strftime("%B %-d, %Y")
       %>
       <li class="timeline-preview__entry">
-        <time datetime="<%= earliest.date.iso8601 %>"><%= earliest.date.strftime("%B %-d, %Y") %></time>
+        <time datetime="<%= earliest.date.iso8601 %>"><%= display_date %></time>
         <a href="<%= card.relative_url %>"><%= card.data.title %></a>
       </li>
     <% end %>

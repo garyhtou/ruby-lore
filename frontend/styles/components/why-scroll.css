@@ -20,6 +20,7 @@
 .why-glow-scene {
   position: relative;
   isolation: isolate;
+  overflow-x: clip;
 }
 
 /* The soft warmth returning for Whyday: a blurred fox-orange / brass wash behind
