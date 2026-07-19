@@ -81,6 +81,21 @@ both corrections and new cards:
 If you're ever unsure whether something fits, open the correction or
 suggestion form and ask, that's what it's for.
 
+## Licensing of your contributions
+
+Ruby Lore is dual-licensed: its source code under the MIT License, and its
+written content and the Ruby Lore fox mark under Creative Commons Attribution
+4.0 (CC BY 4.0). See [`LICENSE`](./LICENSE) and
+[`LICENSE-CONTENT`](./LICENSE-CONTENT).
+
+By opening a pull request or a correction, you agree that your contribution is
+provided under those same terms (inbound = outbound): code contributions under
+the MIT License, and content contributions under CC BY 4.0. You confirm you
+have the right to contribute it, and that any third-party material you include
+(a quote, for example) is properly attributed and used in a way its own license
+or fair use permits. You keep the copyright to your contribution; you're just
+licensing it on the same terms as the rest of the project.
+
 ## Questions
 
 Open a [general suggestion issue][suggestion-issue], or start a

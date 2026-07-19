@@ -101,6 +101,13 @@
 <link rel="canonical" href="<%= resource.absolute_url %>" />
 <% end %>
 
+<%# Content license: Ruby Lore's written content is CC BY 4.0. This rel=license
+    points at the license deed and mirrors the `license` asserted in the
+    JSON-LD graph (src/_components/json_ld.rb). The source code's separate MIT
+    license is a repo concern (see LICENSE) and is intentionally not surfaced
+    on the rendered site, which is a content surface. %>
+<link rel="license" href="https://creativecommons.org/licenses/by/4.0/" />
+
 <link rel="stylesheet" href="<%= asset_path :css %>" />
 <%# Perf/CWV: only the tiny core loader ships as part of the
     initial page load. `data-experience-src` carries the built URL of the

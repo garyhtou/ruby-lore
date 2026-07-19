@@ -3,17 +3,20 @@
     in a public build. In its place: a link to the public GitHub repo (for
     source/contributing), a link to /credits/ (Andy Andrea as
     idea originator, the archivists/mirrors, and GitHub contributors), and
-    a one-line license-TBD note, wired but asserting nothing specific -
-    consistent with the placeholder LICENSE file at the repo root and the
-    JSON-LD license placeholder (src/_components/json_ld.rb). %>
+    the content license line. The site is a content surface, so only the
+    written content's CC BY 4.0 license is shown here (the short brand-form
+    attribution string); the source code's separate MIT license is a repo
+    concern (LICENSE) and is intentionally not surfaced on the site. Mirrors
+    the `license` asserted in the JSON-LD graph (src/_components/json_ld.rb)
+    and the rel=license link in _head.erb. %>
 <footer class="site-footer">
   <%= render "flourish" %>
   <p class="site-footer__line">
-    <a href="<%= metadata.repo_url %>">Ruby Lore on GitHub</a>
+    <a href="<%= metadata.repo_url %>">GitHub</a>
     &middot;
     <a href="/credits/">Credits</a>
   </p>
   <p class="site-footer__line site-footer__license">
-    License: to be determined.
+    Ruby Lore (chunkybacon.dev), <a href="https://creativecommons.org/licenses/by/4.0/" rel="license">CC BY 4.0</a>
   </p>
 </footer>

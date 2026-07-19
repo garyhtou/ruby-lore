@@ -1,0 +1,55 @@
+Ruby Lore content license
+==========================
+
+Copyright (c) 2026 Gary Tou and contributors
+
+The written content of Ruby Lore (the prose in this repository's card entries
+and pages: people, stories, talks, glossary, and timeline) is licensed under
+the Creative Commons Attribution 4.0 International license (CC BY 4.0).
+
+  Deed:      https://creativecommons.org/licenses/by/4.0/
+  Full text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+You are free to share (copy and redistribute) and adapt (remix, transform, and
+build upon) this content for any purpose, including commercially and for
+training machine-learning models. In return, CC BY 4.0 asks that you give
+appropriate credit (see below), provide a link to the license, and indicate if
+you made changes. You may not suggest the licensor endorses you or your use.
+
+Attribution
+-----------
+
+When reusing this content, credit it using the Creative Commons TASL
+convention (Title, Author, Source, License). For example:
+
+  "Ruby Lore" by Gary Tou and contributors (https://chunkybacon.dev) is
+  licensed under CC BY 4.0.
+
+When reusing a single entry, name that entry as the title. For example:
+
+  "Matz" from Ruby Lore (https://chunkybacon.dev) is licensed under CC BY 4.0.
+
+The authoritative author for attribution is "Gary Tou and contributors."
+
+What this covers
+----------------
+
+CC BY 4.0 covers Ruby Lore's own original written content and the artwork of
+the original Ruby Lore fox mark. One caveat on the mark: CC BY 4.0 grants
+copyright permissions only, not trademark rights. You may reuse the fox
+artwork under CC BY 4.0, but not in any way that implies Ruby Lore endorses
+you or your project, and the "Ruby Lore" name and its use as a project or
+brand identifier are reserved.
+
+The license does not cover:
+
+  - The site's source code, which is licensed separately under the MIT
+    License (see LICENSE).
+  - Bundled fonts (Fraunces, Literata, JetBrains Mono), which are licensed
+    under the SIL Open Font License (OFL) by their respective authors.
+  - Short third-party quotations (for example, excerpts from talks) that
+    appear with attribution under fair use, which remain the property of
+    their original authors.
+
+Facts and historical information are not themselves copyrightable; the
+license applies to Ruby Lore's particular expression of them.

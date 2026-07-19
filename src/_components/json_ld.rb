@@ -34,10 +34,13 @@ require_relative "../../lib/slugs"
 # same convention as card.erb's body_html) - see `safe_json` below for
 # why that's still safe to embed inside a <script> element.
 #
-# LICENSE: deliberately never asserted. The site's license is a
-# post-build decision (still TBD as of this task) - no node here ever
-# sets a `license` property. Wire one in once a real LICENSE file lands;
-# asserting CC-BY or similar ahead of that would be inventing a fact.
+# LICENSE: Ruby Lore's written content is CC-BY 4.0 (see LICENSE-CONTENT at
+# the repo root). That license URL is asserted via `CC_BY_LICENSE_URL` on the
+# content-bearing nodes only - the WebSite node and each card's Article
+# webpage node, both CreativeWork subtypes where schema.org's `license`
+# property is valid. The DefinedTerm (glossary) and Event (release) nodes are
+# NOT CreativeWorks, so `license` is deliberately not set on them. The source
+# code's separate MIT license is a repo concern (LICENSE), never surfaced here.
 #
 # R31 (anonymity constraint - see the why-the-lucky-stiff card and
 # .superpowers/sdd/task-3.2-brief.md): the Person node's `sameAs` is
@@ -67,6 +70,11 @@ class JSONLd < Bridgetown::Component
     "talk" => "CreativeWork",
     "release" => "Event",
   }.freeze
+
+  # The written content's license (CC BY 4.0). Asserted only on CreativeWork
+  # nodes (WebSite + per-card Article webpage) where schema.org's `license`
+  # property is valid. See the LICENSE note above and LICENSE-CONTENT.
+  CC_BY_LICENSE_URL = "https://creativecommons.org/licenses/by/4.0/"
 
   # @param metadata [HashWithDotAccess::Hash] site.metadata (site_metadata.yml)
   # @param resource [Bridgetown::Resource::Base, nil] the current page's resource
@@ -122,6 +130,7 @@ class JSONLd < Bridgetown::Component
       "description" => site_description,
       "url" => @site_url,
       "inLanguage" => "en",
+      "license" => CC_BY_LICENSE_URL,
       "publisher" => { "@id" => organization_id },
       "creator" => {
         "@type" => "Person",
@@ -185,6 +194,7 @@ class JSONLd < Bridgetown::Component
       "url" => page_url,
       "image" => share_image_url,
       "inLanguage" => "en",
+      "license" => CC_BY_LICENSE_URL,
       "author" => { "@id" => organization_id },
       "publisher" => { "@id" => organization_id },
     }
@@ -321,6 +331,13 @@ class JSONLd < Bridgetown::Component
                       .map { |card| defined_term_entry(card) }
 
     node = glossary_set_node
+    # DefinedTermSet is a CreativeWork subtype, and this fully-populated node
+    # IS our own creative compilation (the whole glossary), so it carries the
+    # content license. The lightweight `glossary_set_node` reference emitted on
+    # individual card pages deliberately omits it - it's a pointer, not the
+    # work. (The per-term DefinedTerm nodes are not CreativeWorks, so none of
+    # them assert a license.)
+    node["license"] = CC_BY_LICENSE_URL
     node["hasDefinedTerm"] = terms
     node
   end
