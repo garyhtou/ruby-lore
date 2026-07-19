@@ -39,12 +39,16 @@ gem "bridgetown-sitemap", "~> 3.0"
 gem "falcon"
 
 
-# Uncomment to use the Inspectors API to manipulate the output
-# of your HTML or XML resources:
-# gem "nokogiri", "~> 1.18"
+# Powers the Inspectors API (see plugins/builders/external_links.rb, which
+# rewrites outbound <a> tags). Nokolexbor is the fast HTML-only parser; our
+# resources are all HTML, so we don't need Nokogiri's broader XML support.
+gem "nokolexbor", "~> 0.6"
 
-# Or for faster parsing of HTML-only resources via Inspectors, use Nokolexbor:
-# gem "nokolexbor", "~> 0.6"
+group :development do
+  # Ruby linter/formatter (RuboCop under the hood). Ships a ruby-lsp addon, so
+  # editors auto-pick it up for formatting and diagnostics.
+  gem "standard", "~> 1.0"
+end
 
 group :test do
   # Checks the built output/ for broken internal links, images, etc. Used in CI.
