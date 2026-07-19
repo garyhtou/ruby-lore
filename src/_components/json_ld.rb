@@ -68,7 +68,7 @@ class JSONLd < Bridgetown::Component
     "vocabulary" => "DefinedTerm",
     "story" => "Article",
     "talk" => "CreativeWork",
-    "release" => "Event",
+    "release" => "Event"
   }.freeze
 
   # The written content's license (CC BY 4.0). Asserted only on CreativeWork
@@ -83,7 +83,7 @@ class JSONLd < Bridgetown::Component
     @metadata = metadata
     @resource = resource
     @site_url = site_url.to_s.chomp("/")
-    @json = safe_json({ "@context" => "https://schema.org", "@graph" => graph_nodes })
+    @json = safe_json({"@context" => "https://schema.org", "@graph" => graph_nodes})
   end
 
   private
@@ -131,13 +131,13 @@ class JSONLd < Bridgetown::Component
       "url" => @site_url,
       "inLanguage" => "en",
       "license" => CC_BY_LICENSE_URL,
-      "publisher" => { "@id" => organization_id },
+      "publisher" => {"@id" => organization_id},
       "creator" => {
         "@type" => "Person",
         "name" => "Gary Tou",
         "url" => "https://garytou.com",
-        "sameAs" => ["https://garytou.com"],
-      },
+        "sameAs" => ["https://garytou.com"]
+      }
     }
   end
 
@@ -146,7 +146,7 @@ class JSONLd < Bridgetown::Component
       "@type" => "Organization",
       "@id" => organization_id,
       "name" => @metadata.title.to_s,
-      "url" => @site_url,
+      "url" => @site_url
     }
     # sameAs collects other URLs that identify this same entity: the public
     # source repo and rubylore.dev, the site's secondary official domain
@@ -195,8 +195,8 @@ class JSONLd < Bridgetown::Component
       "image" => share_image_url,
       "inLanguage" => "en",
       "license" => CC_BY_LICENSE_URL,
-      "author" => { "@id" => organization_id },
-      "publisher" => { "@id" => organization_id },
+      "author" => {"@id" => organization_id},
+      "publisher" => {"@id" => organization_id}
     }
     page_node["description"] = description if description
     page_node["datePublished"] = published_at if published_at
@@ -211,12 +211,12 @@ class JSONLd < Bridgetown::Component
       "@type" => mapped_type,
       "@id" => subject_id,
       "name" => title,
-      "url" => page_url,
+      "url" => page_url
     }
     subject_node["description"] = description if description
     extra_nodes = apply_type_specifics(mapped_type, data, subject_node)
 
-    page_node["about"] = { "@id" => subject_id }
+    page_node["about"] = {"@id" => subject_id}
 
     [page_node, breadcrumb_node, subject_node, *extra_nodes]
   end
@@ -233,27 +233,27 @@ class JSONLd < Bridgetown::Component
     segment = Slugs::TYPE_SEGMENTS[data.type.to_s]
 
     items = [
-      { "@type" => "ListItem", "position" => 1, "name" => "Home", "item" => "#{@site_url}/" },
+      {"@type" => "ListItem", "position" => 1, "name" => "Home", "item" => "#{@site_url}/"}
     ]
     if segment
       items << {
         "@type" => "ListItem",
         "position" => 2,
         "name" => segment.capitalize,
-        "item" => "#{@site_url}/#{segment}/",
+        "item" => "#{@site_url}/#{segment}/"
       }
     end
     items << {
       "@type" => "ListItem",
       "position" => items.length + 1,
       "name" => title,
-      "item" => page_url,
+      "item" => page_url
     }
 
     {
       "@type" => "BreadcrumbList",
       "@id" => "#{page_url}#breadcrumb",
-      "itemListElement" => items,
+      "itemListElement" => items
     }
   end
 
@@ -267,7 +267,7 @@ class JSONLd < Bridgetown::Component
       subject_node["sameAs"] = same_as unless same_as.empty?
       []
     when "DefinedTerm"
-      subject_node["inDefinedTermSet"] = { "@id" => glossary_set_id }
+      subject_node["inDefinedTermSet"] = {"@id" => glossary_set_id}
       [glossary_set_node]
     when "Event"
       # Fix #4: a release Event needs `location` to be Rich-Results
@@ -280,7 +280,7 @@ class JSONLd < Bridgetown::Component
       subject_node["startDate"] = start_date.iso8601 if start_date
       subject_node["eventAttendanceMode"] = "https://schema.org/OnlineEventAttendanceMode"
       subject_node["eventStatus"] = "https://schema.org/EventScheduled"
-      subject_node["location"] = { "@type" => "VirtualLocation", "url" => subject_node["url"] }
+      subject_node["location"] = {"@type" => "VirtualLocation", "url" => subject_node["url"]}
       []
     else # "CreativeWork" (talk) - the shared base fields are enough
       []
@@ -311,7 +311,7 @@ class JSONLd < Bridgetown::Component
       "name" => "#{@metadata.title} Glossary",
       "description" => "Ruby community vocabulary and folklore terms defined by #{@metadata.title}.",
       "url" => "#{@site_url}/glossary/",
-      "publisher" => { "@id" => organization_id },
+      "publisher" => {"@id" => organization_id}
     }
   end
 
@@ -326,9 +326,9 @@ class JSONLd < Bridgetown::Component
   # cross-page `@id`-only references.
   def full_glossary_set_node
     terms = @resource.site.collections["cards"].resources
-                      .select { |card| card.data.type.to_s == "vocabulary" }
-                      .sort_by { |card| card.data.title.to_s.downcase.sub(/\A[^a-z0-9]+/, "") }
-                      .map { |card| defined_term_entry(card) }
+      .select { |card| card.data.type.to_s == "vocabulary" }
+      .sort_by { |card| card.data.title.to_s.downcase.sub(/\A[^a-z0-9]+/, "") }
+      .map { |card| defined_term_entry(card) }
 
     node = glossary_set_node
     # DefinedTermSet is a CreativeWork subtype, and this fully-populated node
@@ -348,7 +348,7 @@ class JSONLd < Bridgetown::Component
       "@type" => "DefinedTerm",
       "@id" => "#{url}#entity",
       "name" => card.data.title.to_s,
-      "url" => url,
+      "url" => url
     }
     description = description_for(card.data)
     entry["description"] = description if description
@@ -381,25 +381,25 @@ class JSONLd < Bridgetown::Component
     published = first_commit_date(root, rel_path)
     modified = last_commit_date(root, rel_path)
     [published, modified]
-  rescue StandardError
+  rescue
     [nil, nil]
   end
 
   def first_commit_date(root, rel_path)
     output = run_git(root, ["log", "--diff-filter=A", "--follow", "--format=%aI", "--", rel_path])
     line = output.lines.last&.strip
-    line.nil? || line.empty? ? nil : line
+    (line.nil? || line.empty?) ? nil : line
   end
 
   def last_commit_date(root, rel_path)
     output = run_git(root, ["log", "-1", "--format=%aI", "--", rel_path])
     line = output.lines.first&.strip
-    line.nil? || line.empty? ? nil : line
+    (line.nil? || line.empty?) ? nil : line
   end
 
   def run_git(root, args)
     IO.popen(["git", "-C", root.to_s, *args], err: File::NULL, &:read).to_s
-  rescue Errno::ENOENT, IOError, SystemCallError
+  rescue IOError, SystemCallError
     ""
   end
 
@@ -416,8 +416,8 @@ class JSONLd < Bridgetown::Component
   # or "<!--" impossible without changing the JSON's meaning at all.
   def safe_json(hash)
     JSON.generate(hash)
-        .gsub("<", "\\u003c")
-        .gsub(">", "\\u003e")
-        .gsub("&", "\\u0026")
+      .gsub("<", "\\u003c")
+      .gsub(">", "\\u003e")
+      .gsub("&", "\\u0026")
   end
 end

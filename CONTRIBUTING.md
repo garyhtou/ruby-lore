@@ -54,6 +54,15 @@ bundle exec ruby script/validate.rb
 It checks that every card has the required fields, that `[[slug]]` links
 resolve, and that sources are present, the same checks CI runs.
 
+If you touch any Ruby, also run the linter (Standard, which auto-fixes
+most issues):
+
+```
+bundle exec standardrb --fix
+```
+
+CI runs `bundle exec standardrb` and fails on any remaining offense.
+
 ## The editorial spirit
 
 Ruby Lore's whole reason for existing is that it's accurate, sourced,

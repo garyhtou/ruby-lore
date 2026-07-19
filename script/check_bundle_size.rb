@@ -46,10 +46,10 @@ INITIAL_JS_BUDGET_BYTES = 15 * 1024      # 15KB gzipped - the every-page loader
 EXPERIENCE_JS_BUDGET_BYTES = 100 * 1024  # 100KB gzipped - the lazy GSAP bundle
 
 BUDGETS = {
-  "javascript/index.js" => { label: "initial-load JS (frontend/javascript/index.js)",
-                              budget: INITIAL_JS_BUDGET_BYTES },
-  "javascript/experience.js" => { label: "lazy-loaded experience bundle (frontend/javascript/experience.js)",
-                                   budget: EXPERIENCE_JS_BUDGET_BYTES },
+  "javascript/index.js" => {label: "initial-load JS (frontend/javascript/index.js)",
+                            budget: INITIAL_JS_BUDGET_BYTES},
+  "javascript/experience.js" => {label: "lazy-loaded experience bundle (frontend/javascript/experience.js)",
+                                 budget: EXPERIENCE_JS_BUDGET_BYTES}
 }.freeze
 
 def gzip_size(path)
@@ -87,7 +87,7 @@ BUDGETS.each do |manifest_key, config|
 
   size = gzip_size(asset_path)
   budget = config[:budget]
-  reports << { label: config[:label], file: relative_output, size: size, budget: budget }
+  reports << {label: config[:label], file: relative_output, size: size, budget: budget}
 
   next unless size > budget
 
@@ -104,7 +104,7 @@ if errors.empty?
   puts "\nAll JS bundles within budget."
   exit 0
 else
-  warn "\ncheck_bundle_size.rb found #{errors.size} problem#{errors.size == 1 ? '' : 's'}:"
+  warn "\ncheck_bundle_size.rb found #{errors.size} problem#{"s" unless errors.size == 1}:"
   errors.each { |message| warn "  - #{message}" }
   exit 1
 end

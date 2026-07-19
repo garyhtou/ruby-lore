@@ -20,10 +20,10 @@
 require_relative "../lib/slugs"
 
 ALLOWED_TYPES = %w[person story talk vocabulary release artifact institution book program].freeze
-WIKILINK_PATTERN = /\[\[([a-zA-Z0-9_-]+)\]\]/.freeze
-SOURCES_HEADING_PATTERN = /^##\s+Sources\s*$/i.freeze
-NEXT_HEADING_PATTERN = /^##\s+/.freeze
-VERIFY_MARKER_PATTERN = /\[VERIFY\]/i.freeze
+WIKILINK_PATTERN = /\[\[([a-zA-Z0-9_-]+)\]\]/
+SOURCES_HEADING_PATTERN = /^##\s+Sources\s*$/i
+NEXT_HEADING_PATTERN = /^##\s+/
+VERIFY_MARKER_PATTERN = /\[VERIFY\]/i
 
 # Returns the raw text of the "## Sources" section (everything up to the
 # next "##" heading, or end of body), or nil if there's no such section.
@@ -65,7 +65,7 @@ cards.each_value do |card|
     errors << "#{location}: missing required 'type' field in front matter"
   elsif !ALLOWED_TYPES.include?(card.type)
     errors << "#{location}: invalid 'type' value #{card.type.inspect} " \
-              "(must be one of: #{ALLOWED_TYPES.join(', ')})"
+              "(must be one of: #{ALLOWED_TYPES.join(", ")})"
   end
 
   errors << "#{location}: missing required 'title' field in front matter" if card.title.to_s.strip.empty?
@@ -82,10 +82,10 @@ cards.each_value do |card|
 end
 
 if errors.empty?
-  puts "#{cards.size} card#{cards.size == 1 ? '' : 's'} validated, all clean."
+  puts "#{cards.size} card#{"s" unless cards.size == 1} validated, all clean."
   exit 0
 else
-  warn "validate.rb found #{errors.size} problem#{errors.size == 1 ? '' : 's'}:"
+  warn "validate.rb found #{errors.size} problem#{"s" unless errors.size == 1}:"
   errors.each { |message| warn "  - #{message}" }
   exit 1
 end

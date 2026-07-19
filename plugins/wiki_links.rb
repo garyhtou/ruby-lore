@@ -29,7 +29,7 @@ require_relative "../lib/slugs"
 # runs first (as part of `bin/bridgetown build`), so it's the first line of
 # defense.
 class WikiLinks < SiteBuilder
-  WIKILINK_PATTERN = /\[\[([a-zA-Z0-9_-]+)\]\]/.freeze
+  WIKILINK_PATTERN = /\[\[([a-zA-Z0-9_-]+)\]\]/
 
   def build
     hook :site, :post_read do

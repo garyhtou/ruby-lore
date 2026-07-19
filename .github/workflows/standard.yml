@@ -1,0 +1,40 @@
+name: Standard
+
+# Lint + format check on every PR and every push to main. Standard
+# (https://github.com/standardrb/standard) is a zero-config RuboCop wrapper;
+# `bundle exec standardrb` exits non-zero when it finds any offense, which
+# fails this job and blocks the merge. No auto-fixing happens in CI - fixes
+# are applied locally with `bundle exec standardrb --fix`.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Least-privilege token: this job only reads the checked-out source to lint
+# it. Nothing is deployed or written back to the repo, so a read-only
+# `contents: read` token is correct and sufficient. Do not broaden this.
+permissions:
+  contents: read
+
+jobs:
+  standard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1.319.0
+        with:
+          # No ruby-version input: ruby/setup-ruby auto-detects and reads
+          # the pinned version from .ruby-version at the repo root, matching
+          # the rest of the workflows. bundler-cache installs the gems
+          # (including the development group, where `standard` lives) and
+          # caches them between runs.
+          bundler-cache: true
+
+      - name: Run Standard
+        run: bundle exec standardrb
+        # standardrb exits non-zero when any offense remains, which fails
+        # this step (and the job). Run `bundle exec standardrb --fix` locally
+        # to auto-correct before pushing.

@@ -25,7 +25,7 @@
 require "json"
 
 OUTPUT_DIR = File.expand_path("../output", __dir__)
-SCRIPT_TAG_PATTERN = %r{<script type="application/ld\+json">(.*?)</script>}m.freeze
+SCRIPT_TAG_PATTERN = %r{<script type="application/ld\+json">(.*?)</script>}m
 
 unless Dir.exist?(OUTPUT_DIR)
   warn "check_json_ld.rb: no output/ directory found at #{OUTPUT_DIR}."
@@ -50,7 +50,7 @@ html_files.each do |path|
     begin
       JSON.parse(block)
     rescue JSON::ParserError => e
-      label = blocks.size > 1 ? "#{relative_path} (JSON-LD block #{index + 1})" : relative_path
+      label = (blocks.size > 1) ? "#{relative_path} (JSON-LD block #{index + 1})" : relative_path
       errors << "#{label}: malformed JSON-LD (#{e.message})"
     end
   end
@@ -62,11 +62,11 @@ if blocks_checked.zero? && errors.empty?
 end
 
 if errors.empty?
-  puts "#{blocks_checked} JSON-LD block#{blocks_checked == 1 ? '' : 's'} across " \
-       "#{pages_with_json_ld} page#{pages_with_json_ld == 1 ? '' : 's'} checked, all valid JSON."
+  puts "#{blocks_checked} JSON-LD block#{"s" unless blocks_checked == 1} across " \
+       "#{pages_with_json_ld} page#{"s" unless pages_with_json_ld == 1} checked, all valid JSON."
   exit 0
 else
-  warn "check_json_ld.rb found #{errors.size} problem#{errors.size == 1 ? '' : 's'}:"
+  warn "check_json_ld.rb found #{errors.size} problem#{"s" unless errors.size == 1}:"
   errors.each { |message| warn "  - #{message}" }
   exit 1
 end

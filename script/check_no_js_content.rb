@@ -74,24 +74,24 @@ KRAMDOWN_OPTIONS = {
   "footnote_nr" => 1,
   "show_warnings" => false,
   "include_extraction_tags" => false,
-  "mark_highlighting" => true,
+  "mark_highlighting" => true
 }.freeze
 
-WIKILINK_PATTERN = /\[\[([a-zA-Z0-9_-]+)\]\]/.freeze
-SOURCES_HEADING_PATTERN = /^##\s+Sources\s*$/i.freeze
-SCRIPT_TAG_PATTERN = /<script\b[^>]*>.*?<\/script>/mi.freeze
-HTML_TAG_PATTERN = /<[^>]+>/.freeze
+WIKILINK_PATTERN = /\[\[([a-zA-Z0-9_-]+)\]\]/
+SOURCES_HEADING_PATTERN = /^##\s+Sources\s*$/i
+SCRIPT_TAG_PATTERN = /<script\b[^>]*>.*?<\/script>/mi
+HTML_TAG_PATTERN = /<[^>]+>/
 # Straight and "smart"/typographic quote characters. Kramdown's smart
 # typography rewrites straight quotes/apostrophes in the source markdown
 # into curly Unicode quotes in the rendered HTML (e.g. "it's" -> "it's").
 # Stripping every variant of these from both sides before comparing means
 # that cosmetic typographic conversion is never mistaken for missing
 # content.
-QUOTE_CHARS_PATTERN = /['"‘’“”`]/.freeze
+QUOTE_CHARS_PATTERN = /['"‘’“”`]/
 # Kramdown also collapses a literal "..." into a single Unicode ellipsis
 # character in rendered output; normalize both to the same thing so that
 # gets treated the same as the quote-typography case above.
-ELLIPSIS_PATTERN = /\.\.\.|…/.freeze
+ELLIPSIS_PATTERN = /\.\.\.|…/
 MIN_SIGNAL_WORDS = 8
 
 unless Dir.exist?(OUTPUT_DIR)
@@ -106,7 +106,7 @@ end
 
 def decode_entities(text)
   text.gsub("&amp;", "&").gsub("&lt;", "<").gsub("&gt;", ">")
-      .gsub("&quot;", '"').gsub(/&#0?39;/, "'").gsub("&nbsp;", " ")
+    .gsub("&quot;", '"').gsub(/&#0?39;/, "'").gsub("&nbsp;", " ")
 end
 
 def html_to_text(html)
@@ -143,7 +143,7 @@ def resolve_wikilinks(markdown, cards)
   markdown.gsub(WIKILINK_PATTERN) do
     slug = Regexp.last_match(1)
     target = cards[slug]
-    next Regexp.last_match(0) unless target&.href && target&.title
+    next Regexp.last_match(0) unless target&.href && target.title
 
     %(<a href="#{target.href}">#{CGI.escapeHTML(target.title.to_s)}</a>)
   end
@@ -180,7 +180,7 @@ cards.each_value do |card|
   end
 
   output_path = File.join(OUTPUT_DIR, card.href.delete_prefix("/"), "index.html")
-  relative_output_path = "output/#{card.href.delete_prefix('/')}index.html"
+  relative_output_path = "output/#{card.href.delete_prefix("/")}index.html"
 
   unless File.exist?(output_path)
     errors << "#{card.slug}: expected built page at #{relative_output_path} but it doesn't exist (build may be stale)"
@@ -220,11 +220,11 @@ cards.each_value do |card|
 end
 
 if errors.empty?
-  puts "#{checked} card page#{checked == 1 ? '' : 's'} checked, all body content and cross-links " \
+  puts "#{checked} card page#{"s" unless checked == 1} checked, all body content and cross-links " \
        "survive with <script> tags stripped."
   exit 0
 else
-  warn "check_no_js_content.rb found #{errors.size} problem#{errors.size == 1 ? '' : 's'}:"
+  warn "check_no_js_content.rb found #{errors.size} problem#{"s" unless errors.size == 1}:"
   errors.each { |message| warn "  - #{message}" }
   exit 1
 end

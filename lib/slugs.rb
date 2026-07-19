@@ -27,9 +27,9 @@ module Slugs
   # One entry per card file. `error` is set (and `type`/`title`/`href` left
   # nil) when the file's front matter couldn't be parsed at all, so callers
   # can still see the card exists (and report on it) without crashing.
-  Card = Struct.new(:slug, :title, :type, :href, :body, :path, :error, keyword_init: true)
+  Card = Struct.new(:slug, :title, :type, :href, :body, :path, :error)
 
-  FRONT_MATTER_DELIMITER = /^---\s*$/.freeze
+  FRONT_MATTER_DELIMITER = /^---\s*$/
 
   module_function
 

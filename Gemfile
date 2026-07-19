@@ -20,8 +20,8 @@ source "https://rubygems.org"
 # source "https://gem.coop"
 
 # Git-based sources:
-git_source(:github) { "https://github.com/#{_1}.git" }
-git_source(:codeberg) { "https://codeberg.org/#{_1}.git" }
+git_source(:github) { "https://github.com/#{it}.git" }
+git_source(:codeberg) { "https://codeberg.org/#{it}.git" }
 
 # If you need to upgrade/switch Bridgetown versions, change the line below
 # and then run `bundle update bridgetown`
@@ -37,7 +37,6 @@ gem "bridgetown-sitemap", "~> 3.0"
 # (you can optionally limit this to the "development" group)
 
 gem "falcon"
-
 
 # Powers the Inspectors API (see plugins/builders/external_links.rb, which
 # rewrites outbound <a> tags). Nokolexbor is the fast HTML-only parser; our
