@@ -52,4 +52,12 @@ end
 group :test do
   # Checks the built output/ for broken internal links, images, etc. Used in CI.
   gem "html-proofer", "~> 5.2"
+
+  # Ruby's standard unit-testing framework. Drives the suite under test/ that
+  # covers the plain-Ruby code (lib/slugs.rb) and the script/*.rb content
+  # guards. Run with `bundle exec rake test:ruby`.
+  gem "minitest", "~> 5.20"
+
+  # `Rake::TestTask` for the `test:ruby` task (see the Rakefile).
+  gem "rake", "~> 13.0"
 end
