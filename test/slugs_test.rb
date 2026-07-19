@@ -125,15 +125,17 @@ class SlugsTest < Minitest::Test
     end
   end
 
-  def test_parse_front_matter_reads_utf8_regardless_of_locale
-    # The card files are UTF-8; parsing must not depend on the ambient locale's
-    # default external encoding (this guards the require "date" / UTF-8 read
-    # fix in lib/slugs.rb).
+  def test_parse_front_matter_parses_utf8_front_matter_and_body
+    # Multibyte content round-trips as UTF-8. (The *locale-independence* of the
+    # read - the reason lib/slugs.rb passes encoding: "UTF-8" explicitly - is
+    # guarded honestly by a subprocess test that forces a non-UTF-8 external
+    # encoding; see ValidateTest#test_validates_utf8_dated_cards_under_ascii_locale.)
     with_file("---\ntitle: \"Matz, “MINASWAN”\"\n---\nem—dash\n") do |path|
       front_matter, body, error = Slugs.parse_front_matter(path)
 
       assert_nil error
       assert_equal "Matz, “MINASWAN”", front_matter["title"]
+      assert_equal Encoding::UTF_8, front_matter["title"].encoding
       assert_includes body, "em—dash"
     end
   end
@@ -161,6 +163,23 @@ class SlugsTest < Minitest::Test
     end
   end
 
+  def test_load_cards_derives_href_for_every_known_type_segment
+    # The non-obvious segment mappings (vocabulary -> glossary, talk -> talks,
+    # story -> stories) are assembled through load_cards, not just asserted on
+    # the constant.
+    with_card_files(
+      "glossary/minaswan" => typed_card("vocabulary", "MINASWAN"),
+      "talks/wat" => typed_card("talk", "Wat"),
+      "stories/rails" => typed_card("story", "Rails")
+    ) do |glob|
+      cards = Slugs.load_cards(glob: glob)
+
+      assert_equal "/glossary/minaswan/", cards["minaswan"].href
+      assert_equal "/talks/wat/", cards["wat"].href
+      assert_equal "/stories/rails/", cards["rails"].href
+    end
+  end
+
   def test_load_cards_leaves_href_nil_for_unknown_type
     with_card_files("misc/mystery" => card_file(front_matter: {"type" => "unknowable", "title" => "?"})) do |glob|
       cards = Slugs.load_cards(glob: glob)
@@ -179,7 +198,7 @@ class SlugsTest < Minitest::Test
       assert_equal "Matz", card.title
       assert_equal "person", card.type
       assert_includes card.body, "The prose body."
-      assert card.path.end_with?("people/matz.md"), "expected path to point at the source file"
+      assert_match(%r{people/matz\.md\z}, card.path)
       assert_nil card.error
     end
   end
@@ -229,8 +248,7 @@ class SlugsTest < Minitest::Test
   end
 
   def test_default_glob_points_at_the_repositorys_card_collection
-    assert Slugs.default_glob.end_with?("src/_cards/**/*.md"),
-      "expected default glob under src/_cards, got #{Slugs.default_glob.inspect}"
+    assert_match(%r{src/_cards/\*\*/\*\.md\z}, Slugs.default_glob)
   end
 
   private
@@ -243,11 +261,15 @@ class SlugsTest < Minitest::Test
     end
   end
 
+  def typed_card(type, title, body: "Body text.\n")
+    card_file(front_matter: {"type" => type, "title" => title}, body: body)
+  end
+
   def person_card(title, body: "Body text.\n")
-    card_file(front_matter: {"type" => "person", "title" => title}, body: body)
+    typed_card("person", title, body: body)
   end
 
   def release_card(title, body: "Body text.\n")
-    card_file(front_matter: {"type" => "release", "title" => title}, body: body)
+    typed_card("release", title, body: body)
   end
 end

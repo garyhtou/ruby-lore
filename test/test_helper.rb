@@ -19,10 +19,15 @@ require "yaml"
 module GuardRunner
   REPO_ROOT = File.expand_path("..", __dir__)
 
+  # `status` is the child's Process::Status. #success? is nil (not false) when a
+  # process is killed by a signal, so coerce to a real boolean - a crash-testing
+  # helper must not itself raise NoMethodError on a signalled child.
   Result = Struct.new(:stdout, :stderr, :status) do
     def combined = "#{stdout}\n#{stderr}"
 
-    def success? = status.zero?
+    def success? = status.success? == true
+
+    def exitstatus = status.exitstatus
   end
 
   # Copies the real script (and lib/slugs.rb, which every guard leans on)
@@ -36,7 +41,14 @@ module GuardRunner
   # global constants/methods, so requiring them would terminate the test run
   # and leak state between guards. The subprocess is also the honest seam -
   # it's the whole interface CI depends on.
-  def run_guard(script_name, files: {})
+  #
+  # The child inherits this process's environment (Open3's default), which under
+  # `bundle exec` carries the active bundle - so a script that requires a
+  # bundled gem (check_no_js_content.rb -> kramdown) resolves it the same way CI
+  # does. `env` layers extra variables on top (e.g. forcing a non-UTF-8 locale);
+  # `ruby_flags` passes options to the child Ruby itself (e.g. `-E` to pin the
+  # external encoding independently of the locale).
+  def run_guard(script_name, files: {}, env: {}, ruby_flags: [])
     Dir.mktmpdir("ruby-lore-guard") do |root|
       FileUtils.mkdir_p(File.join(root, "lib"))
       FileUtils.mkdir_p(File.join(root, "script"))
@@ -50,9 +62,9 @@ module GuardRunner
       end
 
       stdout, stderr, status = Open3.capture3(
-        RbConfig.ruby, File.join("script", script_name), chdir: root
+        env, RbConfig.ruby, *ruby_flags, File.join("script", script_name), chdir: root
       )
-      Result.new(stdout, stderr, status.exitstatus)
+      Result.new(stdout, stderr, status)
     end
   end
 end

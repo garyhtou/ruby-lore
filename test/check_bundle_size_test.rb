@@ -22,7 +22,7 @@ class CheckBundleSizeTest < Minitest::Test
   def test_errors_clearly_when_there_is_no_manifest_to_inspect
     result = run_guard(SCRIPT) # nothing built
 
-    refute result.success?
+    refute result.success?, result.combined
     assert_match(/no frontend bundling manifest found/, result.stderr)
   end
 
@@ -34,6 +34,8 @@ class CheckBundleSizeTest < Minitest::Test
 
     assert result.success?, "expected small bundles to pass:\n#{result.combined}"
     assert_match(/All JS bundles within budget/, result.stdout)
+    # The per-asset report line renders (size / budget / percentage).
+    assert_match(/initial-load JS.*\d+ B gzip.*budget.*%/, result.stdout)
   end
 
   def test_blocks_when_the_initial_bundle_is_over_budget
@@ -42,8 +44,28 @@ class CheckBundleSizeTest < Minitest::Test
       experience: "console.log('small')\n"
     ))
 
-    refute result.success?
+    refute result.success?, result.combined
     assert_match(/initial-load JS.*over its \d+-byte budget/m, result.stderr)
+  end
+
+  def test_blocks_when_the_lazy_experience_bundle_is_over_budget
+    result = run_guard(SCRIPT, files: manifest_and_assets(
+      index: "console.log('small')\n",
+      experience: incompressible(110 * 1024) # > 100KB gzipped ceiling
+    ))
+
+    refute result.success?, result.combined
+    assert_match(/lazy-loaded experience bundle.*over its \d+-byte budget/m, result.stderr)
+  end
+
+  def test_reports_every_over_budget_bundle_together
+    result = run_guard(SCRIPT, files: manifest_and_assets(
+      index: incompressible(20 * 1024),
+      experience: incompressible(110 * 1024)
+    ))
+
+    refute result.success?, result.combined
+    assert_match(/found 2 problems/, result.stderr)
   end
 
   def test_blocks_when_a_budgeted_entry_is_missing_from_the_manifest
@@ -53,7 +75,7 @@ class CheckBundleSizeTest < Minitest::Test
     }
     result = run_guard(SCRIPT, files: files)
 
-    refute result.success?
+    refute result.success?, result.combined
     assert_match(/no `javascript\/index\.js` entry in the frontend bundling manifest/, result.stderr)
   end
 
@@ -68,7 +90,7 @@ class CheckBundleSizeTest < Minitest::Test
     }
     result = run_guard(SCRIPT, files: files)
 
-    refute result.success?
+    refute result.success?, result.combined
     assert_match(/which doesn't exist/, result.stderr)
   end
 

@@ -15,7 +15,7 @@ class CheckJsonLdTest < Minitest::Test
   def test_errors_clearly_when_there_is_no_build_to_inspect
     result = run_guard(SCRIPT) # no output/ directory materialized
 
-    refute result.success?
+    refute result.success?, result.combined
     assert_match(/no output\/ directory found/, result.stderr)
   end
 
@@ -26,7 +26,27 @@ class CheckJsonLdTest < Minitest::Test
     })
 
     assert result.success?, "expected valid JSON-LD to pass:\n#{result.combined}"
-    assert_match(/2 JSON-LD blocks across 2 pages checked, all valid JSON/, result.stdout)
+    assert_match(/\b2 JSON-LD blocks across 2 pages\b/, result.stdout)
+  end
+
+  def test_parses_pretty_printed_multiline_json_ld
+    # The real component pretty-prints JSON across lines; the extractor relies on
+    # its /m flag to span them. A single well-formed multi-line block must pass.
+    multiline = %({\n  "@context": "https://schema.org",\n  "@type": "WebSite",\n  "name": "Ruby Lore"\n})
+    result = run_guard(SCRIPT, files: {"output/index.html" => page(json_ld(multiline))})
+
+    assert result.success?, "multiline JSON-LD should parse:\n#{result.combined}"
+    assert_match(/\b1 JSON-LD block across 1 page\b/, result.stdout)
+  end
+
+  def test_counts_blocks_per_block_but_pages_per_page
+    # Two valid blocks on one page: "2 blocks across 1 page" pins that
+    # blocks_checked increments per block while pages_with_json_ld is per page.
+    two_valid = json_ld(%({"@type":"WebSite"})) + json_ld(%({"@type":"Organization"}))
+    result = run_guard(SCRIPT, files: {"output/index.html" => page(two_valid)})
+
+    assert result.success?, result.combined
+    assert_match(/\b2 JSON-LD blocks across 1 page\b/, result.stdout)
   end
 
   def test_blocks_and_names_the_page_on_malformed_json
@@ -35,7 +55,7 @@ class CheckJsonLdTest < Minitest::Test
       "output/broken/index.html" => page(json_ld(%({"@type":"Person", "name": })))
     })
 
-    refute result.success?
+    refute result.success?, result.combined
     assert_match(/malformed JSON-LD/, result.stderr)
     assert_match(%r{broken/index\.html}, result.stderr)
   end
@@ -44,7 +64,7 @@ class CheckJsonLdTest < Minitest::Test
     two_blocks = json_ld(%({"@type":"WebSite"})) + json_ld(%({"@type":"Person","name":}))
     result = run_guard(SCRIPT, files: {"output/index.html" => page(two_blocks)})
 
-    refute result.success?
+    refute result.success?, result.combined
     assert_match(/JSON-LD block 2/, result.stderr)
   end
 
@@ -55,7 +75,7 @@ class CheckJsonLdTest < Minitest::Test
       "output/index.html" => page("<p>No structured data here.</p>")
     })
 
-    refute result.success?
+    refute result.success?, result.combined
     assert_match(/no <script type="application\/ld\+json"> blocks were found/, result.stderr)
   end
 
@@ -64,7 +84,7 @@ class CheckJsonLdTest < Minitest::Test
       "output/index.html" => page(json_ld(%({"@type":"WebSite"})))
     })
 
-    assert result.success?
+    assert result.success?, result.combined
     assert_match(/\b1 JSON-LD block across 1 page checked\b/, result.stdout)
   end
 
