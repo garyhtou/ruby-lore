@@ -40,3 +40,10 @@ yarn-debug.log*
 /tmp/pids/*
 !/tmp/pids/
 !/tmp/pids/.keep
+
+# AI assistant tools
+# Keep shared config (.claude/settings.json, commands, agents), ignore the personal/local bits.
+.claude/settings.local.json
+.claude/worktrees/
+CLAUDE.local.md
+.cursor/
