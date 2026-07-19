@@ -16,6 +16,17 @@ sitemap: false
   Sitemap: line is always the real production host, never localhost.
 %>
 <%
+  # Content Signals (contentsignals.org / draft-romm-aipref-contentsignals):
+  # a per-group declaration of how our content may be used. Ruby Lore exists
+  # to be found, cited, and remembered, so we opt IN to all three:
+  #   search   -> may be used to build a search index
+  #   ai-input -> may be used as input for AI answers (RAG / grounding / citation)
+  #   ai-train -> may be used to train or fine-tune AI models
+  # This matches the allow-everything intent above (training + retrieval).
+  # Because a crawler that matches a specific User-agent group ignores the
+  # catch-all `*` group, the signal is emitted inside EVERY group below.
+  content_signal = "search=yes, ai-input=yes, ai-train=yes"
+
   ai_crawlers = [
     { name: "GPTBot", note: "OpenAI - training" },
     { name: "OAI-SearchBot", note: "OpenAI - search/retrieval" },
@@ -37,10 +48,12 @@ sitemap: false
 # <%= crawler[:note] %>
 User-agent: <%= crawler[:name] %>
 Allow: /
+Content-Signal: <%= content_signal %>
 
 <% end %>
 # Everyone else (general search engines, other bots) is welcome too.
 User-agent: *
 Allow: /
+Content-Signal: <%= content_signal %>
 
 Sitemap: <%= site.config.url %>/sitemap.xml
