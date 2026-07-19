@@ -42,7 +42,8 @@ possible:
 - **Source code**: the [MIT License](./LICENSE).
 - **Written content** (the card entries and pages) and the Ruby Lore fox mark:
   [Creative Commons Attribution 4.0 (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
-  See [`LICENSE-CONTENT`](./LICENSE-CONTENT) for how to attribute reuse and a
-  note on the mark's trademark reservation.
+  The full legal text is in [`LICENSE-CONTENT`](./LICENSE-CONTENT); see
+  [`docs/content-license.md`](./docs/content-license.md) for how to attribute
+  reuse and a note on the mark's trademark reservation.
 
 Bundled fonts keep their own SIL Open Font License (OFL).
