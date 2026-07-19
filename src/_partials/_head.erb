@@ -117,6 +117,17 @@
 ></script>
 <%= live_reload_dev_js %>
 
+<%# Cloudflare Web Analytics (privacy-friendly, cookieless - no consent
+    banner needed). Emitted ONLY in production builds (BRIDGETOWN_ENV=production,
+    what CI/Pages deploy) so local dev and preview pageviews don't pollute the
+    stats. Loaded as a `type=module` script, which is deferred by spec, so it
+    never blocks render, isn't part of our esbuild bundle (bundle-size budget
+    unaffected), and adds no content to the page (zero-JS content guard stays
+    green). The token is a public client-side identifier, not a secret. %>
+<% if ENV["BRIDGETOWN_ENV"] == "production" %>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "1aec802e1dd94e7c86bd2158abd5cc00"}'></script>
+<% end %>
+
 <%# Structured data (schema.org JSON-LD): site-wide WebSite + Organization
     publisher graph on every page, plus per-card typed nodes on card
     pages. See src/_components/json_ld.{rb,erb} for the graph shape and
