@@ -139,8 +139,15 @@ class JSONLd < Bridgetown::Component
       "name" => @metadata.title.to_s,
       "url" => @site_url,
     }
+    # sameAs collects other URLs that identify this same entity: the public
+    # source repo and rubylore.dev, the site's secondary official domain
+    # (it 301-redirects to the canonical chunkybacon.dev, but is declared
+    # here so search/AI recognize it as an official alternate).
+    same_as = []
     repo_url = @metadata.repo_url.to_s.strip
-    node["sameAs"] = [repo_url] unless repo_url.empty?
+    same_as << repo_url unless repo_url.empty?
+    same_as << "https://rubylore.dev"
+    node["sameAs"] = same_as unless same_as.empty?
     node
   end
 

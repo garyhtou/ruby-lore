@@ -14,7 +14,8 @@ link paths.
 
 ### 1. Register the domains
 
-- **chunkybacon.dev** (canonical) and **rubylore.dev** (redirect).
+- **chunkybacon.dev** (primary, canonical) and **rubylore.dev** (secondary
+  official domain, 301-redirects to the canonical).
 - Turn on **auto-renew**. `.dev` is on the HSTS preload list, so HTTPS is
   always enforced.
 - Any at-cost registrar is fine (e.g. Porkbun or Cloudflare Registrar).
