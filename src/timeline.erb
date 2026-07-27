@@ -1,22 +1,18 @@
 ---
 layout: default
 title: Timeline
+lead: The Ruby canon, in order. Every dated stop on the tour, oldest first.
 ---
 
 <%
-  # Every card that carries a `dates:` front-matter entry (currently the
-  # five "release"/dated stories: named-before-it-existed, ruby-1-0,
-  # the-pickaxe, rails-from-basecamp, ruby-3-0), sorted ascending by the
-  # card's EARLIEST date. A card could in principle carry more than one
-  # `dates` entry, so we sort by the minimum rather than assuming the
-  # first entry is chronologically first.
-  dated_cards = collections.cards.resources
-    .select { |card| card.data.dates.is_a?(Array) && card.data.dates.any? }
-    .sort_by { |card| card.data.dates.map(&:date).min }
+  # Selection/sort shared with this page's .md counterpart via CardQueries
+  # (see lib/card_queries.rb): every card carrying a `dates:` entry, sorted
+  # ascending by its EARLIEST date, so the two can never disagree on order.
+  dated_cards = CardQueries.dated(collections.cards.resources)
 %>
 
 <h1><%= data.title %></h1>
-<p class="lead">The Ruby canon, in order. Every dated stop on the tour, oldest first.</p>
+<p class="lead"><%= data.lead %></p>
 
 <ol class="timeline">
   <% dated_cards.each do |card| %>

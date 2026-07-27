@@ -1,16 +1,17 @@
 ---
 layout: default
 title: People
+lead: The people whose names get invoked over and over in Ruby's history.
 ---
 
 <%
-  people_cards = collections.cards.resources
-    .select { |card| card.data.type == "person" }
-    .sort_by { |card| card.data.title.to_s.downcase }
+  # Selection/sort shared with this page's .md counterpart via CardQueries
+  # (see lib/card_queries.rb) so the two can never disagree on order.
+  people_cards = CardQueries.people(collections.cards.resources)
 %>
 
 <h1><%= data.title %></h1>
-<p class="lead">The people whose names get invoked over and over in Ruby's history.</p>
+<p class="lead"><%= data.lead %></p>
 
 <ul class="people">
   <% people_cards.each do |card| %>

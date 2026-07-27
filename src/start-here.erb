@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Start Here
+lead: New here? This is the guided walk through Ruby Lore, in a sensible order, start to finish.
 ---
 
 <%
@@ -12,7 +13,7 @@ title: Start Here
 %>
 
 <h1><%= data.title %></h1>
-<p class="lead">New here? This is the guided walk through Ruby Lore, in a sensible order, start to finish.</p>
+<p class="lead"><%= data.lead %></p>
 
 <ol class="tour">
   <% site.data.tour.each do |slug| %>

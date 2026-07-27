@@ -81,6 +81,21 @@ cards.each_value do |card|
   end
 end
 
+# Every slug in the "Start Here" tour (src/_data/tour.yml) must resolve to a
+# real card. The /start-here/ HTML view tolerates an unresolved slug with a
+# visible "(Missing card...)" placeholder, but its Markdown counterpart
+# (start_here_body in lib/markdown_pages_render.rb) drops unresolved slugs -
+# so an unresolved slug would silently desync the HTML and the `.md`. Failing
+# here keeps that path unreachable and the two representations in agreement.
+tour_path = File.expand_path("../src/_data/tour.yml", __dir__)
+if File.exist?(tour_path)
+  Array(YAML.safe_load_file(tour_path)).each do |slug|
+    next if cards.key?(slug)
+
+    errors << "src/_data/tour.yml: tour slug #{slug.inspect} does not match any known card slug"
+  end
+end
+
 if errors.empty?
   puts "#{cards.size} card#{"s" unless cards.size == 1} validated, all clean."
   exit 0

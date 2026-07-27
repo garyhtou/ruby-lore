@@ -12,6 +12,12 @@ sitemap: false
   stays correct as cards are added/removed/renamed -- nothing here is
   hand-hardcoded. site.config.url anchors every link to the real production
   host (chunkybacon.dev), never localhost.
+
+  Every link here points straight at a page's `.md` counterpart (see
+  MarkdownPagesUrl, lib/markdown_pages_url.rb, and the builder that
+  generates those files, plugins/builders/markdown_pages.rb) rather than
+  its HTML page. llms.txt exists specifically for agents to fetch, so
+  there's no reason to make them take an extra hop through HTML.
 %>
 <%
   # type -> [section heading, intro line] in the order we want them to appear.
@@ -31,12 +37,14 @@ sitemap: false
 
 > <%== site.metadata.description.to_s.strip %>
 
+Every link below is clean Markdown - no HTML markup, no site chrome. Drop the trailing `.md` (e.g. <%= site.config.url %>/people/matz/ instead of <%= site.config.url %>/people/matz.md) to browse the same page as a normal HTML page instead.
+
 ## Start Here
-- [Home](<%= site.config.url %>/): <%== site.metadata.tagline %>
-- [Start Here](<%= site.config.url %>/start-here/): A guided entry point into the site for first-time readers.
-- [Timeline](<%= site.config.url %>/timeline/): The full timeline view, chronicling Ruby's history release by release.
-- [People](<%= site.config.url %>/people/): The full roster of people covered on the site.
-- [Glossary](<%= site.config.url %>/glossary/): The full glossary of Ruby community words and phrases.
+- [Home](<%= site.config.url %><%= MarkdownPagesUrl.relative_md_url_for_path("/") %>): <%== site.metadata.tagline %>
+- [Start Here](<%= site.config.url %><%= MarkdownPagesUrl.relative_md_url_for_path("/start-here/") %>): A guided entry point into the site for first-time readers.
+- [Timeline](<%= site.config.url %><%= MarkdownPagesUrl.relative_md_url_for_path("/timeline/") %>): The full timeline view, chronicling Ruby's history release by release.
+- [People](<%= site.config.url %><%= MarkdownPagesUrl.relative_md_url_for_path("/people/") %>): The full roster of people covered on the site.
+- [Glossary](<%= site.config.url %><%= MarkdownPagesUrl.relative_md_url_for_path("/glossary/") %>): The full glossary of Ruby community words and phrases.
 
 <% section_meta.each do |type, (heading, intro)| %>
 <% cards = cards_by_type[type] || [] %>
@@ -47,7 +55,7 @@ sitemap: false
 
 <% cards.each do |card| %>
 <% hook = card.data.hook.to_s.strip %>
-- [<%== card.data.title %>](<%= site.config.url %><%= card.relative_url %>)<% unless hook.empty? %>: <%== hook %><% end %>
+- [<%== card.data.title %>](<%= site.config.url %><%= MarkdownPagesUrl.relative_md_url(card) %>)<% unless hook.empty? %>: <%== hook %><% end %>
 <% end %>
 
 <% end %>

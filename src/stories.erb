@@ -1,16 +1,17 @@
 ---
 layout: default
 title: Stories
+lead: The moments and turning points that shaped Ruby's history.
 ---
 
 <%
-  story_cards = collections.cards.resources
-    .select { |card| card.data.type == "story" }
-    .sort_by { |card| card.data.title.to_s.downcase }
+  # Selection/sort shared with this page's .md counterpart via CardQueries
+  # (see lib/card_queries.rb) so the two can never disagree on order.
+  story_cards = CardQueries.stories(collections.cards.resources)
 %>
 
 <h1><%= data.title %></h1>
-<p class="lead">The moments and turning points that shaped Ruby's history.</p>
+<p class="lead"><%= data.lead %></p>
 
 <ul class="card-listing">
   <% story_cards.each do |card| %>

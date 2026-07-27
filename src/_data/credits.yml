@@ -1,0 +1,28 @@
+# Single source of truth for the Credits page prose.
+#
+# `body` is Markdown. Both sides render from it, so they can never drift:
+#   - the HTML page (src/credits.erb) runs it through `markdownify`
+#   - the `.md` counterpart (lib/markdown_pages_render.rb, credits_body)
+#     emits it as-is, rewriting the one internal link to its `.md` target
+#
+# Credits is the only listing page that is hand-authored prose rather than
+# card data, which is why its source lives here instead of being assembled
+# from the `cards` collection like the other index pages.
+body: |
+  ## The idea
+
+  A warm, browsable home for Ruby's history is something plenty of people have wished for over the years, so this site can't claim the idea as its own. What it can say is who set it in motion: **[Andy Andrea](https://www.linkedin.com/in/andycandrea/)** and **[John Sawers](https://johnksawers.com/)** inspired **[Gary Tou](https://garytou.com)** to actually build it, chunky bacon and all.
+
+  ## The archive this stands on
+
+  So much of what's collected here, especially the story of [_why the lucky stiff](/people/why-the-lucky-stiff/), only survives because other people refused to let it disappear. Ruby Lore is deeply grateful to:
+
+  - **[whymirror](https://whymirror.github.io/)**, the volunteer effort that mirrored _why's software and writing in the days after it was deleted, so it would still exist for the rest of us to learn from.
+  - **Steve Klabnik**, who rescued Hackety Hack from disappearing entirely and later reassembled and compiled [CLOSURE](https://github.com/steveklabnik/CLOSURE), _why's final work, from a jumble of raw files with no instructions.
+  - **[The _why estate](https://viewsourcecode.org/why/)**, maintained by Paige Ruten: a single home for _why's code, comics, writing, and music, gathered together with real care.
+
+  And a general thank-you to the wider Ruby community: the people who gave talks, wrote blog posts, answered mailing-list questions, and kept projects alive over twenty-plus years. Their history is what this site is trying to do justice to.
+
+  ## Contributors
+
+  Ruby Lore is a small site that gets better through corrections and additions from people who know this history better than we do, or who simply spot something wrong and say so. Thank you to [everyone who has contributed on GitHub](https://github.com/garyhtou/ruby-lore/graphs/contributors), and to everyone still to come. If that's you, see [CONTRIBUTING.md](https://github.com/garyhtou/ruby-lore/blob/main/CONTRIBUTING.md) for the easiest way in.

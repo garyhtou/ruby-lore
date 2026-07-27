@@ -1,16 +1,17 @@
 ---
 layout: default
 title: Talks
+lead: Talks and demos worth knowing about from Ruby's history.
 ---
 
 <%
-  talk_cards = collections.cards.resources
-    .select { |card| card.data.type == "talk" }
-    .sort_by { |card| card.data.title.to_s.downcase }
+  # Selection/sort shared with this page's .md counterpart via CardQueries
+  # (see lib/card_queries.rb) so the two can never disagree on order.
+  talk_cards = CardQueries.talks(collections.cards.resources)
 %>
 
 <h1><%= data.title %></h1>
-<p class="lead">Talks and demos worth knowing about from Ruby's history.</p>
+<p class="lead"><%= data.lead %></p>
 
 <ul class="card-listing">
   <% talk_cards.each do |card| %>

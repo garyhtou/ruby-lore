@@ -5,40 +5,27 @@ layout: default
 <%
   cards_by_slug = collections.cards.resources_by_slug
 
-  # A genuinely short home-page timeline preview: a handful of hand-picked
-  # stops that sketch the whole arc, from Ruby's naming in 1993 to the most
-  # recent Christmas release, rather than every dated card (that is what the
-  # full chronology at /timeline/ is for). Chosen for span, not recency:
-  # the birth, the first 1.0 release, the Rails era that made Ruby
-  # famous, the tooling that matured the ecosystem, and the two modern
-  # milestones. Cards are resolved by slug (title/date always come from the
-  # resolved card, never retyped) and then sorted by their earliest date.
-  timeline_preview_slugs = %w[
-    named-before-it-existed
-    ruby-1-0
-    rails-from-basecamp
-    bundler
-    ruby-3-0
-    ruby-4-0
-  ]
-  timeline_preview = timeline_preview_slugs
-    .filter_map { |slug| cards_by_slug[slug] }
-    .select { |card| card.data.dates.is_a?(Array) && card.data.dates.any? }
-    .sort_by { |card| card.data.dates.map(&:date).min }
-
-  # Editorial pick of featured cards for the home page: the cornerstone
-  # why-the-lucky-stiff card first, then a handful of other canon cards as
-  # single entry points into the site (this is a curated set, not the
-  # ordered tour.yml walk, and it can include cards the tour doesn't, such
-  # as tenderlove). Title/href are always pulled from the resolved card,
-  # never retyped.
-  featured_slugs = %w[why-the-lucky-stiff matz dhh tenderlove minaswan chunky-bacon]
-  featured_cards = featured_slugs.filter_map { |slug| cards_by_slug[slug] }
+  # Both lists are shared with the home page's .md counterpart via
+  # CardQueries (see lib/card_queries.rb) so the HTML and the Markdown can
+  # never disagree on which cards appear or in what order:
+  #   - timeline_preview: a curated handful of stops that sketch Ruby's
+  #     whole arc (chosen for span, not recency), oldest first - not every
+  #     dated card, which is what the full chronology at /timeline/ is for.
+  #   - featured_cards: the editorial home-page pick, a curated set of entry
+  #     points into the site (not the ordered tour.yml walk, and it can
+  #     include cards the tour doesn't, such as tenderlove). Title/href come
+  #     from the resolved card, never retyped.
+  timeline_preview = CardQueries.home_timeline_preview(cards_by_slug)
+  featured_cards = CardQueries.featured(cards_by_slug)
 %>
 
 <section class="hero">
   <h1 class="hero__title"><%= site.metadata.title %></h1>
   <p class="hero__tagline"><%= site.metadata.tagline %></p>
+  <%# This intro prose is mirrored by MarkdownPagesRender::HOME_INTRO for the
+      home page's .md counterpart (only the Start here link target differs:
+      /start-here/ here vs /start-here.md there). Keep the two in sync if you
+      edit this copy. %>
   <p class="hero__intro">
     A collection of the people, stories, talks, and words that make up Ruby's
     history, the kind of thing a longtime Rubyist would tell you over

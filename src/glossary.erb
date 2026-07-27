@@ -1,20 +1,19 @@
 ---
 layout: default
 title: Glossary
+lead: The words and phrases you'll hear thrown around the Ruby community, A to Z.
 ---
 
 <%
-  # Alphabetical by title. A handful of glossary terms are quoted phrases
-  # (e.g. "Optimize for programmer happiness") -- strip the wrapping
-  # punctuation for the sort key only (not for display) so the list reads
-  # as a true A-to-Z instead of grouping punctuation-first by ASCII order.
-  vocabulary_cards = collections.cards.resources
-    .select { |card| card.data.type == "vocabulary" }
-    .sort_by { |card| card.data.title.to_s.downcase.sub(/\A[^a-z0-9]+/, "") }
+  # Selection/sort shared with this page's .md counterpart via CardQueries
+  # (see lib/card_queries.rb, which documents the A-to-Z sort that strips
+  # leading punctuation from quoted-phrase terms) so the two can never
+  # disagree on order.
+  vocabulary_cards = CardQueries.vocabulary(collections.cards.resources)
 %>
 
 <h1><%= data.title %></h1>
-<p class="lead">The words and phrases you'll hear thrown around the Ruby community, A to Z.</p>
+<p class="lead"><%= data.lead %></p>
 
 <dl class="glossary">
   <% vocabulary_cards.each do |card| %>

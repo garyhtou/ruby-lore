@@ -14,6 +14,14 @@
 # For reloadable site metadata like title, SEO description, social media
 # handles, etc., take a look at `src/_data/site_metadata.yml`
 
+# Load shared plain-Ruby helpers that the listing TEMPLATES depend on at
+# render time. CardQueries (the card select/sort logic shared by the HTML
+# pages and their `.md` counterparts) is used directly inside the ERB in
+# src/people.erb, stories.erb, talks.erb, glossary.erb, timeline.erb, and
+# index.erb, so the templates must own that require rather than relying on
+# it being pulled in transitively by an unrelated builder plugin.
+require_relative "../lib/card_queries"
+
 Bridgetown.configure do |config|
   # The base hostname & protocol for your site is set in `bridgetown.config.yml`
   # (as `url:`). Do NOT set `url` here too: the DSL `url` setter always overwrites

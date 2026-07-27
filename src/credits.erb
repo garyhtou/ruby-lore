@@ -1,65 +1,17 @@
 ---
 layout: default
 title: Credits
+lead: Ruby Lore didn't come from nowhere. It was built on a bit of inspiration and a lot of other people's generosity.
 ---
 
+<%# The prose lives in src/_data/credits.yml so this HTML page and its `.md`
+    counterpart render from a single source and can't drift (see
+    lib/markdown_pages_render.rb, credits_body). markdownify turns the body's
+    headings/paragraphs/lists/links into the same semantic HTML the
+    hand-written version used; .card__body styles them. %>
 <h1><%= data.title %></h1>
-<p class="lead">Ruby Lore didn't come from nowhere. It was built on a bit of inspiration and a lot of other people's generosity.</p>
+<p class="lead"><%= data.lead %></p>
 
 <div class="card__body">
-  <h2>The idea</h2>
-  <p>
-    A warm, browsable home for Ruby's history is something plenty of
-    people have wished for over the years, so this site can't claim the
-    idea as its own. What it can say is who set it in motion:
-    <strong><a href="https://www.linkedin.com/in/andycandrea/">Andy Andrea</a></strong>
-    and <strong><a href="https://johnksawers.com/">John Sawers</a></strong>
-    inspired <strong><a href="https://garytou.com">Gary Tou</a></strong>
-    to actually build it, chunky bacon and all.
-  </p>
-
-  <h2>The archive this stands on</h2>
-  <p>
-    So much of what's collected here, especially the story of
-    <a href="/people/why-the-lucky-stiff/">_why the lucky stiff</a>,
-    only survives because other people refused to let it disappear.
-    Ruby Lore is deeply grateful to:
-  </p>
-  <ul>
-    <li>
-      <strong><a href="https://whymirror.github.io/">whymirror</a></strong>,
-      the volunteer effort that mirrored _why's software and writing in
-      the days after it was deleted, so it would still exist for the
-      rest of us to learn from.
-    </li>
-    <li>
-      <strong>Steve Klabnik</strong>, who rescued Hackety Hack from
-      disappearing entirely and later reassembled and compiled
-      <a href="https://github.com/steveklabnik/CLOSURE">CLOSURE</a>,
-      _why's final work, from a jumble of raw files with no
-      instructions.
-    </li>
-    <li>
-      <strong><a href="https://viewsourcecode.org/why/">The _why estate</a></strong>,
-      maintained by Paige Ruten: a single home for _why's code, comics,
-      writing, and music, gathered together with real care.
-    </li>
-  </ul>
-  <p>
-    And a general thank-you to the wider Ruby community: the people who
-    gave talks, wrote blog posts, answered mailing-list questions, and
-    kept projects alive over twenty-plus years. Their history is what
-    this site is trying to do justice to.
-  </p>
-
-  <h2>Contributors</h2>
-  <p>
-    Ruby Lore is a small site that gets better through corrections and
-    additions from people who know this history better than we do, or
-    who simply spot something wrong and say so. Thank you to
-    <a href="https://github.com/garyhtou/ruby-lore/graphs/contributors">everyone who has contributed on GitHub</a>,
-    and to everyone still to come. If that's you, see
-    <a href="https://github.com/garyhtou/ruby-lore/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>
-    for the easiest way in.
-  </p>
+  <%= markdownify(site.data.credits.body) %>
 </div>
