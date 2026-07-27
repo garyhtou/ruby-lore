@@ -14,10 +14,14 @@ class ExhibitCard < Bridgetown::Component
   #   citation_text / citation_href: an optional small attribution line
   #     (e.g. a card's primary source), rendered as a link when an href is
   #     given, plain text otherwise.
-  def initialize(title:, dates: nil, citation_text: nil, citation_href: nil)
+  #   pronouns: an optional short pronouns string (e.g. "he/him") shown
+  #     just under the title on person cards. Only rendered when present,
+  #     so cards that don't set it are unaffected.
+  def initialize(title:, dates: nil, citation_text: nil, citation_href: nil, pronouns: nil)
     @title = title.to_s
     @dates = dates
     @citation_text = citation_text
     @citation_href = citation_href
+    @pronouns = pronouns.to_s.strip
   end
 end

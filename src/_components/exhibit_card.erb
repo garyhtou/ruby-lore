@@ -2,6 +2,10 @@
   <div class="exhibit-card__plaque">
     <h1 class="exhibit-card__title"><%= @title %></h1>
 
+    <% unless @pronouns.empty? %>
+      <p class="exhibit-card__pronouns"><%= @pronouns %></p>
+    <% end %>
+
     <% if @dates && @dates.any? %>
       <p class="exhibit-card__date">
         <% @dates.each do |entry| %>

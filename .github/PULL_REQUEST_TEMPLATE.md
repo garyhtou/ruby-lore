@@ -23,9 +23,6 @@ unchecked and say so below.
       glow or taking sides.
 - [ ] No live/unresolved controversy is narrated beyond neutral, sourced
       facts.
-- [ ] If this touches the _why page (or any other chosen-anonymous
-      person), it does **not** add their legal name or any
-      identity-revealing link, and any sources used are name-respectful.
 - [ ] `bundle exec ruby script/validate.rb` passes locally.
 
 ## Anything else reviewers should know?

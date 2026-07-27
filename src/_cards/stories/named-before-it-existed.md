@@ -9,7 +9,7 @@ sources:
   - { title: "About Ruby (ruby-lang.org)", url: "https://www.ruby-lang.org/en/about/" }
 ---
 
-On **February 24, 1993**, before Ruby was a language, it was a conversation. Matz and a colleague, Keiju Ishitsuka, were talking about what to call the new language Matz wanted to build, and narrowed it to two options: **Coral** or **Ruby**. They chose Ruby, partly because it was shorter, and partly for the jewel imagery: a wink at **Perl**, since a pearl is June's birthstone and a ruby is July's (it happened to be a colleague's birthstone too). Ruby marks that date as one of its birthdays. ([The Ruby Story, Two-Bit History](https://twobithistory.org/2017/11/19/the-ruby-story.html), [About Ruby, ruby-lang.org](https://www.ruby-lang.org/en/about/))
+On **February 24, 1993**, before Ruby was a language, it was a conversation. Matz and a colleague, Keiju Ishitsuka, were talking about what to call the new language Matz wanted to build, and narrowed it to two options: **Coral** or **Ruby**. They chose Ruby, partly because it was shorter, and partly for the jewel imagery: a wink at **Perl**, since a pearl is June's birthstone and a ruby is July's (it happened to be a colleague's birthstone too). Ruby marks that date as one of its birthdays.
 
 *Related:* [[matz]] · [[the-christmas-release-tradition]]
 

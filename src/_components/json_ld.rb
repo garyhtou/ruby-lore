@@ -42,26 +42,14 @@ require_relative "../../lib/slugs"
 # NOT CreativeWorks, so `license` is deliberately not set on them. The source
 # code's separate MIT license is a repo concern (LICENSE), never surfaced here.
 #
-# R31 (anonymity constraint - see the why-the-lucky-stiff card and
-# .superpowers/sdd/task-3.2-brief.md): the Person node's `sameAs` is
-# built ONLY from that card's own front-matter `sources:` list, PLUS an
-# OPTIONAL `identity_urls:` front-matter list a card can opt into (used
-# for openly-public figures like Matz/DHH to add an authoritative
-# Wikipedia/Wikidata `sameAs` - see `same_as_for_person` below) - never
-# from an external identity registry looked up BY this file. There is no
-# _why-specific code path or name denylist here; every `person` card is
-# handled by the exact same generic merge of `sources:` + `identity_urls:`.
-# That's safe *because* the why-the-lucky-stiff card's own `sources:`
-# front matter is already curated to be name-respectful (poignantguide.net,
-# whymirror.github.io, whyday.org, viewsourcecode.org/why/, the Smashing
-# Magazine profile verified not to state the name, and the CLOSURE repo)
-# and it simply never sets `identity_urls:` - the card deliberately omits
-# the Wikipedia/Slate links that would reveal the identity (see that
-# card's own "## Sources" note). Mirroring front-matter sources into
-# `sameAs` can never introduce anything the card doesn't already cite in
-# its own visible body; `identity_urls:` is a plain per-card opt-in, not a
-# lookup, so a card that never sets it (like why-the-lucky-stiff's) is
-# never touched by this feature at all.
+# A Person node's `sameAs` is built from that card's own front-matter
+# `sources:` list, PLUS an OPTIONAL `identity_urls:` front-matter list a
+# card can opt into (used for openly-public figures like Matz/DHH to add
+# an authoritative Wikipedia/Wikidata `sameAs` - see `same_as_for_person`
+# below) - never from an external identity registry looked up BY this
+# file. Every `person` card is handled by the exact same generic merge of
+# `sources:` + `identity_urls:`; a card that never sets `identity_urls:`
+# gets exactly the same `sameAs` it always did.
 class JSONLd < Bridgetown::Component
   PER_TYPE_SCHEMA = {
     "person" => "Person",
@@ -287,12 +275,11 @@ class JSONLd < Bridgetown::Component
     end
   end
 
-  # See the class comment's R31 section: this is the ONLY place `sameAs`
-  # is populated for a Person node. It's a plain merge of the card's own
-  # front-matter `sources:` (as before) with an OPTIONAL `identity_urls:`
-  # list - identical code path for every person card, no name-specific
-  # branching. A card that never sets `identity_urls:` (why-the-lucky-stiff's)
-  # gets exactly the same `sameAs` it always did.
+  # This is the ONLY place `sameAs` is populated for a Person node. It's a
+  # plain merge of the card's own front-matter `sources:` with an OPTIONAL
+  # `identity_urls:` list - identical code path for every person card. A
+  # card that never sets `identity_urls:` gets exactly the same `sameAs` it
+  # always did.
   def same_as_for_person(data)
     urls = Array(data.sources).map { |source| source.url.to_s.strip }
     urls += Array(data.identity_urls).map { |url| url.to_s.strip }

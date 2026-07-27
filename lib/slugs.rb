@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "yaml"
+require "date" # Date/Time are named in YAML.safe_load's permitted_classes below
 
 # Slugs is the single source of truth for turning the on-disk card
 # collection (src/_cards/**/*.md) into an in-memory slug -> metadata map.

@@ -47,7 +47,8 @@ layout: default
         title: data.title,
         dates: data.dates,
         citation_text: primary_source && primary_source.title,
-        citation_href: primary_source && primary_source.url
+        citation_href: primary_source && primary_source.url,
+        pronouns: data.pronouns
       ) %>
 
   <% unless hook.empty? %>

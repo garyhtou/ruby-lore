@@ -63,8 +63,3 @@ body:
           required: true
         - label: "I've kept this kind, especially toward living people. Ruby Lore describes people and their work factually and fairly, without taking sides on disagreements."
           required: true
-        - label: >-
-            If this involves a chosen-anonymous person (like _why the lucky
-            stiff), my suggestion does not reveal or link to their legal
-            name, and any source I've linked is name-respectful.
-          required: true

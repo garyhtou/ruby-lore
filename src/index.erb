@@ -5,16 +5,33 @@ layout: default
 <%
   cards_by_slug = collections.cards.resources_by_slug
 
-  # A few dated cards for the home-page timeline preview, oldest first.
-  # (The full chronology lives at /timeline/.)
-  timeline_preview = collections.cards.resources
+  # A genuinely short home-page timeline preview: a handful of hand-picked
+  # stops that sketch the whole arc, from Ruby's naming in 1993 to the most
+  # recent Christmas release, rather than every dated card (that is what the
+  # full chronology at /timeline/ is for). Chosen for span, not recency:
+  # the birth, the first 1.0 release, the Rails era that made Ruby
+  # famous, the tooling that matured the ecosystem, and the two modern
+  # milestones. Cards are resolved by slug (title/date always come from the
+  # resolved card, never retyped) and then sorted by their earliest date.
+  timeline_preview_slugs = %w[
+    named-before-it-existed
+    ruby-1-0
+    rails-from-basecamp
+    bundler
+    ruby-3-0
+    ruby-4-0
+  ]
+  timeline_preview = timeline_preview_slugs
+    .filter_map { |slug| cards_by_slug[slug] }
     .select { |card| card.data.dates.is_a?(Array) && card.data.dates.any? }
     .sort_by { |card| card.data.dates.map(&:date).min }
 
   # Editorial pick of featured cards for the home page: the cornerstone
-  # why-the-lucky-stiff card plus a handful of other canon cards, in the
-  # order they first appear in the tour.yml walking tour. Title/href are
-  # always pulled from the resolved card, never retyped.
+  # why-the-lucky-stiff card first, then a handful of other canon cards as
+  # single entry points into the site (this is a curated set, not the
+  # ordered tour.yml walk, and it can include cards the tour doesn't, such
+  # as tenderlove). Title/href are always pulled from the resolved card,
+  # never retyped.
   featured_slugs = %w[why-the-lucky-stiff matz dhh tenderlove minaswan chunky-bacon]
   featured_cards = featured_slugs.filter_map { |slug| cards_by_slug[slug] }
 %>
@@ -24,7 +41,7 @@ layout: default
   <p class="hero__tagline"><%= site.metadata.tagline %></p>
   <p class="hero__intro">
     A collection of the people, stories, talks, and words that make up Ruby's
-    history &mdash; the kind of thing a longtime Rubyist would tell you over
+    history, the kind of thing a longtime Rubyist would tell you over
     coffee. New here? <a href="<%= relative_url '/start-here/' %>">Start here</a>
     for a guided walk through it all.
   </p>
