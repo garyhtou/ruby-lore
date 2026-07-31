@@ -45,6 +45,14 @@ jobs:
           # the pinned version from .ruby-version (4.0.6) at the repo root.
           bundler-cache: true # runs `bundle install` and caches gems
 
+      # Runs before the Node/build steps so a broken guard or a Slugs regression
+      # fails fast. Must be `bundle exec` (not bare `rake`): the guard tests
+      # shell out to the real scripts, and check_no_js_content.rb requires the
+      # bundled `kramdown` gem, which the child process only sees via the active
+      # bundle. Needs neither Node nor a site build.
+      - name: Run Ruby unit tests
+        run: bundle exec rake test:ruby
+
       - name: Set up Node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:

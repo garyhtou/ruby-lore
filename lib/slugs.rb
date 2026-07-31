@@ -67,7 +67,7 @@ module Slugs
   # front_matter is always a Hash (empty if none/unparseable) so callers
   # never need a nil-guard.
   def parse_front_matter(path)
-    content = File.read(path)
+    content = File.read(path, encoding: "UTF-8")
 
     unless content.start_with?("---")
       return [{}, content, nil]

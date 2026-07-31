@@ -2,6 +2,21 @@ require "bridgetown"
 
 Bridgetown.load_tasks
 
+# Ruby unit/integration test suite (see test/). Namespaced under `test:` so it
+# sits alongside the Bridgetown-provided `test` build task above without
+# clobbering it. Run with `bundle exec rake test:ruby`.
+require "rake/testtask"
+
+namespace :test do
+  desc "Run the Ruby test suite (test/**/*_test.rb)"
+  Rake::TestTask.new(:ruby) do |t|
+    t.libs << "test" << "lib"
+    t.test_files = FileList["test/**/*_test.rb"]
+    t.warning = false
+    t.verbose = false
+  end
+end
+
 # Run rake without specifying any command to execute a deploy build by default.
 task default: :deploy
 
