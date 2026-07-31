@@ -1,5 +1,5 @@
 /*
-  the scroll-driven scrubbable timeline (frontend/javascript/timeline/index.js).
+  The scroll-driven scrubbable timeline (frontend/javascript/timeline/index.js).
 
   Hard rule: nothing in this file may hide `.timeline__entry` by default.
   The base rules in components/listings.css already render every entry

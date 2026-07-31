@@ -26,3 +26,7 @@ body: |
   ## Contributors
 
   Ruby Lore is a small site that gets better through corrections and additions from people who know this history better than we do, or who simply spot something wrong and say so. Thank you to [everyone who has contributed on GitHub](https://github.com/garyhtou/ruby-lore/graphs/contributors), and to everyone still to come. If that's you, see [CONTRIBUTING.md](https://github.com/garyhtou/ruby-lore/blob/main/CONTRIBUTING.md) for the easiest way in.
+
+  ## How this site was made
+
+  AI coding tools helped build Ruby Lore, and helped with research. Every piece of copy here was curated by humans: read, written, edited, fact-checked against the sources listed on each page, and signed off before it shipped. Corrections are still welcome, and every one of them gets the same treatment.

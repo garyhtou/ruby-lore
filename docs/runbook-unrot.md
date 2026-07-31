@@ -178,8 +178,8 @@ should exist and where:
 - **`frontend/javascript/core/load-experience.js`** reads that
   `data-experience-src` attribute off the script tag and injects the
   experience bundle as a plain `<script>` once idle/interaction fires
-  (not on initial load - that's the whole point of the split, see
-  for the performance reasoning).
+  (not on initial load - that's the whole point of the split, and the
+  reason first paint never waits on GSAP).
 
 If a Bridgetown or esbuild bump changes how `asset_path` resolves
 files, or changes the manifest format that maps source entry points to

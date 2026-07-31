@@ -9,8 +9,8 @@ be a durable, citable community reference.
 
 ## Official domains
 
-- **[chunkybacon.dev](https://chunkybacon.dev)**, the primary, canonical home.
-- **[rubylore.dev](https://rubylore.dev)**, a secondary official domain. It
+- **[chunkybacon.dev](https://chunkybacon.dev)**: the primary, canonical home.
+- **[rubylore.dev](https://rubylore.dev)**: a secondary official domain. It
   permanently (301) redirects to `chunkybacon.dev`.
 
 Both are official domains for Ruby Lore; any other domain is unaffiliated.
@@ -24,7 +24,7 @@ sitemap, and an AI-crawler-friendly `robots.txt`.
 
 ## Contributing
 
-Corrections and additions are welcome, see
+Corrections and additions are welcome. See
 [`CONTRIBUTING.md`](./CONTRIBUTING.md). To run it locally:
 
 ```sh
@@ -47,3 +47,11 @@ possible:
   reuse and a note on the mark's trademark reservation.
 
 Bundled fonts keep their own SIL Open Font License (OFL).
+
+## How this was built
+
+AI coding tools helped build this site, and helped with research. All copy was
+curated by humans: read, written, edited, fact-checked against the sources
+cited on each page, and signed off before it shipped. See
+[Credits](https://chunkybacon.dev/credits/) for the people and archives this
+site stands on.

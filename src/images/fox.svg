@@ -2,7 +2,7 @@
   <title>Ruby Lore fox</title>
   <!-- Original storybook fox mark for Ruby Lore (chunkybacon.dev). A friendly
        nod to _why's Poignant Guide foxes, drawn from scratch - no traced art.
-       Fixed brand colours here (this file feeds the favicon/icons in );
+       Fixed brand colours here (this file feeds the favicon and touch icons);
        the masthead renders a theme-adaptive inline copy. -->
   <path fill="#d2662a" stroke="#d2662a" stroke-width="3" stroke-linejoin="round"
     d="M11 8 L26 21 L32 19 L38 21 L53 8 L52 26 L48 38 L40 49 L32 55 L24 49 L16 38 L12 26 Z"/>

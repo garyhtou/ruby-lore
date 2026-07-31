@@ -1,4 +1,4 @@
-// the cornerstone _why scroll-telling on /people/why-the-lucky-stiff/.
+// The cornerstone _why scroll-telling on /people/why-the-lucky-stiff/.
 //
 // This is an ENHANCEMENT of the static article rendered by src/_layouts/card.erb
 // from src/_cards/people/why-the-lucky-stiff.md. Like the timeline (2b.2), it

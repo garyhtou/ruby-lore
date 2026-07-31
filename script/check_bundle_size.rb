@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# the JS bundle-size budget guard. Run after a frontend build with:
+# The JS bundle-size budget guard. Run after a frontend build with:
 #   npm run esbuild && ruby script/check_bundle_size.rb
 # (Precondition: this script inspects an existing esbuild manifest +
 # output/ directory; it does not build anything itself - same pattern as
@@ -14,7 +14,7 @@
 # `gzip`, so this has zero new dependencies and is deterministic across
 # platforms/CI.
 #
-# Two numbers, two very different jobs (see the report for the full
+# Two numbers, two very different jobs (see the budget rationale below for the full
 # rationale + measured Lighthouse numbers):
 #   - INITIAL_JS_BUDGET_BYTES guards frontend/javascript/index.js, the ONLY
 #     JS every page's initial load pays for. It's a tiny loader (no GSAP) by

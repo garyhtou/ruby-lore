@@ -25,5 +25,5 @@ Steve's second act is in **Rust**, a systems programming language. He joined the
 - Yehuda Katz and Steve Klabnik are joining the Rust Core Team (Rust Blog, 2014-12-12): https://blog.rust-lang.org/2014/12/12/Core-Team.html
 - CLOSURE (Steve Klabnik's account of compiling _why's final work): https://steveklabnik.com/writing/closure/
 - CLOSURE (repository of the compiled pages): https://github.com/steveklabnik/CLOSURE
-- The _why estate (maintained by Paige Ruten): https://viewsourcecode.org/why/
+- The _why estate, maintained by Paige Ruten, where the compiled CLOSURE sits among _why's work: https://viewsourcecode.org/why/
 - Rails Contributors: Steve Klabnik (record of his Rails contributions): https://contributors.rubyonrails.org/contributors/steve-klabnik/commits

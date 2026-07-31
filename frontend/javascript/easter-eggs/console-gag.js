@@ -20,7 +20,7 @@ export function initConsoleGag() {
     "%c puts %c \"Hey, fellow Rubyist, welcome behind the curtain.\"\n\n" +
       "You're reading Ruby Lore's console, which means you probably still open\n" +
       "devtools out of habit from debugging with puts. Respect.\n\n" +
-      "This whole site is a love letter to Ruby's history, warts, chunky\n" +
+      "This whole site is a love letter to Ruby's history: warts, chunky\n" +
       "bacon, and all. If you spot a fact worth fixing or a story worth adding,\n" +
       "we'd love to hear it.\n\n" +
       "we’re chunky bacon. 🥓",

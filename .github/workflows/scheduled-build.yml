@@ -1,10 +1,10 @@
 name: Scheduled rot check
 
 # This workflow exists purely to surface dependency/build rot before it
-# bites a real contributor. There is no deploy step here (this is
-# ops, not deployment - see Deployment: out of scope) and no code is
-# written back to the repo. It runs the same build + validate + guard
-# chain as ci.yml on a monthly schedule, so a stale gem, a
+# bites a real contributor. There is no deploy step here (this is a
+# health check, not a deployment) and no code is written back to the
+# repo. It runs the same build + validate + guard chain as ci.yml on
+# a monthly schedule, so a stale gem, a
 # broken esbuild pin, or a newly-invalid card shows up as a red run on
 # the Actions dashboard well before the next real PR would catch it.
 #

@@ -17,7 +17,7 @@ require_relative "../lib/slugs"
 # Markdown/Liquid body, untouched by Liquid or Markdown conversion.
 #
 # The slug -> {title, href} map comes from a *filesystem glob* of
-# src/_cards/**/*.md via lib/slugs.rb (the same resolver script/validate.rb,
+# src/_cards/**/*.md via lib/slugs.rb (the same resolver script/validate.rb
 # already uses) rather than from live Bridgetown collection state.
 # That keeps the map complete regardless of resource read order, and keeps
 # this transform and validate.rb from ever disagreeing about what counts as

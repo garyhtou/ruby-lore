@@ -57,7 +57,7 @@ His last message read: *"programming is rather thankless. u see your works becom
 
 Here is the part that says the most about Ruby. _why left no warning and no handoff, so within *days* the community moved to save his work before it was gone for good. Volunteers mirrored what they could: people reconstructed Try Ruby, and a group assembled a GitHub archive they lovingly titled *"A Living Archive of _why's Executable Poetry."* The effort gathered under an umbrella called **[whymirror](https://whymirror.github.io/)**. Hackety Hack, _why's learn-to-program project, was carried forward the next year by a continuation team that **Steve Klabnik** helped mentor.
 
-Reactions were not all the same, and that honesty is part of the story: Zed Shaw, speaking to Smashing Magazine, took sharp issue with the manner of it. Others were simply sad but felt his work was his to erase. Both feelings were real. What is not in dispute is that a lot of people cared enough to stay up late copying files so that a stranger's art would survive.
+Reactions were not all the same, and that honesty is part of the story. Zed Shaw, speaking to Smashing Magazine, took sharp issue with the manner of it: pulling everything offline without warning, and without helping anyone take over projects they had invested years in, showed "a complete disregard for other people's investments and feelings." Others were simply sad but felt his work was his to erase. Both feelings were real. What is not in dispute is that a lot of people cared enough to stay up late copying files so that a stranger's art would survive.
 
 ## What came after
 
@@ -80,10 +80,10 @@ In 2010, **Glenn Vanderburg** proposed **[Whyday](https://www.whyday.org/)**: an
 ## Sources
 *Deliberately name-respectful: we cite only pages that celebrate the work without stating the legal identity. The Wikipedia biography and the 2012 Slate article, both otherwise thorough, are **intentionally not linked** because they foreground the real name.*
 - Why's (Poignant) Guide to Ruby: https://poignantguide.net/ruby/ and mirror https://poignant.guide
-- "_why: A Tale of a Post-Modern Genius," Smashing Magazine (2010): https://www.smashingmagazine.com/2010/05/why-a-tale-of-a-post-modern-genius/
+- "_why: A Tale of a Post-Modern Genius," Smashing Magazine (2010), also the source for the Zed Shaw quote above: https://www.smashingmagazine.com/2010/05/why-a-tale-of-a-post-modern-genius/
 - whymirror archive: https://whymirror.github.io/
 - CLOSURE: https://github.com/steveklabnik/CLOSURE and https://steveklabnik.com/writing/closure
 - Whyday: https://www.whyday.org/
-- The _why estate (maintained by Paige Ruten): https://viewsourcecode.org/why/
-- Hackety Hack (Wikipedia): https://en.wikipedia.org/wiki/Hackety_Hack
+- The _why estate, maintained by Paige Ruten: https://viewsourcecode.org/why/
+- Hackety Hack (Wikipedia), source for the 2010 continuation team Steve Klabnik mentored: https://en.wikipedia.org/wiki/Hackety_Hack
 - Camping: http://www.ruby-camping.com/

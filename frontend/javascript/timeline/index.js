@@ -1,4 +1,4 @@
-// the scroll-driven scrubbable timeline on /timeline/.
+// The scroll-driven scrubbable timeline on /timeline/.
 //
 // This is an ENHANCEMENT of the static `<ol class="timeline">` rendered by
 // src/timeline.erb (see script/check_no_js_content.rb, the CI guard for the

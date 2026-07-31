@@ -1,4 +1,4 @@
-// the three discoverable easter eggs. Each is enhancement-only -
+// The three discoverable easter eggs. Each is enhancement-only -
 // none of them create, gate, or move any card fact, prose, or cross-link;
 // they're pure additions layered on top of DOM that already exists (see
 // script/check_no_js_content.rb, the CI guard for that rule). With

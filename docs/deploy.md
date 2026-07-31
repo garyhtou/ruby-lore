@@ -12,12 +12,12 @@ Ruby Lore is a static site served at its canonical domain
 
 ## How it fits together
 
-- **DNS, Cloudflare.** `chunkybacon.dev` points at GitHub Pages, unproxied
+- **DNS: Cloudflare.** `chunkybacon.dev` points at GitHub Pages, unproxied
   (DNS-only), so GitHub serves the site and its TLS certificate directly and
   AI crawlers reach it unblocked. `rubylore.dev` is Cloudflare-proxied and
   issues a single-hop, path-preserving **301** to `chunkybacon.dev`.
-- **Hosting, GitHub Pages.** The site is built and published by a GitHub
+- **Hosting: GitHub Pages.** The site is built and published by a GitHub
   Actions workflow (`.github/workflows/pages.yml`) on each successful CI run
   on `main`, with `chunkybacon.dev` configured as the custom domain.
-- **Analytics, Cloudflare Web Analytics.** Loaded via a beacon in
+- **Analytics: Cloudflare Web Analytics.** Loaded via a beacon in
   `src/_partials/_head.erb`, emitted in production builds only.

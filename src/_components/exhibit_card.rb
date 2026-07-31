@@ -2,7 +2,7 @@ class ExhibitCard < Bridgetown::Component
   # A thin "museum plaque" framing component: given an already-resolved
   # title, an optional list of {date, label} entries, and an optional
   # citation/attribution line, renders the semantic plaque structure with
-  # class hooks (`exhibit-card`, `exhibit-card__*`) for to style.
+  # class hooks (`exhibit-card`, `exhibit-card__*`) for the stylesheet to target.
   #
   # No slug resolution, no data-fetching, no front-matter parsing here -
   # callers (card.erb) hand over exactly the values to display.

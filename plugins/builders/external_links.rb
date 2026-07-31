@@ -5,7 +5,7 @@ require "uri"
 # ExternalLinks hardens every outbound link in the built site by adding
 # `target="_blank"` (open external sites in a new tab) and `rel="noopener"`
 # (sever the new page's `window.opener` handle so the linked site can't script
-# our tab back, a security/perf best practice for `target="_blank"`).
+# our tab back), a security/perf best practice for `target="_blank"`.
 #
 # This runs via the Inspectors API (`inspect_html`, registered from `build`
 # below per the SiteBuilder DSL). Inspectors fire once per HTML resource, after

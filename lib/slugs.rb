@@ -9,8 +9,7 @@ require "yaml"
 # It is plain Ruby with no Bridgetown dependency, so it can be required
 # from:
 #   - script/validate.rb (a standalone script, run outside Bridgetown)
-#   - a future Bridgetown plugin/builder (the `[[slug]]` -> <a href>
-#     transform)
+#   - a Bridgetown plugin/builder (the `[[slug]]` -> <a href> transform)
 #
 # This module only resolves slugs. It does not validate anything (no
 # schema/link/source checks) - that belongs to script/validate.rb.
